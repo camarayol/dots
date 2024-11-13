@@ -1,0 +1,130 @@
+* {
+    font-family: Maple Mono NF CN;
+    font-size: 18px;
+}
+
+window#waybar {
+    background-color: rgba(26, 27, 38, 0.5);
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    border-top: 8px transparent;
+    border-radius: 8px;
+    transition-duration: 0.5s;
+    margin: 16px 16px;
+}
+
+#custom-launcher {
+    color: #6a92d7;
+    background-color: #1b242b;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#cpu {
+    color: #fb958b;
+    background-color: #1f2530;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#memory {
+    color: #ebcb8b;
+    background-color: #1f2530;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#disk {
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#workspaces {
+    margin: 0 16px;
+    border-radius: 8px;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    color: #7984A4;
+    background-color: transparent;
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 8px;
+}
+
+#workspaces button.active {
+    color: #6a92d7;
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#custom-clock {
+    color: #ffffff
+}
+
+#mpd {
+    margin: 0 200px;
+}
+
+#mpd.playing {
+    color: #EBEDDF;
+    background-color: #69a794;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#mpd.paused {
+    color: #EBEDDF;
+    background-color: #6B798E;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#keyboard-state {
+    color: #97e1ad;
+    margin: 0 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#custom-screenshot {
+    color: #fb958b;
+    padding: 0 10px;
+    border-radius: 8px;
+}
+
+#pulseaudio {
+    color: #7d9bba;
+}
+
+#bluetooth {
+    color: #707d9d;
+    padding: 0 10px;
+}
+
+#bluetooth.disconnected {
+    color: #f53c3c;
+}
+
+#network {
+    color: #BBA1CB;
+}
+
+#network.disconnected {
+    color: #f53c3c;
+}
+
+#custom-power {
+    color: #BA5B49;
+}

@@ -1,0 +1,7 @@
+[font]
+size = 20
+# normal = { family = "monospace", style = "Regular" }
+normal = { family = "LXGW WenKai Mono", style = "Medium" }
+
+[window]
+opacity = 0.9

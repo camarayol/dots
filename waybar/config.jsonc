@@ -1,0 +1,140 @@
+{
+    "layer": "top",
+    "height": 30,
+    "margin-top": 5,
+    "margin-bottom": 0,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 5,
+
+    "modules-left": [
+        "custom/launcher",
+        "cpu",
+        "memory",
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "custom/clock"
+    ],
+    "modules-right": [
+        "mpd",
+        "keyboard-state",
+        "tray",
+        "custom/screenshot",
+        "pulseaudio",
+        "bluetooth",
+        "network",
+        "custom/power"
+    ],
+
+    "custom/launcher": {
+        "format": " ",
+        "on-click": "rofi -show drun &"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "  {usage}%",
+        "max-length": 10,
+        "on-click": "flatpak run io.missioncenter.MissionCenter &"
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "  {used:0.1f}G {percentage}%",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+             "urgent": " ",
+             "active": " ",
+             "default": " "
+      }
+    },
+
+    "clock": {
+         "interval": 30,
+         "format": "{:%b.%d %a %H:%M}",
+         "timezone": "Asia/Shanghai",
+         "tooltip": false
+    },
+
+    "custom/clock": {
+         "interval": 30,
+         "format": "{}",
+         "exec": "date +'%b.%d %a %H:%M'"
+    },
+
+    "mpd": {
+        "server": "localhost",
+        "port": 6600,
+        "interval": "once",
+        "format": "  {artist} - {title}  ",
+        "tooltip": true,
+        "tooltip-format": "{elapsedTime:%M:%S}/{totalTime:%M:%S}",
+        "on-click": "mpc toggle &",
+        "on-scroll-up": "mpc prev &",
+        "on-scroll-down": "mpc next &",
+        "smooth-scrolling-threshold": 2.00
+    },
+
+    // sudo usermod -aG input $USER
+    "keyboard-state": {
+        "interval": "once",
+        "capslock": true,
+        "format": "{icon}",
+        "format-icons": { "locked": " ", "unlocked": "" }
+    },
+
+    "tray": {
+        "interval": "once",
+        "icon-size": 20,
+        "spacing": 10
+    },
+
+    "custom/screenshot": {
+        "interval": "once",
+        "format": " ",
+        "on-click": "lua ~/.local/bin/scripts/screenshot.lua &"
+    },
+
+    "pulseaudio": {
+        "interval": "once",
+        "scroll-step": 1.0,
+        "reverse-scrolling": true,
+
+        "format": "{icon} {volume}% {format_source}",
+        "format-muted": "  {format_source}",
+
+        "format-bluetooth": " {volume}% {format_source}",
+        "format-bluetooth-muted": "  {format_source}",
+
+        "format-source": " {volume}%" ,
+        "format-source-muted": " ",
+
+        "format-icons": { "headphone": "", "default": "" },
+        "on-click": "pidof pavucontrol && killall pavucontrol || pavucontrol"
+    },
+
+    "bluetooth": {
+        "format": " {status}",
+        "on-click": "bash ~/.local/bin/scripts/rofi-bluetooth.sh &"
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": " {essid}({signaldBm}dBm)",
+        "format-ethernet": " ",
+        "format-disconnected": " ",
+        "tooltip-format": "{ipaddr}\n{gwaddr}\n󰅧 {bandwidthUpBytes} 󰅢 {bandwidthDownBytes}"
+    },
+
+    "custom/power": {
+        "format": "   ",
+        "interval" : "once",
+        "on-click": "lua ~/.local/bin/scripts/power.lua &"
+    }
+}

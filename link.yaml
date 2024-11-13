@@ -1,0 +1,28 @@
+- defaults:
+    link:
+        create: true
+        relink: false
+
+- clean: [ "~/.config", "~/.local" ]
+
+- link:
+    ~/.config/mpd: mpd
+    ~/.config/fish: fish
+    ~/.config/hypr: hypr
+    ~/.config/nvim: nvim
+    ~/.config/rofi: rofi
+    ~/.config/fcitx5: fcitx5
+    ~/.config/waybar: waybar
+    ~/.config/ncmpcpp: ncmpcpp
+    ~/.config/mangohud: mangohud
+    ~/.config/alacritty: alacritty
+
+- link:
+    ~/.local/bin/scripts: scripts
+    ~/.local/share/fcitx5/rime: fcitx5/rime
+    ~/.local/share/fcitx5/themes: fcitx5/themes
+
+# - shell:
+#     - chsh -s $(which fish)
+#     - git config --global init.defaultBranch main
+
