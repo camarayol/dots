@@ -92,6 +92,7 @@
 --- * `MiniDepsChangeRemoved` - removed change (commit) during update.
 --- * `MiniDepsHint`          - various hints.
 --- * `MiniDepsInfo`          - various information.
+--- * `MiniDepsMsgBreaking`   - message for (conventional commit) breaking change.
 --- * `MiniDepsPlaceholder`   - placeholder when there is no valuable information.
 --- * `MiniDepsTitle`         - various titles.
 --- * `MiniDepsTitleError`    - title when plugin had errors during update.
@@ -118,14 +119,11 @@
 --- before processing anything else.
 ---
 --- The recommended way of adding a plugin is by calling |MiniDeps.add()| in the
---- |init.lua| file (make sure |MiniDeps.setup()| is called prior): >
+--- |init.lua| file (make sure |MiniDeps.setup()| is called prior): >lua
 ---
 ---   local add = MiniDeps.add
 ---
 ---   -- Add to current session (install if absent)
----   add('nvim-tree/nvim-web-devicons')
----   require('nvim-web-devicons').setup()
----
 ---   add({
 ---     source = 'neovim/nvim-lspconfig',
 ---     -- Supply dependencies near target plugin
@@ -140,6 +138,7 @@
 ---     -- Perform action after every checkout
 ---     hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
 ---   })
+---   -- Possible to immediately execute code which depends on the added plugin
 ---   require('nvim-treesitter.configs').setup({
 ---     ensure_installed = { 'lua', 'vimdoc' },
 ---     highlight = { enable = true },
@@ -158,9 +157,9 @@
 --- - |MiniDeps.now()| safely executes code immediately. Use it to load plugins
 ---   with UI necessary to make initial screen draw.
 --- - |MiniDeps.later()| schedules code to be safely executed later, preserving
----   order. Use it (with caution) for everything else which doesn't need precisely
----   timed effect, as it will be executed some time soon on one of the next
----   event loops. >
+---   order. Use it (with caution) for everything else which doesn't need
+---   precisely timed effect, as it will be executed some time soon on one of
+---   the next event loops. >lua
 ---
 ---   local now, later = MiniDeps.now, MiniDeps.later
 ---
@@ -253,8 +252,8 @@
 ---   Default: `nil` to rely on source set up during install.
 ---   Notes:
 ---     - It is required for creating plugin, but can be omitted afterwards.
----     - As the most common case, URI of the format "user/repo" is transformed
----       into "https://github.com/user/repo".
+---     - As the most common case, URI of the format "user/repo" (if it contains
+---       valid characters) is transformed into "https://github.com/user/repo".
 ---
 --- - <name> `(string|nil)` - directory basename of where to put plugin source.
 ---   It is put in "pack/deps/opt" subdirectory of `config.path.package`.
@@ -352,7 +351,11 @@ local H = {}
 ---
 ---@param config table|nil Module config table. See |MiniDeps.config|.
 ---
----@usage `require('mini.deps').setup({})` (replace `{}` with your `config` table).
+---@usage >lua
+---   require('mini.deps').setup() -- use default config
+---   -- OR
+---   require('mini.deps').setup({}) -- replace {} with your config table
+--- <
 MiniDeps.setup = function(config)
     -- Export module
     _G.MiniDeps = MiniDeps
@@ -362,6 +365,9 @@ MiniDeps.setup = function(config)
 
     -- Apply config
     H.apply_config(config)
+
+    -- Define behavior
+    H.create_autocommands()
 
     -- Create default highlighting
     H.create_default_hl()
@@ -400,7 +406,6 @@ end
 --- `path.log` is a string with path containing log of operations done by module.
 --- In particular, it contains all changes done after making an update.
 --- Default: "mini-deps.log" file in "log" standard path (see |stdpath()|).
---- Note: In Neovim<0.8 it is in "data" standard path.
 ---
 --- # Silent ~
 ---
@@ -427,7 +432,7 @@ MiniDeps.config = {
 
         -- Log file
         --minidoc_replace_start log = vim.fn.stdpath('log') .. '/mini-deps.log'
-        log = vim.fn.stdpath(vim.fn.has('nvim-0.8') == 1 and 'log' or 'data') .. '/mini-deps.log',
+        log = vim.fn.stdpath('log') .. '/mini-deps.log',
         --minidoc_replace_end
     },
 
@@ -709,9 +714,11 @@ MiniDeps.get_session = function()
     -- Add 'start/' plugins that are in 'rtp'. NOTE: not whole session concept is
     -- built around presence in 'rtp' to 100% ensure to preserve the order in
     -- which user called `add()`.
-    local start_path = H.get_package_path() .. '/pack/deps/start'
+    local start_path = H.full_path(H.get_package_path() .. '/pack/deps/start')
     local pattern = string.format('^%s/([^/]+)$', vim.pesc(start_path))
-    for _, path in ipairs(vim.api.nvim_list_runtime_paths()) do
+    for _, runtime_path in ipairs(vim.api.nvim_list_runtime_paths()) do
+        -- Make sure plugin path is normalized (matters on Windows)
+        local path = H.full_path(runtime_path)
         local name = string.match(path, pattern)
         if name ~= nil then add_spec({ path = path, name = name, hooks = {}, depends = {} }) end
     end
@@ -831,6 +838,11 @@ H.get_config = function(config)
     return vim.tbl_deep_extend('force', MiniDeps.config, vim.b.minideps_config or {}, config or {})
 end
 
+H.create_autocommands = function()
+    local gr = vim.api.nvim_create_augroup('MiniDeps', {})
+    vim.api.nvim_create_autocmd('ColorScheme', { group = gr, callback = H.create_default_hl, desc = 'Ensure colors' })
+end
+
 --stylua: ignore
 H.create_default_hl = function()
     local hi = function(name, opts)
@@ -843,6 +855,7 @@ H.create_default_hl = function()
     hi('MiniDepsChangeRemoved', { link = has_core_diff_hl and 'Removed' or 'diffRemoved' })
     hi('MiniDepsHint', { link = 'DiagnosticHint' })
     hi('MiniDepsInfo', { link = 'DiagnosticInfo' })
+    hi('MiniDepsMsgBreaking', { link = 'DiagnosticWarn' })
     hi('MiniDepsPlaceholder', { link = 'Comment' })
     hi('MiniDepsTitle', { link = 'Title' })
     hi('MiniDepsTitleError', { link = 'DiffDelete' })
@@ -986,7 +999,7 @@ H.expand_spec = function(target, spec)
     spec = vim.deepcopy(spec)
 
     if spec.source and type(spec.source) ~= 'string' then H.error('`source` in plugin spec should be string.') end
-    local is_user_repo = type(spec.source) == 'string' and spec.source:find('^[^/]+/[^/]+$') ~= nil
+    local is_user_repo = type(spec.source) == 'string' and spec.source:find('^[%w-]+/[%w-_.]+$') ~= nil
     if is_user_repo then spec.source = 'https://github.com/' .. spec.source end
 
     spec.name = spec.name or vim.fn.fnamemodify(spec.source, ':t')
@@ -1408,6 +1421,7 @@ H.update_add_syntax = function()
     syntax match MiniDepsHint          "\(^State.\+\)\@<=(.\+)$"
     syntax match MiniDepsChangeAdded   "^> .*$"
     syntax match MiniDepsChangeRemoved "^< .*$"
+    syntax match MiniDepsMsgBreaking   "^  \S\+!: .*$"
     syntax match MiniDepsPlaceholder   "^<.*>$"
   ]])
 end
@@ -1508,7 +1522,7 @@ H.cli_run = function(jobs)
 
         local on_exit = function(code)
             -- Process only not already closing job
-            if not process or process:is_closing() then return end
+            if process:is_closing() then return end
             process:close()
 
             -- Process exit code: if 0 treat `stderr` as warning; error otherwise

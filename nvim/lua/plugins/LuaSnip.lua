@@ -41,6 +41,8 @@ local snippets = function()
             ]], { i(1, "code"), start = i(0) }
         )),
 
+        s("link", fmt("[{}]({})", { i(2), i(1) })),
+
         s("title", fmt(
             [[
                 ---
