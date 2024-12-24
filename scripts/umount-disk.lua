@@ -1,4 +1,5 @@
 #!/usr/bin/lua
+
 local rofi = [[
     configuration { show-icons: false; }
     window { height: 400px; }

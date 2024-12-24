@@ -1,36 +1,35 @@
 * {
-    font-family: Maple Mono NF CN;
-    font-size: 18px;
+    font-family: monospace;
+    font-size: 20px;
 }
 
 window#waybar {
-    background-color: rgba(26, 27, 38, 0.5);
+    background-color: #1E2732;
     color: #ffffff;
     transition-property: background-color;
     transition-duration: 0.5s;
     border-top: 8px transparent;
-    border-radius: 8px;
+    border-radius: 6px;
     transition-duration: 0.5s;
     margin: 16px 16px;
 }
 
 #custom-launcher {
     color: #6a92d7;
-    background-color: #1b242b;
     padding: 0 10px;
     border-radius: 8px;
 }
 
 #cpu {
     color: #fb958b;
-    background-color: #1f2530;
+    background-color: #151D29;
     padding: 0 10px;
     border-radius: 8px;
 }
 
 #memory {
     color: #ebcb8b;
-    background-color: #1f2530;
+    background-color: #151D29;
     padding: 0 10px;
     border-radius: 8px;
 }
@@ -42,6 +41,7 @@ window#waybar {
 
 #workspaces {
     margin: 0 16px;
+    background-color: transparent;
     border-radius: 8px;
 }
 

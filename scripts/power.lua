@@ -16,24 +16,18 @@ function OrderedMap:add(key, value)
     self.__data[key] = value
 end
 
-function OrderedMap:get(key)
-    return self.__data[key]
-end
+function OrderedMap:get(key) return self.__data[key] end
 
-function OrderedMap:keys()
-    return self.__keys
-end
+function OrderedMap:keys() return self.__keys end
 
-function OrderedMap:count()
-    return #self.__keys
-end
+function OrderedMap:count() return #self.__keys end
 
 ------------------------------
 
 local menus = OrderedMap:new()
 menus:add("  lock",     "hyprlock")
 menus:add("  suspend",  "systemctl suspend")
-menus:add("  logout",   "hyprctl dispatch exit 1")
+menus:add("  logout",   "hyprctl dispatch exit 1")
 menus:add("  reboot",   "systemctl reboot")
 menus:add("  shutdown", "systemctl poweroff")
 
