@@ -1,3 +1,7 @@
+function fish_greeting
+    # echo welcome to fish
+end
+
 function fish_prompt
     echo -n (set_color blue)(prompt_pwd)
     if command -sq git
@@ -16,10 +20,6 @@ function fish_right_prompt
         set commit (command git rev-parse HEAD 2>/dev/null | string sub -l 7)
     end
     echo -n (set_color brblack) $commit (date "+%H:%M")(set_color normal)
-end
-
-# Welcome to fish
-function fish_greeting
 end
 
 # keybinds
@@ -41,26 +41,18 @@ set -gx XDG_CACHE_HOME     "$HOME/.cache"
 set -gx XDG_CONFIG_HOME    "$HOME/.config"
 set -gx CARGO_HOME         "$XDG_LOCAL_HOME/rust"
 set -gx RUSTUP_HOME        "$XDG_LOCAL_HOME/rust"
-set -gx RUSTUP_DIST_SERVER "https://mirrors.ustc.edu.cn/rust-static"
-set -gx RUSTUP_UPDATE_ROOT "https://mirrors.ustc.edu.cn/rust-static/rustup"
 
 # PATH
 set_environment    PATH               "$XDG_LOCAL_HOME/bin"
+set_environment    PATH               "$XDG_LOCAL_HOME/bin/scripts"
 set_environment    PATH               "$XDG_LOCAL_HOME/go/bin"
 set_environment    PATH               "$XDG_LOCAL_HOME/rust/bin"
-set_environment    PATH               "$XDG_LOCAL_HOME/bin/scripts"
 # CPATH
 set_environment    CPATH              "$XDG_LOCAL_HOME/include"
-set_environment    CPATH              "$XDG_LOCAL_HOME/mysql/include"
-set_environment    CPATH              "$XDG_LOCAL_HOME/hiredis/include"
 # LIBRARY_PATH
 set_environment    LIBRARY_PATH       "$XDG_LOCAL_HOME/lib"
-set_environment    LIBRARY_PATH       "$XDG_LOCAL_HOME/mysql/lib"
-set_environment    LIBRARY_PATH       "$XDG_LOCAL_HOME/hiredis/lib"
 # LD_LIBRARY_PATH
 set_environment    LD_LIBRARY_PATH    "$XDG_LOCAL_HOME/lib"
-set_environment    LD_LIBRARY_PATH    "$XDG_LOCAL_HOME/mysql/lib"
-set_environment    LD_LIBRARY_PATH    "$XDG_LOCAL_HOME/hiredis/lib"
 
 # function zypperi --description "zypper in --no-recommends"
 #     set -l pkg (zypper --no-refresh se -u | awk -F '|' 'NR>5 {print $2}' | sed 's/ //g' | \
@@ -103,6 +95,7 @@ if status is-interactive
     set -U fish_complete_inline 1
 
     # alias
+    alias x   extract # functions/extract.fish
     alias v   nvim
     alias vim nvim
     alias lg  lazygit

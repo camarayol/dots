@@ -7,6 +7,7 @@
 
 - link:
     ~/.config/mpd: mpd
+    ~/.config/foot: foot
     ~/.config/fish: fish
     ~/.config/hypr: hypr
     ~/.config/nvim: nvim
@@ -15,7 +16,6 @@
     ~/.config/waybar: waybar
     ~/.config/ncmpcpp: ncmpcpp
     ~/.config/mangohud: mangohud
-    ~/.config/alacritty: alacritty
 
 - link:
     ~/.local/bin/scripts: scripts
