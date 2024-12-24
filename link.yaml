@@ -14,6 +14,7 @@
     ~/.config/rofi: rofi
     ~/.config/fcitx5: fcitx5
     ~/.config/waybar: waybar
+    ~/.config/wpaperd: wpaperd
     ~/.config/ncmpcpp: ncmpcpp
     ~/.config/mangohud: mangohud
 
