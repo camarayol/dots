@@ -41,30 +41,16 @@ return {
 
         local cmp = require("cmp")
         local luasnip = require("luasnip")
-        local kinds = require("cmp.types").lsp.CompletionItemKind
         cmp.setup {
             sorting = {
                 priority_weight = 2,
                 comparators = {
-                    function(entry1, entry2)
-                        local scores = {
-                            [kinds.Field]     = 1,
-                            [kinds.Method]    = 2,
-                            [kinds.Keyword]   = 3,
-                            [kinds.Variable]  = 4,
-                            [kinds.Class]     = 5,
-                            [kinds.Interface] = 6,
-                            [kinds.Snippet]   = 7,
-                        }
-                        local score1, score2 = scores[entry1:get_kind()], scores[entry2:get_kind()]
-                        if score1 then
-                            if score2 then return score1 < score2 else return true end
-                        else
-                            return false
-                        end
-                    end,
-                    cmp.config.compare.length,
+                    cmp.config.compare.locality,
+                    cmp.config.compare.recently_used,
+                    cmp.config.compare.score,  -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
                     cmp.config.compare.offset,
+                    cmp.config.compare.order,
+                    cmp.config.compare.length,
                     cmp.config.compare.exact,
                     cmp.config.compare.locality,
                 }
@@ -78,10 +64,10 @@ return {
             },
             snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
             sources = cmp.config.sources {
-                { name = "luasnip"  },
-                { name = "nvim_lsp" },
-                { name = "path"     },
-                { name = "buffer"   }
+                { name = "luasnip",  priority = 7 },
+                { name = "nvim_lsp", priority = 8 },
+                { name = "path",     priority = 7 },
+                { name = "buffer",   priority = 7 }
             },
             mapping = {
                 ["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),

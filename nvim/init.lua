@@ -12,7 +12,7 @@ require("mini-deps").later_add {
     require("plugins.indent-blankline"),
 
     -- LSP
-    require("plugins.LuaSnip"),
+    require("plugins.nvim-luasnip"),
     require("plugins.nvim-cmp"),
     require("plugins.mason"),
     require("plugins.nvim-lspconfig"),
