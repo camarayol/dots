@@ -3,21 +3,22 @@ vim.g.colors_name = "onedark"
 local Core = require("core")
 
 C = {
-    None   = "None",
-    Red    = "#E06C75",
-    DRed   = "#BD3D37",
-    Orange = "#D19A66",
-    Yellow = "#E5C07B",
-    Green  = "#98C379",
-    DGreen = "#109868",
-    Cyan   = "#56B6C2",
-    Blue   = "#61AFEF",
-    Purple = "#C678DD",
-    Gray   = "#5C6370",
-    DGray  = "#3e4452",
-    LGray  = "#ABB2BF",
-    Black  = "#282c34",
-    White  = "#FFFFFF",
+    None    = "None",
+    Red     = "#E06C75",
+    DRed    = "#BD3D37",
+    Orange  = "#D19A66",
+    DOrange = "#694B3C",
+    Yellow  = "#E5C07B",
+    Green   = "#98C379",
+    DGreen  = "#109868",
+    Cyan    = "#56B6C2",
+    Blue    = "#61AFEF",
+    Purple  = "#C678DD",
+    Gray    = "#5C6370",
+    DGray   = "#3e4452",
+    LGray   = "#ABB2BF",
+    Black   = "#282c34",
+    White   = "#FFFFFF",
 }
 
 S = {

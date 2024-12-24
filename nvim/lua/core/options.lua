@@ -77,6 +77,7 @@ end
 
 Core.setOptions(options)
 
+-- highlight copy content
 Core.createAutoCommand("TextYankPost", nil, function()
     vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
 end)

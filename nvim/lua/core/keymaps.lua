@@ -4,8 +4,8 @@ local opts = { noremap = true, silent = true }
 
 Core.setKeyMaps {
     { { "i", "s" },      "jk",         "<Esc>",                   opts },
-    -- { "t",               "jk",         "<C-\\><C-n>",             opts }, -- in terminal switch TERMINAL mode to NORMAL mode
-    { "t",               "<Esc>",         "<C-\\><C-n>",          opts }, -- in terminal switch TERMINAL mode to NORMAL mode
+ -- { "t",               "jk",         "<C-\\><C-n>",             opts }, -- in terminal switch TERMINAL mode to NORMAL mode
+    { "t",               "<Esc>",      "<C-\\><C-n>",             opts }, -- in terminal switch TERMINAL mode to NORMAL mode
     { "n",               "<M-2>",      "@q",                      opts },
     { { "n", "i", "v" }, "<Home>",     utils.Home,                opts },
     { { "i", "v" },      "<M-i>",      utils.Home,                opts },
