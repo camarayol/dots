@@ -25,7 +25,7 @@ return {
                 lualine_b = {
                     { "branch",      separator = { right = "" } },
                     { "diff",        separator = { right = "" }, symbols = { added = "+", modified = "~", removed = "-" } },
-                    { "diagnostics", separator = { right = "" }, symbols = { error = "Err.", warn = "War.", info = "Tip." } },
+                    { "diagnostics", separator = { right = "" }, symbols = { error = "󱓻 ", warn = "󱓻 ", info = "󱓻 ", hint = "󱓻 " } },
                 },
                 lualine_c = { "%=", { "filename", path = 1 } },
                 lualine_x = { "filesize", { "filetype", icons_enabled = true }, "encoding", "fileformat" },

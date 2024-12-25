@@ -32,27 +32,34 @@ local lspconfig = function()
     -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/rust_analyzer/
     lspconfig.rust_analyzer.setup {
         capabilities = capabilities,
+        root_dir = function(fname)
+            local util = require("lspconfig.util")
+            local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)
+            local cmd = 'cargo metadata --no-deps --format-version 1'
+            if cargo_crate_dir ~= nil then
+                cmd = cmd .. ' --manifest-path ' .. util.path.join(cargo_crate_dir, 'Cargo.toml')
+            end
+            local cargo_metadata = vim.fn.system(cmd)
+            local cargo_workspace_dir = nil
+            if vim.v.shell_error == 0 then
+                cargo_workspace_dir = vim.fn.json_decode(cargo_metadata)['workspace_root']
+            end
+            return cargo_workspace_dir
+                or cargo_crate_dir
+                or util.root_pattern 'rust-project.json' (fname)
+                or util.find_git_ancestor(fname)
+        end,
+        -- root_dir = require("lspconfig/util").root_pattern("Cargo.toml"),
         settings = {
             ["rust-analyzer"] = {
-                -- cargo = { allFeatures = true }
-                -- checkOnSave = {
-                -- enable = true,
-                -- allFeatures = true,
-                -- command = "clippy",
-                -- extraArgs = { "--no-deps" },
-                -- },
-                import = { prefix = "crate" },
-                completion = {
-                    autoimport = { enable = false }
+                diagnostic = { enable = true },
+                cargo = { allFeatures = true },
+                procMacro = { enable = true },
+                inlayHints = {
+                    typeHints = true,
+                    parameterHints = true
                 },
-                -- procMacro = {
-                --     enable = true,
-                --     ignored = {
-                --         ["async-trait"] = { "async_trait" },
-                --         ["napi-derive"] = { "napi" },
-                --         ["async-recursion"] = { "async_recursion" },
-                --     },
-                -- },
+                checkOnSave = { enable = true }
             }
         }
     }
@@ -141,7 +148,9 @@ return {
             --     vim.lsp.inlay_hint.enable(true)
             -- end
 
+            vim.lsp.inlay_hint.enable(true)
             vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
             Core.setKeyMaps {
                 -- {
                 --     "n", "gd", vim.lsp.buf.definition,

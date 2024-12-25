@@ -1,6 +1,6 @@
 return {
     source = "https://github.com/lukas-reineke/indent-blankline.nvim",
-    depence = { "https://github.com/nvim-treesitter/nvim-treesitter" },
+    depends = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     checkout = "v2.20.8",
     config = function()
         Core.setHighlights {

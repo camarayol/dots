@@ -106,9 +106,19 @@ Core.linkHighlights {
 }
 
 Core.clearHighlights {
+    "WinBar",
+    "WinBarNC",
     "Statement",
     "SignColumn",
     "CursorLineNr",
     "StatusLine",
     "TabLineFill",
+}
+
+-- https://neovim.io/doc/user/diagnostic.html#vim.diagnostic
+vim.diagnostic.config {
+    -- vim.diagnostic.severity
+    signs = { text = { "", "", "", "" } },
+    -- vim.diagnostic.Opts.VirtualText
+    virtual_text = { prefix = "", virt_text_pos = "eol" }
 }

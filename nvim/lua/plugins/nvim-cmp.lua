@@ -67,7 +67,8 @@ return {
                 { name = "luasnip",  priority = 7 },
                 { name = "nvim_lsp", priority = 8 },
                 { name = "path",     priority = 7 },
-                { name = "buffer",   priority = 7 }
+                { name = "buffer",   priority = 7 },
+                { name = "crates",   priority = 0 },
             },
             mapping = {
                 ["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),

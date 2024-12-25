@@ -17,6 +17,8 @@ require("mini-deps").later_add {
     require("plugins.mason"),
     require("plugins.nvim-lspconfig"),
     require("plugins.lspsaga"),
+    require("plugins.fidget"),
+    require("plugins.crates"),
 
     -- Tools
     require("plugins.telescope"),
