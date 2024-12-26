@@ -3,7 +3,7 @@ function fish_greeting
 end
 
 function fish_prompt
-    echo -n (set_color blue)(prompt_pwd)
+    echo -n (set_color -i blue) (prompt_pwd)
     if command -sq git
         set branch (command git describe --contains --all HEAD 2>/dev/null)
         if not command git diff --quiet --exit-code 2>/dev/null
@@ -12,7 +12,7 @@ function fish_prompt
             echo -n (set_color green) $branch
         end
     end
-    echo -n (set_color purple)" ❯ "(set_color normal)
+    echo -n (set_color magenta)" ❯ "(set_color normal)
 end
 
 function fish_right_prompt
@@ -27,7 +27,7 @@ function fish_user_key_bindings
     bind \el forward-char   # <M-l>
 end
 
-function set_environment --description "export environment once"
+function add_environment --description "export environment once"
     set -l env  $argv[1]
     set -l path $argv[2]
     if not contains -- $path $$env
@@ -35,24 +35,18 @@ function set_environment --description "export environment once"
     end
 end
 
-set -gx EDITOR             "nvim"
-set -gx XDG_LOCAL_HOME     "$HOME/.local"
-set -gx XDG_CACHE_HOME     "$HOME/.cache"
-set -gx XDG_CONFIG_HOME    "$HOME/.config"
-set -gx CARGO_HOME         "$XDG_LOCAL_HOME/rust"
-set -gx RUSTUP_HOME        "$XDG_LOCAL_HOME/rust"
+set -gx EDITOR          "nvim"
+set -gx XDG_LOCAL_HOME  "$HOME/.local"
+set -gx XDG_CACHE_HOME  "$HOME/.cache"
+set -gx XDG_CONFIG_HOME "$HOME/.config"
+set -gx CARGO_HOME      "$XDG_LOCAL_HOME/rust/cargo"
+set -gx RUSTUP_HOME     "$XDG_LOCAL_HOME/rust/rustup"
 
-# PATH
-set_environment    PATH               "$XDG_LOCAL_HOME/bin"
-set_environment    PATH               "$XDG_LOCAL_HOME/bin/scripts"
-set_environment    PATH               "$XDG_LOCAL_HOME/go/bin"
-set_environment    PATH               "$XDG_LOCAL_HOME/rust/bin"
-# CPATH
-set_environment    CPATH              "$XDG_LOCAL_HOME/include"
-# LIBRARY_PATH
-set_environment    LIBRARY_PATH       "$XDG_LOCAL_HOME/lib"
-# LD_LIBRARY_PATH
-set_environment    LD_LIBRARY_PATH    "$XDG_LOCAL_HOME/lib"
+add_environment PATH            "$XDG_LOCAL_HOME/bin"
+add_environment PATH            "$XDG_LOCAL_HOME/bin/scripts"
+add_environment CPATH           "$XDG_LOCAL_HOME/include"
+add_environment LIBRARY_PATH    "$XDG_LOCAL_HOME/lib"
+add_environment LD_LIBRARY_PATH "$XDG_LOCAL_HOME/lib"
 
 # function zypperi --description "zypper in --no-recommends"
 #     set -l pkg (zypper --no-refresh se -u | awk -F '|' 'NR>5 {print $2}' | sed 's/ //g' | \
