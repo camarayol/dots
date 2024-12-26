@@ -93,6 +93,7 @@ if status is-interactive
     alias v   nvim
     alias vim nvim
     alias lg  lazygit
+    alias zj  zellij
     alias vvi "vim $XDG_CONFIG_HOME/nvim/init.lua"
     alias vrc "vim $XDG_CONFIG_HOME/fish/config.fish"
     alias src "source $XDG_CONFIG_HOME/fish/config.fish"

@@ -12,6 +12,7 @@
     ~/.config/hypr: hypr
     ~/.config/nvim: nvim
     ~/.config/rofi: rofi
+    ~/.config/zellij: zellij
     ~/.config/fcitx5: fcitx5
     ~/.config/waybar: waybar
     ~/.config/wpaperd: wpaperd

@@ -100,9 +100,12 @@ Core.linkHighlights {
 
     -- syntax
     ["luaFunc"]             = "Function",
-    ["zshVariable"]         = "Identifier",
-    ["zshOperator"]         = "Operator",
-    ["zshKSHFunction"]      = "Function",
+    ["fishVariable"]        = "Identifier",
+
+    -- unused
+    -- ["zshVariable"]         = "Identifier",
+    -- ["zshOperator"]         = "Operator",
+    -- ["zshKSHFunction"]      = "Function",
 }
 
 Core.clearHighlights {
