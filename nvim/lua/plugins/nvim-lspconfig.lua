@@ -52,14 +52,17 @@ local lspconfig = function()
         -- root_dir = require("lspconfig/util").root_pattern("Cargo.toml"),
         settings = {
             ["rust-analyzer"] = {
-                diagnostic = { enable = true },
                 cargo = { allFeatures = true },
-                procMacro = { enable = true },
+                procMacro   = { enable = true },
+                diagnostic  = { enable = true },
+                checkOnSave = { enable = true },
                 inlayHints = {
                     typeHints = true,
                     parameterHints = true
                 },
-                checkOnSave = { enable = true }
+                completion = {
+                    autoimport = { enable = false }
+                }
             }
         }
     }
