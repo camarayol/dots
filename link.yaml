@@ -17,6 +17,7 @@
     ~/.config/waybar: waybar
     ~/.config/wpaperd: wpaperd
     ~/.config/ncmpcpp: ncmpcpp
+    ~/.config/ghostty: ghostty
     ~/.config/mangohud: mangohud
 
 - link:
