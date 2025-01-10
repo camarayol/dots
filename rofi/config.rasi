@@ -1,3 +1,5 @@
+// vim: set filetype=rasi :
+
 configuration {
     modi:                       "drun,run,window";
     show-icons:                 true;
@@ -50,7 +52,8 @@ configuration {
 }
 
 window {
-    width:                       800px;
+    width:                       40%;
+    height:                      50%;
     border:                      0px solid;
     border-radius:               10px;
     border-color:                @border-colour;

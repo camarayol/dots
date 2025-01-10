@@ -22,10 +22,11 @@ support_kitty_keyboard_protocol false
 keybinds clear-defaults=true {
     // https://zellij.dev/documentation/keybindings-shared.html
     shared_among "normal" {
-        bind "Alt `"  { SwitchToMode "Session"; }
-        bind "Ctrl t" { SwitchToMode "Tab";     }
-        bind "Ctrl p" { SwitchToMode "Pane";    }
-        bind "Ctrl l" { SwitchToMode "Locked";  }
+        bind "Alt Tab" { ToggleTab; }
+        bind "Alt `"   { SwitchToMode "Session"; }
+        bind "Alt t"   { SwitchToMode "Tab";     }
+        bind "Alt p"   { SwitchToMode "Pane";    }
+        bind "Ctrl l"  { SwitchToMode "Locked";  }
     }
     shared_among "locked" {
         bind "Ctrl l" { SwitchToMode "Normal"; }
@@ -49,7 +50,7 @@ keybinds clear-defaults=true {
         // float
         bind "t"     { ToggleFloatingPanes;       SwitchToMode "Normal"; }
         bind "f"     { ToggleFocusFullscreen;     SwitchToMode "Normal"; }
-        bind "e"     { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
+        // bind "e"     { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
         // resize
         bind "Left"  { Resize "Increase Left";  }
         bind "Down"  { Resize "Increase Down";  }
@@ -63,11 +64,11 @@ keybinds clear-defaults=true {
     }
     tab {
         // switch
-        bind "Tab" { ToggleTab; }
+        // bind "Tab" { ToggleTab; }
         // new
         bind "n"   { NewTab; SwitchToMode "Normal"; }
         // close
-        bind "q"   { CloseTab; SwitchToMode "Normal"; }
+        // bind "q"   { CloseTab; SwitchToMode "Normal"; }
         // toggle the syncing of input between all panes in the focused tab
         bind "s"   { ToggleActiveSyncTab; SwitchToMode "Normal"; }
         // Tab to Pane

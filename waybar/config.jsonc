@@ -139,6 +139,6 @@
         "format": "   ",
         "interval" : "once",
         "tooltip": false,
-        "on-click": "lua ~/.local/bin/scripts/power.lua"
+        "on-click": "bash ~/.local/bin/scripts/power.sh"
     }
 }
