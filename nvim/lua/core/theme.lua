@@ -15,10 +15,11 @@ C = {
     Blue    = "#61AFEF",
     Purple  = "#C678DD",
     Gray    = "#5C6370",
-    DGray   = "#3e4452",
+    DGray   = "#3E4452",
     LGray   = "#ABB2BF",
-    Black   = "#282c34",
+    Black   = "#1F2228",
     White   = "#FFFFFF",
+    Background = "#282C34"
 }
 
 S = {
