@@ -1,10 +1,8 @@
 local lspconfig = function()
     local lspconfig = require("lspconfig")
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     -- gopls
     lspconfig.gopls.setup {
-        capabilities = capabilities,
         settings = {
             gopls = {
                 gofumpt = true,
@@ -16,7 +14,6 @@ local lspconfig = function()
 
     -- clangd
     lspconfig.clangd.setup {
-        capabilities = capabilities,
         cmd = { "clangd", "--clang-tidy" },
         init_options = {
             clangdFileStatus = true,
@@ -31,7 +28,6 @@ local lspconfig = function()
     -- rust-analyzer
     -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/rust_analyzer/
     lspconfig.rust_analyzer.setup {
-        capabilities = capabilities,
         root_dir = function(fname)
             local util = require("lspconfig.util")
             local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)
@@ -52,15 +48,15 @@ local lspconfig = function()
         -- root_dir = require("lspconfig/util").root_pattern("Cargo.toml"),
         settings = {
             ["rust-analyzer"] = {
-                cargo = { allFeatures = true },
+                cargo       = { allFeatures = true },
                 procMacro   = { enable = true },
                 diagnostic  = { enable = true },
                 checkOnSave = { enable = true },
-                inlayHints = {
+                inlayHints  = {
                     typeHints = true,
                     parameterHints = true
                 },
-                completion = {
+                completion  = {
                     autoimport = { enable = false }
                 }
             }
@@ -69,7 +65,6 @@ local lspconfig = function()
 
     -- lua-language-server
     lspconfig.lua_ls.setup {
-        capabilities = capabilities,
         settings = {
             Lua = {
                 semantic = { enable = false },
@@ -85,25 +80,25 @@ local lspconfig = function()
         }
     }
 
-    -- cmake-language-server
-    -- lspconfig.cmake.setup {
-    --     capabilities = capabilities,
-    --     settings = {}
-    -- }
-
     -- jsonls
     lspconfig.jsonls.setup {
-        capabilities = capabilities,
         cmd = { "vscode-json-language-server", "--stdio" },
         filetypes = { "json" },
         init_options = { provideFormatter = true },
         single_file_support = true
     }
+
+    -- cmake-language-server
+    lspconfig.cmake.setup {}
+
+    -- bash-language-server
+    lspconfig.bashls.setup {}
 end
 
 return {
     source = "https://github.com/neovim/nvim-lspconfig",
     depends = { "https://github.com/williamboman/mason.nvim" },
+    checkout = "v1.2.0",
     config = function()
         Core.setHighlights {
             ["DiagnosticError"]          = { fg = C.DRed },

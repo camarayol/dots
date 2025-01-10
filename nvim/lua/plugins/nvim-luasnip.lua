@@ -28,7 +28,8 @@ local snippets = function()
             s("{}", fmt([[
                 {}
             ]]{})),
-        ]=], { i(1), i(2), i(3) }))
+        ]=], { i(1), i(2), i(3) }
+        ))
     })
 
     -- markdown
@@ -142,41 +143,57 @@ local snippets = function()
             for {} in {} {{
                 {}
             }}
-        ]], { i(1), i(2), i(0) })),
+        ]], { i(1), i(2), i(0) }
+        )),
 
         s("struct", fmt([[
             struct {} {{
                 {}
             }}
-        ]], { i(1), i(0) })),
+        ]], { i(1), i(0) }
+        )),
 
         s("fn", fmt([[
             fn {}({}){} {{
                 {}
             }}
-        ]], { i(1), i(2), i(3), i(4) })),
+        ]], { i(1), i(2), i(3), i(4) }
+        )),
 
         s("match", fmt([[
             match {}{{
                 {} => {{ {} }},
                 {} => {{ {} }}
             }}
-        ]], { i(1), i(2), i(3), i(4), i(5) })),
+        ]], { i(1), i(2), i(3), i(4), i(5) }
+        )),
 
         s("closure", fmt([[
             |{}| {}{{
                {}
             }}
         ]], { i(1), i(2), i(3) })),
+
+        s("derive", fmt([[
+            #[derive({})]
+        ]], i(0)
+        )),
     })
+end
+
+local function build(params)
+    vim.notify("[luasnip] building ...", vim.log.levels.INFO)
+    local ret = vim.system({ "make", "install_jsregexp" }, { cwd = params.path }):wait()
+    if ret.code == 0 then
+        vim.notify("[luasnip] build success!", vim.log.levels.INFO)
+    else
+        vim.notify("[luasnip] build failed!", vim.log.levels.ERROR)
+    end
 end
 
 return {
     source = "https://github.com/L3MON4D3/LuaSnip",
-    hooks = {
-        post_install = function(args) vim.fn.system({ "make", "-C", args.path, "install_jsregexp" }) end,
-        post_checkout = function(args) vim.fn.system({ "make", "-C", args.path, "install_jsregexp" }) end
-    },
+    hooks = { post_install = build, post_checkout = build },
     config = function()
         require("luasnip").setup {
             update_events = "TextChanged,TextChangedI",

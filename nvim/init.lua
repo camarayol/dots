@@ -13,7 +13,7 @@ require("mini-deps").later_add {
 
     -- LSP
     require("plugins.nvim-luasnip"),
-    require("plugins.nvim-cmp"),
+    require("plugins.blink-cmp"),
     require("plugins.mason"),
     require("plugins.nvim-lspconfig"),
     require("plugins.lspsaga"),
