@@ -10,6 +10,7 @@
     ~/.config/foot: foot
     ~/.config/fish: fish
     ~/.config/hypr: hypr
+    ~/.config/niri: niri
     ~/.config/nvim: nvim
     ~/.config/rofi: rofi
     ~/.config/zellij: zellij
