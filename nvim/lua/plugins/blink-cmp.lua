@@ -37,7 +37,7 @@ return {
                     window = {
                         min_width  = 30,
                         max_width  = 80,
-                        max_height = 20,
+                        max_height = 60,
                         border     = "single"
                     }
                 },

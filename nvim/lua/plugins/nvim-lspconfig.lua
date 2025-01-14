@@ -73,7 +73,6 @@ local lspconfig = function()
                     checkThirdParty = false,
                     library = {
                         vim.env.VIMRUNTIME,
-                        '~/.luarocks/share/lua/5.4/'
                     }
                 }
             }
