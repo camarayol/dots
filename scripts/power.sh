@@ -1,11 +1,20 @@
 #!/bin/bash
 
+# archlinux with hyprland (systemd)
+# declare -A power_menus=(
+#     ["  lock"]="hyprlock"
+#     ["  suspend"]="systemctl suspend"
+#     ["  logout"]="hyprctl dispatch exit 1"
+#     ["  reboot"]="systemctl reboot"
+#     ["  shutdown"]="systemctl poweroff"
+# )
+
+# voidlinux with niri (runit)
 declare -A power_menus=(
-    ["  lock"]="hyprlock"
-    ["  suspend"]="systemctl suspend"
-    ["  logout"]="hyprctl dispatch exit 1"
-    ["  reboot"]="systemctl reboot"
-    ["  shutdown"]="systemctl poweroff"
+    ["  logout"]="niri msg action quit"
+    ["  suspend"]="loginctl suspend"
+    ["  shutdown"]="loginctl poweroff"
+    ["  reboot"]="loginctl reboot"
 )
 
 default_rasi="inputbar { enabled: false; } listview { scrollbar: false; } window { width: 400px; }"
