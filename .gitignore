@@ -1,8 +1,8 @@
-mpd/db
-mpd/log
-mpd/pid
-mpd/state
-ncmpcpp/error.log
+tools/mpd/db
+tools/mpd/log
+tools/mpd/pid
+tools/mpd/state
+tools/ncmpcpp/error.log
 fcitx5/rime/sync
 fcitx5/rime/build
 fcitx5/rime/user.yaml
