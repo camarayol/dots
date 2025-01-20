@@ -112,11 +112,18 @@ if status is-interactive
     alias vim nvim
     alias lg  lazygit
     alias zj  zellij
+
     # alias ns  niri-session # archlinux (systemd)
-    alias ns  "dbus-run-session niri" # voidlinux (runit)
     alias vvi "vim $XDG_CONFIG_HOME/nvim/init.lua"
     alias vrc "vim $XDG_CONFIG_HOME/fish/config.fish"
     alias src "source $XDG_CONFIG_HOME/fish/config.fish"
+
+    # voidlinux
+    alias xq       "xbps-query"
+    alias ns       "dbus-run-session niri" # voidlinux (runit)
+    alias reboot   "loginctl reboot"
+    alias suspend  "loginctl suspend"
+    alias poweroff "loginctl poweroff"
 
     # source command keybindings
     if command -q zoxide

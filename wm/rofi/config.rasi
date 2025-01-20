@@ -130,7 +130,7 @@ element {
 }
 
 element-icon {
-    size:                        30px;
+    size:                        32px;
     padding:                     0px 10px;
 }
 
