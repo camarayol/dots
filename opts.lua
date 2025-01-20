@@ -14,6 +14,7 @@ return {
         ['./wm/hypr']          = '~/.config/hypr',
         ['./wm/niri']          = '~/.config/niri',
         ['./wm/rofi']          = '~/.config/rofi',
+        ['./wm/mako']          = '~/.config/mako',
         ['./wm/waybar']        = '~/.config/waybar',
         ['./wm/wpaperd']       = '~/.config/wpaperd',
 
