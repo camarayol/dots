@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# pipewire
-pidof pipewire || dbus-run-session pipewire &
-
-# xwayland
-xwayland-satellite &
-
 # music player daemon
-pidof mpd || mpd &
+pidof mpd || mpd
 
 # mako
 mako &
@@ -25,5 +19,7 @@ udiskie &
 wl-paste --watch cliphist -max-items 100 store &
 
 # if don't sleep fcitx5 cannot display the candidate box in xwayland applications. (why?)
-sleep 2 && fcitx5 --replace -d
+# /etc/xdg/autostart/org.fcitx.Fcitx5.desktop
+
+# sleep 2 && fcitx5 --replace -d
 

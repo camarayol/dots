@@ -208,7 +208,7 @@ layout {
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
-spawn-at-startup "bash" "-c" "~/.local/bin/scripts/niri-startup.sh"
+spawn-at-startup "fish" "-c" "~/.local/bin/scripts/niri-startup.sh"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -235,6 +235,7 @@ environment {
     GTK_IM_MODULE  "fcitx"
     SDL_IM_MODULE  "fcitx"
     XMODIFIERS     "@im=fcitx"
+    INPUT_METHOD   "fcitx"
 }
 
 cursor {
@@ -270,12 +271,19 @@ window-rule {
     draw-border-with-background false
 }
 
+window-rule {
+    match app-id="io.missioncenter.MissionCenter"
+    open-floating true
+    default-column-width { fixed 1280; }
+    default-window-height { fixed 960; }
+}
+
 binds {
     Mod+F1      { screenshot; }
     Mod+Grave   { spawn "foot"; }
-    Mod+Space   { spawn "rofi" "-show" "drun"; }
-    Mod+V       { spawn "bash" "-c" "cliphist list | rofi -dmenu -now-show-icons | cliphist decode | wl-copy"; }
-    Ctrl+Alt+W  { spawn "bash" "-c" "pidof waybar && killall waybar || waybar"; }
+    Mod+Space   { spawn "fish" "-c" "rofi -show drun"; }
+    Mod+V       { spawn "fish" "-c" "cliphist list | rofi -dmenu -now-show-icons | cliphist decode | wl-copy"; }
+    Ctrl+Alt+W  { spawn "fish" "-c" "pidof waybar && killall waybar || waybar"; }
 
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+Slash { show-hotkey-overlay;    }
@@ -355,6 +363,6 @@ binds {
 
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute"   "@DEFAULT_AUDIO_SINK@"   "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute"   "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@"   "0.1+";   }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@"   "0.1-";   }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@"   "5%+"; } 
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@"   "5%-"; } 
 }

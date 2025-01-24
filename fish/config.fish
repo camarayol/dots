@@ -49,59 +49,27 @@ add_environment CPATH           "$XDG_LOCAL_HOME/include"
 add_environment LIBRARY_PATH    "$XDG_LOCAL_HOME/lib"
 add_environment LD_LIBRARY_PATH "$XDG_LOCAL_HOME/lib"
 
-## voidlinux
-function xi --description "xbps-install"
-    set -l pkg (xbps-query -Rs '' | grep '^\[-\]' | awk '{print $2}' | fzf -q "$1" -m --preview "xbps-query -RS {1}")
+## archlinux pacman
+function pacmans --description "pacman -S"
+    set -l pkg (begin; pacman -Slq; pacman -Qq; end | sort | uniq -u | fzf -q "$1" -m --preview "pacman -Si {1}")
     if test -n "$pkg"
-        commandline -r "sudo xbps-install $pkg"
+        commandline -r "sudo pacman -S $pkg"
     end
 end
 
-function xr --description "xbps-remove -Ro"
-    set -l pkg (xbps-query -l | awk '{print $2}' | fzf -q "$1" -m --preview "xbps-query -S {1}")
+function pacmanr --description "pacman -Rns"
+    set -l pkg (pacman -Qq | fzf -q "$1" -m --preview "pacman -Qi {1}")
     if test -n "$pkg"
-        commandline -r "sudo xbps-remove -Ro $pkg"
+        commandline -r "sudo pacman -Rns $pkg"
     end
 end
 
-## OpenSUSE
-# function zypperi --description "zypper in --no-recommends"
-#     set -l pkg (zypper --no-refresh se -u | awk -F '|' 'NR>5 {print $2}' | sed 's/ //g' | \
-#                 fzf -q "$1" -m --preview "zypper --no-refresh info {1} | awk 'NR>6'")
-#     if test -n "$pkg"
-#         commandline -r "sudo zypper in --no-recommends $pkg"
-#     end
-# end
-# 
-# function zypperm --description "zypper rm --clean-deps"
-#     set -l pkg (zypper --no-refresh se -i | awk -F '|' 'NR>5 {print $2}' | sed 's/ //g' | \
-#                 fzf -q "$1" -m --preview "zypper --no-refresh info {1} | awk 'NR>6'")
-#     if test -n "$pkg"
-#         commandline -r "sudo zypper rm --clean-deps $pkg"
-#     end
-# end
-
-## archlinux
-# function pacmans --description "pacman -S"
-#     set -l pkg (begin; pacman -Slq; pacman -Qq; end | sort | uniq -u | fzf -q "$1" -m --preview "pacman -Si {1}")
-#     if test -n "$pkg"
-#         commandline -r "sudo pacman -S $pkg"
-#     end
-# end
-
-# function pacmanr --description "pacman -Rns"
-#     set -l pkg (pacman -Qq | fzf -q "$1" -m --preview "pacman -Qi {1}")
-#     if test -n "$pkg"
-#         commandline -r "sudo pacman -Rns $pkg"
-#     end
-# end
-
-# function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
-#     set -l pkg (pacman -Qdtq)
-#     if test -n "$pkg"
-#         sudo pacman -Rns $pkg
-#     end
-# end
+function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
+    set -l pkg (pacman -Qdtq)
+    if test -n "$pkg"
+        sudo pacman -Rns $pkg
+    end
+end
 
 if status is-interactive
     set -U fish_complete_inline 1
@@ -113,17 +81,10 @@ if status is-interactive
     alias lg  lazygit
     alias zj  zellij
 
-    # alias ns  niri-session # archlinux (systemd)
+    alias ns  niri-session
     alias vvi "vim $XDG_CONFIG_HOME/nvim/init.lua"
     alias vrc "vim $XDG_CONFIG_HOME/fish/config.fish"
     alias src "source $XDG_CONFIG_HOME/fish/config.fish"
-
-    # voidlinux
-    alias xq       "xbps-query"
-    alias ns       "dbus-run-session niri" # voidlinux (runit)
-    alias reboot   "loginctl reboot"
-    alias suspend  "loginctl suspend"
-    alias poweroff "loginctl poweroff"
 
     # source command keybindings
     if command -q zoxide
