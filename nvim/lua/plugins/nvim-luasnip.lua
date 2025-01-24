@@ -96,6 +96,7 @@ local snippets = function()
         s("date", t([["2006-01-02 15:04:05"]])),
     })
 
+    -- cpp
     ls.add_snippets("cpp", {
         s("cout", fmt([[std::cout << {} << std::endl;]], { i(0, [["Hello World"]]) })),
 
@@ -128,6 +129,7 @@ local snippets = function()
         )),
     })
 
+    -- rust
     ls.add_snippets("rust", {
         s("main", fmt(
             [[
@@ -182,13 +184,9 @@ local snippets = function()
 end
 
 local function build(params)
-    vim.notify("[luasnip] building ...", vim.log.levels.INFO)
+    Core.info("[luasnip] building ...")
     local ret = vim.system({ "make", "install_jsregexp" }, { cwd = params.path }):wait()
-    if ret.code == 0 then
-        vim.notify("[luasnip] build success!", vim.log.levels.INFO)
-    else
-        vim.notify("[luasnip] build failed!", vim.log.levels.ERROR)
-    end
+    Core.info(ret.code == 0 and "[luasnip] build success!" or "[luasnip] build failed!")
 end
 
 return {

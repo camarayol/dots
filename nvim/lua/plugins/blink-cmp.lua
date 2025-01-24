@@ -1,16 +1,13 @@
 local function build(params)
-    vim.notify("[blink.cmp] building ...", vim.log.levels.INFO)
+    Core.info("[blink.cmp] building ...")
     local ret = vim.system({ "cargo", "build", "--release" }, { cwd = params.path }):wait()
-    if ret.code == 0 then
-        vim.notify("[blink.cmp] build success!", vim.log.levels.INFO)
-    else
-        vim.notify("[blink.cmp] build failed!", vim.log.levels.ERROR)
-    end
+    Core.info(ret.code == 0 and "[blink.cmp] build success!" or "[blink.cmp] build failed!")
 end
 
 -- https://cmp.saghen.dev/configuration/reference.html
 return {
     source = "https://github.com/saghen/blink.cmp",
+    depends = { "https://github.com/L3MON4D3/LuaSnip" },
     hooks = { post_install = build, post_checkout = build },
     config = function()
         Core.linkHighlights({
@@ -19,11 +16,11 @@ return {
 
         require("blink.cmp").setup {
             completion = {
-                list = { selection = { preselect = true, auto_insert = false } },
+                list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == "cmdline" end } },
                 menu = {
                     min_width = 30,
                     max_height = 20,
-                    border = "single",
+                    border = "rounded",
                     draw = {
                         treesitter = { "lsp" },
                         columns = { { "kind_icon", gap = 1, "label", "label_description", "kind" } }
@@ -38,14 +35,20 @@ return {
                         min_width  = 30,
                         max_width  = 80,
                         max_height = 60,
-                        border     = "single"
+                        border     = "rounded"
                     }
                 },
                 ghost_text = { enabled = true },
             },
-            signature = { enabled = true, window = { border = "single" } },
+            signature = { enabled = true, window = { border = "rounded" } },
             keymap = {
                 preset = "none",
+                cmdline = {
+                    -- <Esc> fallback will automatic execution commands.
+                    ["<Tab>"] = { "accept", "fallback" },
+                    ["<M-j>"] = { "select_next", "fallback" },
+                    ["<M-k>"] = { "select_prev", "fallback" },
+                },
                 ["<Esc>"] = { "hide", "fallback" },
                 ["<Tab>"] = { function(cmp) return cmp.snippet_active() and cmp.accept() or cmp.select_and_accept() end, "fallback" },
                 ["<M-j>"] = { "select_next", "fallback" },
@@ -57,7 +60,10 @@ return {
             },
             snippets = { preset = "luasnip" },
             appearance = { nerd_font_variant = "mono" },
-            sources = { default = { "lsp", "path", "snippets", "buffer" } },
+            sources = {
+                default = { "path", "buffer", "lsp", "snippets" },
+                providers = { path = { opts = { show_hidden_files_by_default = true } } }
+            },
         }
     end
 }
