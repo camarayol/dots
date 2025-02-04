@@ -85,3 +85,7 @@ end)
 Core.createAutoCommand("FileType", "go", function()
     vim.opt.formatoptions:prepend("or")
 end)
+
+Core.createAutoCommand("FileType", "yaml", function ()
+    vim.opt.shiftwidth = 2
+end)
