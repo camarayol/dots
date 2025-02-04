@@ -1,0 +1,12 @@
+# $HOME/.config/systemd/user/glance.service
+
+[Unit]
+Description=glance
+After=graphical-session.target
+
+[Service]
+ExecStart=glance
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

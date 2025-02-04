@@ -22,6 +22,7 @@ return {
         ['./tools/ncmpcpp']    = '~/.config/ncmpcpp',
         ['./tools/zellij']     = '~/.config/zellij',
         ['./tools/mangohud']   = '~/.config/mangohud',
+        ['./tools/glance']     = '~/.config/glance',
     },
 
     -- automaticlly create non-existent directory

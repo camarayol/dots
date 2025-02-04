@@ -3,6 +3,9 @@ tools/mpd/log
 tools/mpd/pid
 tools/mpd/state
 tools/ncmpcpp/error.log
+tools/glance/glance
+tools/glance/glance.yml
+
 fcitx5/rime/sync
 fcitx5/rime/build
 fcitx5/rime/user.yaml
