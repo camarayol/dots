@@ -96,5 +96,9 @@ if status is-interactive
         set -gx FZF_COMPLETION_TRIGGER "~~"
         set -gx FZF_DEFAULT_OPTS "--reverse --bind 'alt-j:down' --bind 'alt-k:up' --bind 'tab:accept' --bind 'ctrl-j:preview-down' --bind 'ctrl-k:preview-up'"
     end
+
+    if test (tty) = "/dev/tty1" && test -z "$DISPLAY_SESSION_TYPE"
+        niri-session
+    end
 end
 
