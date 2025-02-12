@@ -14,6 +14,15 @@ Core.setKeyMaps = function(keymaps)
     end
 end
 
+Core.setCommentStrings = function(commentstrings)
+    for _, opts in pairs(commentstrings) do
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = opts.pattern,
+            callback = function() vim.bo.commentstring = opts.cs end
+        })
+    end
+end
+
 Core.createAutoCommand = function(event, pattern, callback)
     vim.api.nvim_create_autocmd(event, { pattern = pattern, callback = callback })
 end

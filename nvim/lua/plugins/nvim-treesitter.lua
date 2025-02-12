@@ -3,14 +3,7 @@ return {
     hooks = { post_install = function() vim.cmd("TSUpdate") end },
     config = function()
         require("nvim-treesitter.configs").setup {
-            ensure_installed = {
-                "lua", "vimdoc", "query",
-                "rust",
-                "cpp", "doxygen",
-                "go", "printf",
-                "bash", "cmake", "yaml", "json5",
-                "markdown", "markdown_inline",
-            },
+            ensure_installed = "all",
             sync_install = false,
             highlight = {
                 enable = true,

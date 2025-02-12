@@ -2,37 +2,38 @@ local Core = require("core")
 
 local options = {
     opt = {
-        fileencodings  = "UTF-8,GBK,GB2312", -- file encoding
-        mouse          = "a",                -- mouse support
-        number         = true,               -- show line number
-        relativenumber = true,               -- show relative line number
-        showmode       = false,              -- do not show mode on the last line(NORMAL INSERT ...)
-        sidescrolloff  = 8,                  --
-        list           = true,               -- show 'space' 'tab' by ${listchars}
+        fileencodings  = "UTF-8,GBK,GB2312",
+        mouse          = "a",
+        number         = true,
+        relativenumber = true,
+        showmode       = false,
+        sidescrolloff  = 8,
+        list           = true, -- :h listchars
         listchars      = {
-            space = ' ',                     -- space
-            tab   = '> ',                    -- tab
-            trail = '·',                     -- trailing space
+            space = ' ',
+            tab   = '> ',
+            trail = '·',
         },
-        textwidth      = 160,                --
-        showtabline    = 0,                  --
-        laststatus     = 0,                  --
-        timeoutlen     = 200,                -- <leader> timeout
-        tabstop        = 4,                  -- insert 4 spaces for a tab.
-        shiftwidth     = 4,                  -- the number of spaces insertede for each indentation.
-        expandtab      = true,               -- convert tabs to spaces.
-        smartindent    = true,               -- smarter indenting.
-        cinkeys        = ":,0#,!<Tab>",      -- cinkeys
-        termguicolors  = true,               -- set term gui colors.
-        cursorline     = true,               -- highlight the current line.
-        writebackup    = false,              --
-        signcolumn     = "yes",              -- always show the sign column.
-        hlsearch       = true,               --
-        incsearch      = true,               --
+        textwidth      = 160,
+        showtabline    = 0,
+        laststatus     = 0,
+        timeoutlen     = 200,
+        tabstop        = 4,
+        shiftwidth     = 4,
+        expandtab      = true,
+        smartindent    = true,
+        cinkeys        = ":,0#,!<Tab>", -- :h cinkeys-format
+        termguicolors  = true,
+        cursorline     = true,
+        writebackup    = false,
+        signcolumn     = "yes",
+        hlsearch       = true,
+        incsearch      = true,
         clipboard      = "unnamedplus",
+        -- commentstring  = '# %s' -- default commentstring
     },
     g = {
-        fileencodings           = "UTF-8,GBK,GB2312", -- file encoding
+        fileencodings           = "UTF-8,GBK,GB2312",
         mapleader               = " ",
         maplocalleader          = " ",
         loaded_netrw            = 1,
@@ -42,9 +43,6 @@ local options = {
         loaded_python3_provider = 0,
         loaded_node_provider    = 0,
     },
-    b = {
-        did_ftplugin = 0,
-    }
 }
 
 if vim.env.TMUX then
@@ -86,6 +84,6 @@ Core.createAutoCommand("FileType", "go", function()
     vim.opt.formatoptions:prepend("or")
 end)
 
-Core.createAutoCommand("FileType", "yaml", function ()
-    vim.opt.shiftwidth = 2
+Core.createAutoCommand("FileType", "yaml", function()
+    vim.bo.shiftwidth = 2
 end)
