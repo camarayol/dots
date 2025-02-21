@@ -61,7 +61,7 @@ return {
             snippets = { preset = "luasnip" },
             appearance = { nerd_font_variant = "mono" },
             sources = {
-                default = { "path", "buffer", "lsp", "snippets" },
+                default = { "snippets", "path", "buffer", "lsp" },
                 providers = { path = { opts = { show_hidden_files_by_default = true } } }
             },
         }

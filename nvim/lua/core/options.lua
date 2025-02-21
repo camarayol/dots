@@ -87,3 +87,9 @@ end)
 Core.createAutoCommand("FileType", "yaml", function()
     vim.bo.shiftwidth = 2
 end)
+
+Core.createAutoCommand("InsertLeave", "*", function()
+    if tonumber(vim.fn.system("fcitx5-remote")) == 2 then
+        vim.fn.system("fcitx5-remote -c")
+    end
+end)
