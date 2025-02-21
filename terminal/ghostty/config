@@ -7,7 +7,7 @@ font-codepoint-map = U+4E00-U+9FFF="LXGW WenKai Mono"
 resize-overlay = never
 window-decoration = false
 
-cursor-style = underline
+cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 

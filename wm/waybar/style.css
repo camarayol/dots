@@ -23,17 +23,17 @@ window#waybar {
 }
 
 #custom-launcher {
-    color: #6a92d7;
+    color: #6A92D7;
     margin: 0px 10px 0px 10px;
 }
 
 #cpu {
-    color: #fb958b;
+    color: #FB958B;
     margin: 0px 10px 0px 0px;
 }
 
 #memory {
-    color: #ebcb8b;
+    color: #EBCB8B;
     margin: 0px 10px 0px 0px;
 }
 
@@ -50,11 +50,11 @@ window#waybar {
 }
 
 #workspaces button.active {
-    color: #6a92d7;
+    color: #6A92D7;
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+    background-color: #EB4D4B;
 }
 
 /* waybar center */
@@ -63,7 +63,7 @@ window#waybar {
 }
 
 #custom-clock {
-    color: #ffffff;
+    color: #FFFFFF;
     margin: 0px 20px 0px 0px;
 }
 
@@ -72,7 +72,7 @@ window#waybar {
 }
 
 #mpd.playing {
-    color: #69a794;
+    color: #69A794;
 }
 
 #mpd.paused {
@@ -85,7 +85,7 @@ window#waybar {
 }
 
 #keyboard-state {
-    color: #97e1ad;
+    color: #97E1AD;
     margin: 0px 10px 0px 0px;
 }
 
@@ -102,22 +102,22 @@ window#waybar {
 }
 
 #custom-screenshot {
-    color: #fb958b;
+    color: #FB958B;
     margin: 0px 10px 0px 10px;
 }
 
 #pulseaudio {
-    color: #7d9bba;
+    color: #7D9BBA;
     margin: 0px 10px 0px 0px;
 }
 
 #bluetooth {
-    color: #707d9d;
+    color: #707D9D;
     margin: 0px 10px 0px 0px;
 }
 
 #bluetooth.disconnected {
-    color: #f53c3c;
+    color: #F53C3C;
 }
 
 #network {
@@ -125,6 +125,18 @@ window#waybar {
 }
 
 #network.disconnected {
+    color: #BA5B49;
+}
+
+#battery {
+    color: #98C379;
+}
+
+#battery.warning {
+    color: #EBCB8B;
+}
+
+#battery.critical {
     color: #BA5B49;
 }
 

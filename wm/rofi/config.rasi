@@ -16,6 +16,8 @@ configuration {
     kb-element-prev:            "";
     kb-mode-next:               "Tab";
     kb-mode-previous:           "Shift-Tab";
+    kb-accept-entry:            "Return,KP_Enter";
+    kb-remove-to-eol:           "";
 }
 
 * {

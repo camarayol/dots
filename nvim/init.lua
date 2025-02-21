@@ -28,5 +28,5 @@ require("mini-deps").later_add {
     require("plugins.nvim-surround"),
     require("plugins.vim-visual-multi"),
     require("plugins.which-key"),
-    require("plugins.render-markdown")
+    require("plugins.render-markdown"),
 }

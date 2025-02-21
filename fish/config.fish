@@ -71,19 +71,22 @@ function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
     end
 end
 
+function backlight --description "set backlight"
+    echo $argv[1] | sudo tee /sys/class/backlight/amdgpu_bl1/brightness
+end
+
 if status is-interactive
     set -U fish_complete_inline 1
 
     # alias
     alias x   extract # functions/extract.fish
-    alias v   nvim
-    alias vim nvim
+    alias nv  nvim
     alias lg  lazygit
     alias zj  zellij
 
     alias ns  niri-session
-    alias vvi "vim $XDG_CONFIG_HOME/nvim/init.lua"
-    alias vrc "vim $XDG_CONFIG_HOME/fish/config.fish"
+    alias vvi "nvim $XDG_CONFIG_HOME/nvim/init.lua"
+    alias vrc "nvim $XDG_CONFIG_HOME/fish/config.fish"
     alias src "source $XDG_CONFIG_HOME/fish/config.fish"
 
     # source command keybindings

@@ -24,6 +24,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
+        "battery",
         "custom/power"
     ],
 
@@ -142,6 +143,15 @@
         "format-ethernet": " ",
         "format-disconnected": " ",
         "tooltip-format": "{ipaddr}\n{gwaddr}\n󰅧 {bandwidthUpBytes} 󰅢 {bandwidthDownBytes}"
+    },
+
+    "battery": {
+        "interval": 60,
+        "bat": "BAT0",
+        "adapter": "ADP0",
+        "format": "{capacity}%",
+        "states": { "warning": 60, "critical": 30 },
+        "tooltip-format": "Power: {power}W\nTime: {time}\nHealth: {health}%"
     },
 
     "custom/power": {

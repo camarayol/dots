@@ -25,7 +25,7 @@ input {
         tap
         // dwt
         // dwtp
-        natural-scroll
+        // natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "two-finger"
@@ -280,7 +280,7 @@ window-rule {
 
 binds {
     Mod+F1      { screenshot; }
-    Mod+Grave   { spawn "foot"; }
+    Mod+Grave   { spawn "ghostty"; }
     Mod+Space   { spawn "fish" "-c" "rofi -show drun"; }
     Mod+V       { spawn "fish" "-c" "cliphist list | rofi -dmenu -now-show-icons | cliphist decode | wl-copy"; }
     Ctrl+Alt+W  { spawn "fish" "-c" "pidof waybar && killall waybar || waybar"; }
