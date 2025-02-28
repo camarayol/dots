@@ -2,6 +2,8 @@ return {
     source = "https://github.com/nvimdev/lspsaga.nvim",
     depends = { "https://github.com/nvim-tree/nvim-web-devicons" },
     config = function()
+        vim.diagnostic.config { severity_sort = true }
+
         Core.linkHighlights {
             ["SagaVirtLine"]  = "IndentBlanklineChar",
             ["SagaInCurrent"] = "IndentBlanklineContextChar"
