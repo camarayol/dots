@@ -19,7 +19,7 @@ udiskie &
 wl-paste --watch cliphist -max-items 100 store &
 
 # if don't sleep fcitx5 cannot display the candidate box in xwayland applications. (why?)
-# /etc/xdg/autostart/org.fcitx.Fcitx5.desktop
+# remove /etc/xdg/autostart/org.fcitx.Fcitx5.desktop and /usr/share/dbus-1/services/org.fcitx.Fcitx5.service
 
-# sleep 2 && fcitx5 --replace -d
+sleep 2 && fcitx5 --replace -d
 
