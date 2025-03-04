@@ -1,6 +1,7 @@
 # options
 font-size = 18
-font-family = "monospace"
+font-family = FreeMono
+font-style = Oblique
 font-feature = -calt, -liga, -dlig
 font-codepoint-map = U+4E00-U+9FFF="LXGW WenKai Mono"
 
