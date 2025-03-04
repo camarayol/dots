@@ -27,6 +27,52 @@ Core.createAutoCommand = function(event, pattern, callback)
     vim.api.nvim_create_autocmd(event, { pattern = pattern, callback = callback })
 end
 
+Core.floatTerminalOpts = {
+    buf = nil,
+    win = nil,
+    config = function()
+        local width, height = math.floor(vim.o.columns * 0.7), math.floor(vim.o.lines * 0.7)
+        local row, col = math.floor((vim.o.lines - height) / 2), math.floor((vim.o.columns - width) / 2)
+        return {
+            relative = "editor",
+            width = width,
+            height = height,
+            row = row,
+            col = col,
+            style = "minimal",
+            border = "rounded",
+        }
+    end
+}
+
+Core.toggleFloatTerminal = function(commands)
+    local function showFloatTerminal()
+        Core.floatTerminalOpts.win =
+            vim.api.nvim_open_win(Core.floatTerminalOpts.buf, true, Core.floatTerminalOpts.config())
+        vim.api.nvim_command("startinsert")
+
+        if commands then vim.defer_fn(function() vim.api.nvim_feedkeys(commands, "n", false) end, 100) end
+    end
+
+    if Core.floatTerminalOpts.win and vim.api.nvim_win_is_valid(Core.floatTerminalOpts.win) then
+        vim.api.nvim_win_hide(Core.floatTerminalOpts.win)
+        Core.floatTerminalOpts.win = nil
+        return
+    end
+
+    if Core.floatTerminalOpts.buf then return showFloatTerminal() end
+
+    Core.floatTerminalOpts.buf = vim.api.nvim_create_buf(false, true)
+    showFloatTerminal()
+    vim.fn.termopen(vim.o.shell, {
+        on_exit = function()
+            vim.api.nvim_win_close(Core.floatTerminalOpts.win, true)
+            Core.floatTerminalOpts.buf = nil
+            Core.floatTerminalOpts.win = nil
+        end
+    })
+end
+
 local hlkind = { ui = "gui", fg = "guifg", bg = "guibg" }
 Core.setHighlights = function(highlights)
     for group, args in pairs(highlights) do
@@ -64,5 +110,6 @@ Core.wsl = function()
 end
 
 Core.info = function(msg) vim.notify(msg, vim.log.levels.INFO) end
+Core.warn = function(msg) vim.notify(msg, vim.log.levels.WARN) end
 
 return Core

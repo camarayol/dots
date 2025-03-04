@@ -197,6 +197,6 @@ return {
             update_events = "TextChanged,TextChangedI",
             delete_check_events = "TextChanged",
         }
-        vim.defer_fn(snippets, 2)
+        vim.defer_fn(snippets, 100)
     end
 }

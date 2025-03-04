@@ -12,7 +12,6 @@ return {
         Core.setKeyMaps {
             { "n", "K",          lspsaga("hover_doc"),                  { desc = "[lspsaga] Lsp hover"                             } },
             { "n", "gd",         lspsaga("goto_definition"),            { desc = "[lspsaga] Lsp goto_definition"                   } },
-            { "n", "<leader>t",  lspsaga("term_toggle"),                { desc = "[lspsaga] Float terminal"                        } },
             { "n", "<leader>lf", lspsaga("finder"),                     { desc = "[lspsaga] Finder"                                } },
             { "n", "<leader>rn", lspsaga("rename"),                     { desc = "[lspsaga] Rename"                                } },
             { "n", "<leader>la", lspsaga("code_action"),                { desc = "[lspsaga] Code Action"                           } },
@@ -200,10 +199,6 @@ return {
             beacon = {
                 enable = true,
                 frequency = 7,
-            },
-            floaterm = {
-                height = 0.7,
-                width = 0.7,
             },
         }
     end
