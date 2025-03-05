@@ -45,13 +45,13 @@ Core.floatTerminalOpts = {
     end
 }
 
-Core.toggleFloatTerminal = function(commands)
-    local function showFloatTerminal()
+Core.toggleFloatTerminal = function(callback)
+    local function showFloatWindow()
         Core.floatTerminalOpts.win =
             vim.api.nvim_open_win(Core.floatTerminalOpts.buf, true, Core.floatTerminalOpts.config())
         vim.api.nvim_command("startinsert")
 
-        if commands then vim.defer_fn(function() vim.api.nvim_feedkeys(commands, "n", false) end, 100) end
+        if type(callback) == "function" then vim.defer_fn(callback, 100) end
     end
 
     if Core.floatTerminalOpts.win and vim.api.nvim_win_is_valid(Core.floatTerminalOpts.win) then
@@ -60,11 +60,15 @@ Core.toggleFloatTerminal = function(commands)
         return
     end
 
-    if Core.floatTerminalOpts.buf then return showFloatTerminal() end
+    if Core.floatTerminalOpts.buf and vim.api.nvim_buf_is_valid(Core.floatTerminalOpts.buf) then
+        return showFloatWindow()
+    end
 
+    local filePath = vim.fn.expand("%:p:h")
     Core.floatTerminalOpts.buf = vim.api.nvim_create_buf(false, true)
-    showFloatTerminal()
+    showFloatWindow()
     vim.fn.termopen(vim.o.shell, {
+        cwd = filePath,
         on_exit = function()
             vim.api.nvim_win_close(Core.floatTerminalOpts.win, true)
             Core.floatTerminalOpts.buf = nil

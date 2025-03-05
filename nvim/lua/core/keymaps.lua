@@ -50,11 +50,12 @@ end
 
 local function codeCompile()
     local commands = {
-        ["cpp"]  = "make",
-        ["rust"] = "cargo build",
+        ["cpp"]  = "make\n",
+        ["rust"] = "cargo build\n",
     }
-    if commands[vim.bo.filetype] then
-        Core.toggleFloatTerminal(commands[vim.bo.filetype] .. '\n')
+    local command = commands[vim.bo.filetype]
+    if command then
+        Core.toggleFloatTerminal(function() vim.api.nvim_feedkeys(command, "n", false) end)
     else
         Core.warn("Compile command is empty.")
     end
