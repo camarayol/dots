@@ -64,6 +64,10 @@ function pacmanr --description "pacman -Rns"
     end
 end
 
+function pacmanu --description "pacman -Syu"
+    sudo pacman -Syu
+end
+
 function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
     set -l pkg (pacman -Qdtq)
     if test -n "$pkg"
