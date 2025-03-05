@@ -75,7 +75,12 @@ end
 
 Core.setOptions(options)
 
--- highlight copy content
+Core.setCommentStrings {
+    { cs = "# %s",     pattern = { "ini" } },
+    { cs = "/* %s */", pattern = { "css" } },
+    { cs = "// %s",    pattern = { "cpp", "rust", "kdl", "rasi", "jsonc" } },
+}
+
 Core.createAutoCommand("TextYankPost", nil, function()
     vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
 end)
