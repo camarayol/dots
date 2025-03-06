@@ -22,20 +22,17 @@ schema:
 # states: 方案选单显示的名称。可以注释掉，仍可以通过快捷键切换。
 # abbrev: 默认的缩写取 states 的第一个字符，abbrev 可自定义一个字符
 switches:
-  - name: ascii_mode
-    states: [ 中, Ａ ]
+  # - name: ascii_mode
+    # states: [ 中, Ａ ]
   - name: ascii_punct  # 中英标点
     states: [ ¥, $ ]
   - name: traditionalization
     states: [ 简, 繁 ]
-  - name: emoji
-    states: [ 💀, 😄 ]
-    reset: 1
-  - name: full_shape
-    states: [ 半角, 全角 ]
-  - name: search_single_char  # search.lua 的功能开关，辅码查词时是否单字优先
-    abbrev: [词, 单]
-    states: [正常, 单字]
+  # - name: full_shape
+    # states: [ 半角, 全角 ]
+  # - name: search_single_char  # search.lua 的功能开关，辅码查词时是否单字优先
+    # abbrev: [词, 单]
+    # states: [正常, 单字]
 
 
 # 输入引擎
@@ -77,7 +74,6 @@ engine:
     - lua_filter@pin_cand_filter                    # 置顶候选项（顺序要求：置顶候选项 > Emoji > 简繁切换）
     - lua_filter@long_word_filter                   # 长词优先（顺序要求：长词优先 > Emoji）
     - lua_filter@reduce_english_filter              # 降低部分英语单词在候选项的位置
-    - simplifier@emoji                              # Emoji
     - simplifier@traditionalize                     # 简繁切换
     - lua_filter@search@radical_pinyin              # 部件拆字辅码
     - uniquifier                                    # 去重
@@ -336,13 +332,6 @@ custom_phrase:
   enable_completion: false  # 补全提示
   enable_sentence: false    # 禁止造句
   initial_quality: 99       # custom_phrase 的权重应该比 pinyin 和 melt_eng 大
-
-
-# Emoji
-emoji:
-  option_name: emoji
-  opencc_config: emoji.json
-  inherit_comment: false  # 在 corrector.lua 及反查中，emoji 返回空注释
 
 
 # 简繁切换

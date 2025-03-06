@@ -28,11 +28,10 @@ switcher:
   save_options:  # 开关记忆（方案中的 switches），从方案选单（而非快捷键）切换时会记住的选项，需要记忆的开关不能设定 reset
     - ascii_punct
     - traditionalization
-    - emoji
-    - full_shape
-    - search_single_char
-  fold_options: true            # 呼出时是否折叠，多方案时建议折叠 true ，一个方案建议展开 false
-  abbreviate_options: true      # 折叠时是否缩写选项
+    # - full_shape
+    # - search_single_char
+  fold_options: false            # 呼出时是否折叠，多方案时建议折叠 true ，一个方案建议展开 false
+  abbreviate_options: false      # 折叠时是否缩写选项
   option_list_separator: ' / '  # 折叠时的选项分隔符
 
 
@@ -170,8 +169,8 @@ key_binder:
     # - { when: has_menu, accept: Tab, send: Page_Down }
 
     # Option/Alt + ←/→ 切换光标至下/上一个拼音
-    - { when: composing, accept: Alt+Left, send: Shift+Left }
-    - { when: composing, accept: Alt+Right, send: Shift+Right }
+    # - { when: composing, accept: Alt+Left, send: Shift+Left }
+    # - { when: composing, accept: Alt+Right, send: Shift+Right }
 
     # 翻页 - =
     - { when: has_menu, accept: minus, send: Page_Up }
@@ -191,10 +190,10 @@ key_binder:
     # - { when: always, select: .next, accept: Control+Shift+exclam }             # 在最近的两个方案之间切换
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # 切换中英
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # 切换中英
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+3 }              # 切换中英标点
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+numbersign }     # 切换中英标点
-    - { when: always, toggle: traditionalization, accept: Control+Shift+4 }       # 切换简繁
-    - { when: always, toggle: traditionalization, accept: Control+Shift+dollar }  # 切换简繁
+    # - { when: always, toggle: ascii_punct, accept: Control+Shift+3 }            # 切换中英标点
+    # - { when: always, toggle: ascii_punct, accept: Control+Shift+numbersign }   # 切换中英标点
+    # - { when: always, toggle: traditionalization, accept: Control+Shift+4 }     # 切换简繁
+    # - { when: always, toggle: traditionalization, accept: Control+Shift+dollar }# 切换简繁
     # - { when: always, toggle: full_shape, accept: Control+Shift+5 }             # 切换全半角
     # - { when: always, toggle: full_shape, accept: Control+Shift+percent }       # 切换全半角
 
@@ -206,7 +205,7 @@ key_binder:
     # - { when: composing, accept: Control+a, send: Home }
     # - { when: composing, accept: Control+e, send: End }
     # - { when: composing, accept: Control+d, send: Delete }
-    - { when: composing, accept: Control+k, send: Shift+Delete }
+    # - { when: composing, accept: Control+k, send: Shift+Delete }
     # - { when: composing, accept: Control+h, send: BackSpace }
     # - { when: composing, accept: Control+g, send: Escape }
     # - { when: composing, accept: Control+bracketleft, send: Escape }
