@@ -1,8 +1,10 @@
 local lspconfig = function()
     local lspconfig = require("lspconfig")
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     -- gopls
     lspconfig.gopls.setup {
+        capabilities = capabilities,
         settings = {
             gopls = {
                 gofumpt = true,
@@ -14,6 +16,7 @@ local lspconfig = function()
 
     -- clangd
     lspconfig.clangd.setup {
+        capabilities = capabilities,
         cmd = { "clangd", "--clang-tidy" },
         init_options = {
             clangdFileStatus = true,
@@ -28,6 +31,7 @@ local lspconfig = function()
     -- rust-analyzer
     -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/rust_analyzer/
     lspconfig.rust_analyzer.setup {
+        capabilities = capabilities,
         root_dir = function(fname)
             local util = require("lspconfig.util")
             local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)
@@ -65,6 +69,7 @@ local lspconfig = function()
 
     -- lua-language-server
     lspconfig.lua_ls.setup {
+        capabilities = capabilities,
         settings = {
             Lua = {
                 semantic = { enable = false },
@@ -81,6 +86,7 @@ local lspconfig = function()
 
     -- jsonls
     lspconfig.jsonls.setup {
+        capabilities = capabilities,
         cmd = { "vscode-json-language-server", "--stdio" },
         filetypes = { "json" },
         init_options = { provideFormatter = true },
@@ -88,10 +94,10 @@ local lspconfig = function()
     }
 
     -- cmake-language-server
-    lspconfig.cmake.setup {}
+    lspconfig.cmake.setup { capabilities = capabilities }
 
     -- bash-language-server
-    lspconfig.bashls.setup {}
+    lspconfig.bashls.setup { capabilities = capabilities }
 end
 
 return {

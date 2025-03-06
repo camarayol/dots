@@ -14,7 +14,15 @@ return {
 
         require("blink.cmp").setup {
             completion = {
-                list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == "cmdline" end } },
+                -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == "cmdline" end } },
+                list = { selection = { preselect = true, auto_insert = false } },
+                accept = {
+                    auto_brackets = {
+                        enabled = true,
+                        -- https://github.com/Saghen/blink.cmp/issues/359
+                        force_allow_filetypes = { "rust" },
+                    }
+                },
                 menu = {
                     min_width = 30,
                     max_height = 20,
@@ -36,7 +44,7 @@ return {
                         border     = "rounded"
                     }
                 },
-                ghost_text = { enabled = true },
+                ghost_text = { enabled = false },
             },
             signature = { enabled = true, window = { border = "rounded" } },
             keymap = {
@@ -64,7 +72,7 @@ return {
             snippets = { preset = "luasnip" },
             appearance = { nerd_font_variant = "mono" },
             sources = {
-                default = { "snippets", "path", "buffer", "lsp" },
+                default = { "snippets", "path", "buffer", "lsp", "cmdline" },
                 providers = { path = { opts = { show_hidden_files_by_default = true } } }
             },
         }
