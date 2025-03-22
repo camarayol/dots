@@ -105,12 +105,12 @@ screenshot-path "~/pictures/screenshots/%Y-%m-%d.%H.%M.%S.png"
 
 environment {
     DISPLAY        ":0"     // xwayland-satellite
-    GLFW_IM_MODULE "ibus"
-    QT_IM_MODULE   "fcitx"
-    GTK_IM_MODULE  "fcitx"
-    SDL_IM_MODULE  "fcitx"
+    // GLFW_IM_MODULE "ibus"
+    // QT_IM_MODULE   "fcitx"
+    // GTK_IM_MODULE  "fcitx"
+    // SDL_IM_MODULE  "fcitx"
     XMODIFIERS     "@im=fcitx"
-    INPUT_METHOD   "fcitx"
+    // INPUT_METHOD   "fcitx"
 }
 
 cursor {
@@ -132,16 +132,31 @@ window-rule {
     clip-to-geometry true
     geometry-corner-radius 8
 
-    match is-active=true
-    opacity 0.95
-    draw-border-with-background false
+    // match is-active=true
+    // opacity 0.95
+    // draw-border-with-background false
 }
 
 window-rule {
     match app-id="io.missioncenter.MissionCenter"
     open-floating true
-    default-column-width { fixed 1280; }
-    default-window-height { fixed 960; }
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.6; }
+}
+
+window-rule {
+    match app-id="swayimg"
+    open-floating true
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.6; }
+}
+
+
+window-rule {
+    match app-id="v2rayN"
+    open-floating true
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.6; }
 }
 
 binds {
@@ -188,8 +203,8 @@ binds {
     Mod+Shift+J     { move-window-down-or-to-workspace-down; }
     Mod+Shift+K     { move-window-up-or-to-workspace-up;     }
 
-    Mod+WheelScrollUp        { focus-column-left;  }
-    Mod+WheelScrollDown      { focus-column-right; }
+    Mod+WheelScrollUp        { focus-window-or-workspace-up;  }
+    Mod+WheelScrollDown      { focus-window-or-workspace-down; }
     Mod+Ctrl+WheelScrollUp   { move-column-left;   }
     Mod+Ctrl+WheelScrollDown { move-column-right;  }
 

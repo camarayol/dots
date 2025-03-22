@@ -44,7 +44,7 @@ Core.setHighlights {
     ["CursorLine"]             = { bg = C.DGray },
     ["NormalFloat"]            = { bg = C.None  },
     ["LineNr"]                 = { fg = C.Gray  },
-    ["Normal"]                 = { fg = C.LGray, bg = C.None },
+    ["Normal"]                 = { fg = C.LGray, bg = C.Background },
 
     ["PmenuSbar"]              = { bg = C.DGray },
     ["PmenuThumb"]             = { bg = C.LGray },
@@ -102,11 +102,6 @@ Core.linkHighlights {
     -- syntax
     ["luaFunc"]             = "Function",
     ["fishVariable"]        = "Identifier",
-
-    -- unused
-    -- ["zshVariable"]         = "Identifier",
-    -- ["zshOperator"]         = "Operator",
-    -- ["zshKSHFunction"]      = "Function",
 }
 
 Core.clearHighlights {

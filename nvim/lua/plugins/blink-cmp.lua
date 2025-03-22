@@ -15,7 +15,7 @@ return {
         require("blink.cmp").setup {
             completion = {
                 -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == "cmdline" end } },
-                list = { selection = { preselect = true, auto_insert = false } },
+                list = { selection = { preselect = true, auto_insert = true } },
                 accept = {
                     auto_brackets = {
                         enabled = true,
@@ -72,7 +72,7 @@ return {
             snippets = { preset = "luasnip" },
             appearance = { nerd_font_variant = "mono" },
             sources = {
-                default = { "snippets", "path", "buffer", "lsp", "cmdline" },
+                default = { "snippets", "path", "buffer", "lsp" },
                 providers = { path = { opts = { show_hidden_files_by_default = true } } }
             },
         }

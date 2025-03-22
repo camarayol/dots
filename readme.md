@@ -14,6 +14,31 @@
 - wallpaper: wpaperd
 ```
 
+## automatic login
+
+```sh
+sudo systemctl edit getty@tty1.service
+
+    [Service]
+    ExecStart=
+    ExecStart=-/usr/bin/agetty -o '-p -f -- \\u' --noclear --autologin ${username} %I $TERM
+
+
+sudo vim ~/.config/fish/config.fish
+
+    if test (tty) = "/dev/tty1" && test -z "$DISPLAY_SESSION_TYPE"
+        niri-session
+    end
+```
+
+## archlinux packages backup
+
+```sh
+pacman -Qqen > packages.txt
+
+sudo pacman -S --needed - < packages.txt
+```
+
 ## music player
 
 ```sh
@@ -89,10 +114,30 @@ GRUB_CMDLINE_LINUX_DEFAULT="... amdgpu.ppfeaturemask=0xfff7ffff"
 grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
-## archlinux packages backup
+## xwayland
 
 ```sh
-pacman -Qqen > packages.txt
+sudo pacman -S xwayland-satellite
 
-sudo pacman -S --needed - < packages.txt
+DISPLAY=":0"
+systemctl --user enable --now xwayland-satellite.service
 ```
+
+## record terminal
+
+- install `asciinema` and `agg`
+
+    ```sh
+    git clone https://github.com/asciinema/asciinema.git && cd asciinema
+    cargo build --release
+
+    git clone https://github.com/asciinema/agg.git && cd agg
+    cargo build --release
+    ```
+
+- usage
+
+    ```sh
+    asciinema rec demo.cast
+    agg demo.cast demo.git
+    ```
