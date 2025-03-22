@@ -19,7 +19,7 @@ function fish_right_prompt
     if command -sq git
         set commit (command git rev-parse HEAD 2>/dev/null | string sub -l 7)
     end
-    echo -n (set_color brblack) $commit (date "+%H:%M")(set_color normal)
+    echo -n (set_color $fish_color_autosuggestion) $commit (date "+%H:%M")(set_color normal)
 end
 
 # keybinds

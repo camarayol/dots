@@ -110,7 +110,7 @@ Core.compile_commands = {
 Core.codeCompile = function()
     local command = Core.compile_commands[vim.bo.filetype]
     if command then
-        Core.toggleFloatTerminal(function() vim.api.nvim_feedkeys(command, "n", false) end)
+        Core.toggleFloatTerminal(function() vim.api.nvim_feedkeys(command, "t", false) end)
     else
         Core.warn("Compile command is empty.")
     end
