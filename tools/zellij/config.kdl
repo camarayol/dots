@@ -17,16 +17,17 @@ themes {
 theme "nord"
 simplified_ui false
 pane_frames true
+show_startup_tips false
 support_kitty_keyboard_protocol false
 
 keybinds clear-defaults=true {
     // https://zellij.dev/documentation/keybindings-shared.html
     shared_among "normal" {
-        bind "Alt Tab" { ToggleTab; }
-        bind "Alt `"   { SwitchToMode "Session"; }
-        bind "Alt t"   { SwitchToMode "Tab";     }
-        bind "Alt p"   { SwitchToMode "Pane";    }
+        bind "Alt `"   { SwitchToMode "Tab";     }
         bind "Ctrl l"  { SwitchToMode "Locked";  }
+        // bind "Alt Tab" { ToggleTab; }
+        // bind "Alt `"   { SwitchToMode "Session"; }
+        bind "Alt p"   { SwitchToMode "Pane";    }
     }
     shared_among "locked" {
         bind "Ctrl l" { SwitchToMode "Normal"; }
@@ -63,19 +64,22 @@ keybinds clear-defaults=true {
         bind "Ctrl c" "Esc" { UndoRenamePane; SwitchToMode "Pane"; }
     }
     tab {
+        bind "Space" { SwitchToMode "Normal";                    }
+        bind "j"     { GoToNextTab;                              }
+        bind "k"     { GoToPreviousTab;                          }
+        bind "n"     { NewTab; SwitchToMode "Normal";            }
+        bind "r"     { SwitchToMode "RenameTab"; TabNameInput 0; }
         // switch
         // bind "Tab" { ToggleTab; }
         // new
-        bind "n"   { NewTab; SwitchToMode "Normal"; }
         // close
         // bind "q"   { CloseTab; SwitchToMode "Normal"; }
         // toggle the syncing of input between all panes in the focused tab
-        bind "s"   { ToggleActiveSyncTab; SwitchToMode "Normal"; }
+        // bind "s"   { ToggleActiveSyncTab; SwitchToMode "Normal"; }
         // Tab to Pane
-        bind "["   { BreakPaneLeft;  SwitchToMode "Normal"; }
-        bind "]"   { BreakPaneRight; SwitchToMode "Normal"; }
+        // bind "["   { BreakPaneLeft;  SwitchToMode "Normal"; }
+        // bind "]"   { BreakPaneRight; SwitchToMode "Normal"; }
         // rename
-        bind "r"   { SwitchToMode "RenameTab"; TabNameInput 0; }
     }
     renametab {
         bind "Ctrl c" "Esc" { UndoRenameTab;  SwitchToMode "Tab"; }

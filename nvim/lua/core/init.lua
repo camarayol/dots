@@ -168,4 +168,6 @@ end
 Core.info = function(msg) vim.notify(msg, vim.log.levels.INFO) end
 Core.warn = function(msg) vim.notify(msg, vim.log.levels.WARN) end
 
+Core.toggleWrap = function() vim.wo.wrap = not vim.wo.wrap end
+
 return Core

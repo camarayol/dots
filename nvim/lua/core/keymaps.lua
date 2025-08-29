@@ -46,4 +46,5 @@ Core.setKeyMaps {
     { { "n", "i", "v" }, "<C-_>",      Core.lineComment,         opts }, -- line-comment
     { { "n", "i", "v" }, "<C-/>",      Core.lineComment,         opts }, -- line-comment
     -- { { "n", "i", "v" }, "<M-A>",      comment.hunk_comment,      opts }, -- hunk-comment
+    { "n",               "<M-z>",      Core.toggleWrap,          opts },
 }

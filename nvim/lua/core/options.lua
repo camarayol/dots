@@ -45,34 +45,6 @@ local options = {
     },
 }
 
-if vim.env.TMUX then
-    options.g.clipboard = {
-        name = "TmuxClipboard",
-        copy = {
-            ["+"] = "tmux load-buffer -w -",
-            ["*"] = "tmux load-buffer -w -",
-        },
-        paste = {
-            ["+"] = "tmux save-buffer -",
-            ["*"] = "tmux save-buffer -",
-        },
-        cache_enabled = 1,
-    }
-elseif Core.wsl() then
-    options.g.clipboard = {
-        name = "WslClipboard",
-        copy = {
-            ["+"] = "clip.exe",
-            ["*"] = "clip.exe",
-        },
-        paste = {
-            ["+"] = "powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace('\r', ''))",
-            ["*"] = "powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace('\r', ''))",
-        },
-        cache_enabled = 1,
-    }
-end
-
 Core.setOptions(options)
 
 Core.setCommentStrings {
@@ -85,11 +57,13 @@ Core.createAutoCommand("TextYankPost", nil, function()
     vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
 end)
 
-Core.createAutoCommand("InsertLeave", "*", function()
-    if tonumber(vim.fn.system("fcitx5-remote")) == 2 then
-        vim.fn.system("fcitx5-remote -c")
-    end
-end)
+if vim.fn.executable("fcitx5-remote") then
+    Core.createAutoCommand("InsertLeave", "*", function()
+        if tonumber(vim.fn.system("fcitx5-remote")) == 2 then
+            vim.fn.system("fcitx5-remote -c")
+        end
+    end)
+end
 
 Core.createAutoCommand("FileType", "go", function()
     vim.opt.formatoptions:prepend("or")

@@ -18,6 +18,7 @@ local lspconfig = function()
     lspconfig.clangd.setup {
         capabilities = capabilities,
         cmd = { "clangd", "--clang-tidy" },
+        filetypes = { "c", "cpp" },
         init_options = {
             clangdFileStatus = true,
             usePlaceholders = true,
@@ -151,7 +152,7 @@ return {
             --     vim.lsp.inlay_hint.enable(true)
             -- end
 
-            vim.lsp.inlay_hint.enable(true)
+            -- vim.lsp.inlay_hint.enable(true)
             vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
             Core.setKeyMaps {
