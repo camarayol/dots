@@ -1,14 +1,23 @@
-# options
+# font
 font-size = 18
 font-family = FreeMono
-# font-style = Oblique
+font-style = Oblique
 font-style-bold = Normal
-font-style-italic = Normal
+font-style-italic = Oblique
 font-feature = -calt, -liga, -dlig
-font-codepoint-map = U+4E00-U+9FFF="LXGW WenKai Mono"
+font-codepoint-map = U+4E00-U+9FFF=LXGW WenKai Mono GB Screen
 
+# options
+window-width = 120
+window-height = 30
+window-position-x = 300
+window-position-y = 150
 resize-overlay = never
-window-decoration = false
+window-decoration = true
+background-opacity = 0.95
+
+macos-option-as-alt = true
+confirm-close-surface = false
 
 cursor-style = block
 cursor-style-blink = false
@@ -16,8 +25,8 @@ shell-integration-features = no-cursor
 
 # keybinds
 keybind = clear
-keybind = ctrl+shift+c=copy_to_clipboard
-keybind = ctrl+shift+v=paste_from_clipboard
+keybind = command+q=quit
+keybind = command+shift+r=reload_config
 
 # theme = OneHalfDark
 palette = 0=#282c34
