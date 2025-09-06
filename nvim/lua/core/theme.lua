@@ -44,12 +44,12 @@ Core.setHighlights {
     ["CursorLine"]             = { bg = C.DGray },
     ["NormalFloat"]            = { bg = C.None  },
     ["LineNr"]                 = { fg = C.Gray  },
-    ["Normal"]                 = { fg = C.LGray, bg = C.Background },
+    ["Normal"]                 = { bg = C.None  },
 
     ["PmenuSbar"]              = { bg = C.DGray },
     ["PmenuThumb"]             = { bg = C.LGray },
-    ["Pmenu"]                  = { fg = C.LGray, bg = C.None },
-    ["PmenuSel"]               = { fg = C.White, bg = C.Blue },
+    ["Pmenu"]                  = { fg = C.LGray, bg = C.None  },
+    ["PmenuSel"]               = { fg = C.Blue,  bg = C.White },
 
     ["Title"]                  = { fg = C.Orange },
     ["NonText"]                = { fg = C.DGray  },
