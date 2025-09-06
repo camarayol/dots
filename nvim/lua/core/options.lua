@@ -14,6 +14,7 @@ local options = {
             tab   = '> ',
             trail = '·',
         },
+        swapfile       = false,
         textwidth      = 160,
         showtabline    = 0,
         laststatus     = 0,

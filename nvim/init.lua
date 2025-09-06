@@ -18,10 +18,10 @@ require("mini-deps").later_add {
     require("plugins.nvim-lspconfig"),
     require("plugins.lspsaga"),
     require("plugins.fidget"),
-    require("plugins.crates"),
 
     -- Tools
     require("plugins.telescope"),
+    require("plugins.illuminate"),
     require("plugins.nvim-tree"),
     require("plugins.flash"),
     require("plugins.smart-pairs"),
