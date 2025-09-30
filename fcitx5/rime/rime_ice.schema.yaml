@@ -68,7 +68,6 @@ engine:
     - lua_translator@number_translator  # 数字、金额大写
     - lua_translator@force_gc           # 暴力 GC
   filters:
-    - lua_filter@is_in_user_dict                    # 用户词典标记
     - reverse_lookup_filter@radical_reverse_lookup  # 部件拆字滤镜
     - lua_filter@autocap_filter                     # 英文自动大写
     - lua_filter@v_filter                           # v 模式 symbols 优先
@@ -99,9 +98,6 @@ lunar: nl  # 农历： 二〇二三年冬月二十 癸卯年（兔）冬月二�
 long_word_filter:
   count: 2
   idx: 4
-
-# 用户词典标记
-is_in_user_dict: true
 
 # Lua 配置: 降低部分英语单词在候选项的位置。
 # 详细介绍 https://dvel.me/posts/make-rime-en-better/#短单词置顶的问题

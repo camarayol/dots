@@ -97,6 +97,7 @@ Core.setHighlights {
 
 Core.linkHighlights {
     ["@storageclass"]       = "Keyword",
+    ["@string.regexp"]      = "String",
     ["@string.special.url"] = "Comment",
 
     -- syntax
