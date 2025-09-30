@@ -5,7 +5,7 @@ font-style = Oblique
 font-style-bold = Normal
 font-style-italic = Oblique
 font-feature = -calt, -liga, -dlig
-font-codepoint-map = U+4E00-U+9FFF=LXGW WenKai Mono GB Screen
+font-codepoint-map = U+4E00-U+9FFF=LXGW WenKai Mono
 
 # options
 window-width = 120
