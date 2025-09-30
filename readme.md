@@ -141,3 +141,13 @@ systemctl --user enable --now xwayland-satellite.service
     asciinema rec demo.cast
     agg demo.cast demo.git
     ```
+
+## macos
+
+```sh
+sudo spctl --master-disable
+
+xattr -cr ${Application}
+
+defaults write com.apple.dock autohide-delay -int 0
+```
