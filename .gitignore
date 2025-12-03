@@ -3,6 +3,8 @@ tools/mpd/log
 tools/mpd/pid
 tools/mpd/state
 tools/ncmpcpp/error.log
+tools/yazi/plugins
+tools/yazi/package.toml
 tools/glance/glance
 tools/glance/glance.yml
 

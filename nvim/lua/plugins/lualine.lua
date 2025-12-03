@@ -21,15 +21,15 @@ return {
             },
             sections = {
                 --  
-                lualine_a = { { "mode", separator = { left = "", right = "" } } },
+                lualine_a = { { "mode", separator = { left = "", right = "" } } },
                 lualine_b = {
-                    { "branch",      separator = { right = "" } },
-                    { "diff",        separator = { right = "" }, symbols = { added = "+", modified = "~", removed = "-" } },
-                    { "diagnostics", separator = { right = "" }, symbols = { error = "󱓻 ", warn = "󱓻 ", info = "󱓻 ", hint = "󱓻 " } },
+                    { "branch",      separator = { right = "" } },
+                    { "diff",        separator = { right = "" }, symbols = { added = "+", modified = "~", removed = "-" } },
+                    { "diagnostics", separator = { right = "" }, symbols = { error = "󱓻 ", warn = "󱓻 ", info = "󱓻 ", hint = "󱓻 " } },
                 },
                 lualine_c = { "%=", { "filename", path = 1 } },
                 lualine_x = { "filesize", { "filetype", icons_enabled = true }, "encoding", "fileformat" },
-                lualine_y = { { "location", separator = { left = "" } }, { "progress", separator = { left = "", right = "" } } },
+                lualine_y = { { "location", separator = { left = "" } }, { "progress", separator = { left = "", right = "" } } },
                 lualine_z = {}
             },
         }

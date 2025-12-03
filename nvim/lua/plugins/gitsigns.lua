@@ -40,7 +40,7 @@ return {
             update_debounce              = 100,
             status_formatter             = nil,   -- Use default
             max_file_length              = 40000, -- Disable if file is longer than this (in lines)
-            preview_config               = { border = "single", style = "minimal", relative = "cursor", row = 0, col = 1 },
+            preview_config               = { border = "rounded", style = "minimal", relative = "cursor", row = 0, col = 1 },
         }
     end
 }
