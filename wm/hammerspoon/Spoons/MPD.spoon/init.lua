@@ -17,6 +17,7 @@ mpd.start = function()
     mpd.bar:setClickCallback(function()
         if not mpd.socket:connected() then
             mpd.connect()
+            hs.timer.usleep(1000)
         end
 
         if mpd.socket:connected() then

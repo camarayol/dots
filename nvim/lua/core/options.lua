@@ -58,13 +58,13 @@ Core.createAutoCommand("TextYankPost", nil, function()
     vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
 end)
 
-if vim.fn.executable("fcitx5-remote") then
-    Core.createAutoCommand("InsertLeave", "*", function()
-        if tonumber(vim.fn.system("fcitx5-remote")) == 2 then
-            vim.fn.system("fcitx5-remote -c")
-        end
-    end)
-end
+-- if vim.fn.executable("fcitx5-remote") then
+--     Core.createAutoCommand("InsertLeave", "*", function()
+--         if tonumber(vim.fn.system("fcitx5-remote")) == 2 then
+--             vim.fn.system("fcitx5-remote -c")
+--         end
+--     end)
+-- end
 
 Core.createAutoCommand("FileType", "go", function()
     vim.opt.formatoptions:prepend("or")

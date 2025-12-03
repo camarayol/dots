@@ -63,13 +63,13 @@ return {
                     symlink_arrow = " -> ",
                     glyphs = {
                         git = {
-                            unstaged = "●",
-                            staged = "A",
-                            unmerged = "!",
-                            renamed = "R",
-                            untracked = "?",
-                            deleted = "-",
-                            ignored = "◌",
+                            unstaged  = "~",
+                            staged    = "+",
+                            unmerged  = "~",
+                            renamed   = "+",
+                            untracked = "+",
+                            deleted   = "-",
+                            ignored   = "",
                         }
                     }
                 },
