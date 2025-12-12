@@ -99,6 +99,9 @@ local lspconfig = function()
 
     -- bash-language-server
     lspconfig.bashls.setup { capabilities = capabilities }
+
+    -- typst
+    lspconfig.tinymist.setup { capabilities = capabilities }
 end
 
 return {

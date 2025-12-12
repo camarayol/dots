@@ -53,7 +53,7 @@ return {
             },
         }
 
-        MiniDeps.later_add {
+        MiniDeps.lazy {
             source = "https://github.com/gaoDean/autolist.nvim",
             config = function()
                 Core.createAutoCommand("InsertEnter", { "*.txt", "*.md" }, function()

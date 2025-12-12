@@ -1,10 +1,7 @@
---- *mini.deps* Plugin manager
---- *MiniDeps*
+--- *mini.deps* Plugin manage--- *mini.deps* Plugin manager
 ---
 --- MIT License Copyright (c) 2024 Evgeni Chasnovski
----
---- ==============================================================================
----
+
 --- Features:
 ---
 --- - Manage plugins utilizing Git and built-in |packages| with these actions:
@@ -64,7 +61,7 @@
 ---
 --- # Comparisons ~
 ---
---- - 'folke/lazy.nvim':
+--- - [folke/lazy.nvim](https://github.com/folke/lazy.nvim):
 ---     - More feature-rich and complex.
 ---     - Uses table specification with dedicated functions to add plugins,
 ---       while this module uses direct function call approach
@@ -72,13 +69,13 @@
 ---     - Uses version tags by default, while this module is more designed towards
 ---       tracking branches. Using tags is possible too (see |MiniDeps-overview|).
 ---
---- - 'savq/paq-nvim':
+--- - [savq/paq-nvim](https://github.com/savq/paq-nvim):
 ---     - Overall less feature-rich than this module (by design).
 ---     - Uses array of plugin specifications inside `setup()` call to define which
 ---       plugins should be installed. Requires separate `:PaqInstall` call to
 ---       actually install them. This module ensures installation on first load.
 ---
---- - 'junegunn/vim-plug':
+--- - [junegunn/vim-plug](https://github.com/junegunn/vim-plug):
 ---     - Written in Vimscript, while this module is in Lua.
 ---     - Similar approach to defining and installing plugins as 'savq/paq-nvim'.
 ---     - Has basic lazy-loading built-in, while this module does not (by design).
@@ -88,18 +85,19 @@
 --- Highlight groups are used inside confirmation buffers after
 --- default |MiniDeps.update()| and |MiniDeps.clean()|.
 ---
---- * `MiniDepsChangeAdded`   - added change (commit) during update.
---- * `MiniDepsChangeRemoved` - removed change (commit) during update.
---- * `MiniDepsHint`          - various hints.
---- * `MiniDepsInfo`          - various information.
---- * `MiniDepsMsgBreaking`   - message for (conventional commit) breaking change.
---- * `MiniDepsPlaceholder`   - placeholder when there is no valuable information.
---- * `MiniDepsTitle`         - various titles.
---- * `MiniDepsTitleError`    - title when plugin had errors during update.
---- * `MiniDepsTitleSame`     - title when plugin has no changes to update.
---- * `MiniDepsTitleUpdate`   - title when plugin has changes to update.
+--- - `MiniDepsChangeAdded`   - added change (commit) during update.
+--- - `MiniDepsChangeRemoved` - removed change (commit) during update.
+--- - `MiniDepsHint`          - various hints.
+--- - `MiniDepsInfo`          - various information.
+--- - `MiniDepsMsgBreaking`   - message for (conventional commit) breaking change.
+--- - `MiniDepsPlaceholder`   - placeholder when there is no valuable information.
+--- - `MiniDepsTitle`         - various titles.
+--- - `MiniDepsTitleError`    - title when plugin had errors during update.
+--- - `MiniDepsTitleSame`     - title when plugin has no changes to update.
+--- - `MiniDepsTitleUpdate`   - title when plugin has changes to update.
 ---
---- To change any highlight group, modify it directly with |:highlight|.
+--- To change any highlight group, set it directly with |nvim_set_hl()|.
+---@tag MiniDeps
 
 --- # Directory structure ~
 ---
@@ -164,7 +162,7 @@
 ---   local now, later = MiniDeps.now, MiniDeps.later
 ---
 ---   -- Safely execute immediately
----   now(function() vim.cmd('colorscheme randomhue') end)
+---   now(function() vim.cmd('colorscheme miniwinter') end)
 ---   now(function() require('mini.statusline').setup() end)
 ---
 ---   -- Safely execute later
@@ -236,8 +234,6 @@
 --- Alternatively, manually delete plugin's directory from "pack/deps" package.
 ---@tag MiniDeps-overview
 
---- # Plugin specification ~
----
 --- Each plugin dependency is managed based on its specification (a.k.a. "spec").
 --- See |MiniDeps-overview| for some examples.
 ---
@@ -275,7 +271,7 @@
 --- - <hooks> `(table|nil)` - table with callable hooks to call on certain events.
 ---   Possible hook names:
 ---     - <pre_install>   - before creating plugin directory.
----     - <post_install>  - after  creating plugin directory.
+---     - <post_install>  - after  creating plugin directory (before |:packadd|).
 ---     - <pre_checkout>  - before making change in existing plugin.
 ---     - <post_checkout> - after  making change in existing plugin.
 ---   Each hook is executed with the following table as an argument:
@@ -286,20 +282,20 @@
 ---   Default: `nil` for no hooks.
 ---@tag MiniDeps-plugin-specification
 
---- # User commands ~
----
 --- Note: Most commands have a Lua function alternative which they rely on.
 --- Like |:DepsAdd| uses |MiniDeps.add()|, etc.
 ---
----                                                                       *:DepsAdd*
---- `:DepsAdd user/repo` makes plugin from https://github.com/user/repo available
---- in the current session (also creates it, if it is not present).
+--- # :DepsAdd ~
+---
+--- *:DepsAdd* with `user/repo` argument makes plugin https://github.com/user/repo
+--- available in the current session (also creates it, if it is not present).
 --- `:DepsAdd name` adds already installed plugin `name` to current session.
 --- Accepts only single string compatible with |MiniDeps-plugin-specification|.
 --- To add plugin in every session, put |MiniDeps.add()| in |init.lua|.
 ---
----                                                                    *:DepsUpdate*
---- `:DepsUpdate` synchronizes plugins with their session specifications and
+--- # :DepsUpdate ~
+---
+--- *:DepsUpdate* synchronizes plugins with their session specifications and
 --- updates them with new changes from sources. It shows confirmation buffer in
 --- a separate |tabpage| with information about an upcoming update to review
 --- and (selectively) apply. See |MiniDeps.update()| for more info.
@@ -309,28 +305,32 @@
 --- `:DepsUpdate!` and `:DepsUpdate! name` update without confirmation.
 --- You can see what was done in the log file afterwards (|:DepsShowLog|).
 ---
----                                                             *:DepsUpdateOffline*
---- `:DepsUpdateOffline` is same as |:DepsUpdate| but doesn't download new updates
+--- # :DepsUpdateOffline ~
+---
+--- *:DepsUpdateOffline* is same as |:DepsUpdate| but doesn't download new updates
 --- from sources. Useful to only synchronize plugin specification in code and
 --- on disk without unnecessary downloads.
 ---
----                                                                   *:DepsShowLog*
---- `:DepsShowLog` opens log file to review.
+--- # :DepsShowLog ~
 ---
----                                                                     *:DepsClean*
---- `:DepsClean` deletes plugins from disk not added to current session. It shows
+--- *:DepsShowLog* opens log file to review.
+---
+--- # :DepsClean ~
+---
+--- *:DepsClean* deletes plugins from disk not added to current session. It shows
 --- confirmation buffer in a separate |tabpage| with information about an upcoming
 --- deletes to review and (selectively) apply. See |MiniDeps.clean()| for more info.
 ---
 --- `:DepsClean!` deletes plugins without confirmation.
 ---
----                                                                  *:DepsSnapSave*
---- `:DepsSnapSave` creates snapshot file in default location (see |MiniDeps.config|).
+--- # :DepsSnapSave ~
+---
+--- *:DepsSnapSave* creates snapshot file in default location (see |MiniDeps.config|).
 --- `:DepsSnapSave path` creates snapshot file at `path`.
 ---
----                                                                  *:DepsSnapLoad*
+--- # :DepsSnapLoad ~
 ---
---- `:DepsSnapLoad` loads snapshot file from default location (see |MiniDeps.config|).
+--- *:DepsSnapLoad* loads snapshot file from default location (see |MiniDeps.config|).
 --- `:DepsSnapLoad path` loads snapshot file at `path`.
 ---@tag MiniDeps-commands
 
@@ -377,9 +377,7 @@ MiniDeps.setup = function(config)
 end
 
 --stylua: ignore
---- Module config
----
---- Default values:
+--- Defaults ~
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 ---@text # Job ~
 ---
@@ -692,7 +690,7 @@ end
 --- - Was added with |MiniDeps.add()| (preserving order of calls).
 --- - Is a "start" plugin and present in 'runtimpath'.
 ---
----@return session table Array with specifications of all plugins registered in
+---@return table Array with specifications of all plugins registered in
 ---   current session.
 MiniDeps.get_session = function()
     -- Normalize `H.session` allowing specs for same plugin
@@ -759,17 +757,14 @@ MiniDeps.later = function(f)
     H.schedule_finish()
 end
 
-MiniDeps.later_add = function(plugins)
-    if type(plugins) ~= "table" then return end
-
-    if #plugins == 0 then
-        MiniDeps.later(function() MiniDeps.add(plugins) end)
-    else
-        for _, spec in ipairs(plugins) do
+MiniDeps.lazy = function(plugins)
+    if type(plugins) == "table" then
+        for _, spec in ipairs(#plugins == 0 and { plugins } or plugins) do
             if type(spec) == "table" then
-                MiniDeps.later(function() MiniDeps.add(spec) end)
+                table.insert(H.cache.later_callback_queue, function() MiniDeps.add(spec) end)
             end
         end
+        H.schedule_finish()
     end
 end
 
@@ -795,30 +790,22 @@ H.cache = {
     git_version = nil,
 }
 
--- Buffer name counts
-H.buf_name_counts = {}
-
 -- Helper functionality =======================================================
 -- Settings -------------------------------------------------------------------
 H.setup_config = function(config)
-    -- General idea: if some table elements are not present in user-supplied
-    -- `config`, take them from default config
-    vim.validate({ config = { config, 'table', true } })
+    H.check_type('config', config, 'table', true)
     config = vim.tbl_deep_extend('force', vim.deepcopy(H.default_config), config or {})
 
-    vim.validate({
-        job = { config.job, 'table' },
-        path = { config.path, 'table' },
-        silent = { config.silent, 'boolean' },
-    })
+    H.check_type('job', config.job, 'table')
+    H.check_type('job.n_threads', config.job.n_threads, 'number', true)
+    H.check_type('job.timeout', config.job.timeout, 'number')
 
-    vim.validate({
-        ['job.n_threads'] = { config.job.n_threads, 'number', true },
-        ['job.timeout'] = { config.job.timeout, 'number' },
-        ['path.package'] = { config.path.package, 'string' },
-        ['path.snapshot'] = { config.path.snapshot, 'string' },
-        ['path.log'] = { config.path.log, 'string' },
-    })
+    H.check_type('path', config.path, 'table')
+    H.check_type('path.package', config.path.package, 'string')
+    H.check_type('path.snapshot', config.path.snapshot, 'string')
+    H.check_type('path.log', config.path.log, 'string')
+
+    H.check_type('silent', config.silent, 'boolean')
 
     return config
 end
@@ -892,7 +879,7 @@ H.create_user_commands = function()
     make_update_cmd('DepsUpdateOffline', true, 'Update plugins without downloading from source')
 
     local show_log = function()
-        vim.cmd('edit ' .. vim.fn.fnameescape(H.get_config().path.log))
+        H.edit(H.get_config().path.log)
         H.update_add_syntax()
         vim.cmd([[syntax match MiniDepsTitle "^\(==========\).*\1$"]])
     end
@@ -1274,7 +1261,7 @@ H.clean_confirm = function(paths)
         if #paths_to_delete == 0 then return H.notify('Nothing to delete') end
         H.clean_delete(paths_to_delete)
     end
-    H.show_confirm_buf(lines, { name = 'mini-deps://confirm-clean', exec_on_write = finish_clean })
+    H.show_confirm_buf(lines, { name = 'confirm-clean', exec_on_write = finish_clean })
 
     -- Define basic highlighting
     vim.cmd('syntax region MiniDepsHint start="^\\%1l" end="\\%' .. n_header .. 'l$"')
@@ -1403,7 +1390,7 @@ H.update_feedback_confirm = function(lines)
         MiniDeps.update(names, { force = true, offline = true })
     end
 
-    H.show_confirm_buf(report, { name = 'mini-deps://confirm-update', exec_on_write = finish_update, setup_folds = true })
+    H.show_confirm_buf(report, { name = 'confirm-update', exec_on_write = finish_update, setup_folds = true })
 
     -- Define basic highlighting
     vim.cmd('syntax region MiniDepsHint start="^\\%1l" end="\\%' .. n_header .. 'l$"')
@@ -1440,7 +1427,7 @@ end
 H.show_confirm_buf = function(lines, opts)
     -- Show buffer
     local buf_id = vim.api.nvim_create_buf(true, true)
-    H.buf_set_name(buf_id, opts.name)
+    H.set_buf_name(buf_id, opts.name)
     vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
     vim.cmd('tab sbuffer ' .. buf_id)
     local tab_num, win_id = vim.api.nvim_tabpage_get_number(0), vim.api.nvim_get_current_win()
@@ -1518,7 +1505,16 @@ H.cli_run = function(jobs)
         -- Prepare data for `vim.loop.spawn`
         local executable, args = command[1], vim.list_slice(command, 2, #command)
         local process, stdout, stderr = nil, vim.loop.new_pipe(), vim.loop.new_pipe()
-        local spawn_opts = { args = args, cwd = cwd, stdio = { nil, stdout, stderr } }
+
+        -- - Unset special `GIT_xxx` variables that can affect `git` commands
+        local env_map = vim.fn.environ()
+        env_map.GIT_DIR, env_map.GIT_WORK_TREE = nil, nil
+        local env = {}
+        for k, v in pairs(env_map) do
+            table.insert(env, k .. '=' .. tostring(v))
+        end
+
+        local spawn_opts = { args = args, cwd = cwd, env = env, stdio = { nil, stdout, stderr } }
 
         local on_exit = function(code)
             -- Process only not already closing job
@@ -1609,7 +1605,14 @@ H.report_errors = function()
 end
 
 -- Utilities ------------------------------------------------------------------
-H.error = function(msg) error(string.format('(mini.deps) %s', msg), 0) end
+H.error = function(msg) error('(mini.deps) ' .. msg, 0) end
+
+H.check_type = function(name, val, ref, allow_nil)
+    if type(val) == ref or (ref == 'callable' and vim.is_callable(val)) or (allow_nil and val == nil) then return end
+    H.error(string.format('`%s` should be %s, not %s', name, ref, type(val)))
+end
+
+H.set_buf_name = function(buf_id, name) vim.api.nvim_buf_set_name(buf_id, 'minideps://' .. buf_id .. '/' .. name) end
 
 H.notify = vim.schedule_wrap(function(msg, level)
     level = level or 'INFO'
@@ -1618,6 +1621,19 @@ H.notify = vim.schedule_wrap(function(msg, level)
     vim.notify(string.format('(mini.deps) %s', msg), vim.log.levels[level])
     vim.cmd('redraw')
 end)
+
+H.edit = function(path, win_id)
+    if type(path) ~= 'string' then return end
+    local b = vim.api.nvim_win_get_buf(win_id or 0)
+    local try_mimic_buf_reuse = (vim.fn.bufname(b) == '' and vim.bo[b].buftype ~= 'quickfix' and not vim.bo[b].modified)
+        and (#vim.fn.win_findbuf(b) == 1 and vim.deep_equal(vim.fn.getbufline(b, 1, '$'), { '' }))
+    local buf_id = vim.fn.bufadd(vim.fn.fnamemodify(path, ':.'))
+    -- Showing in window also loads. Use `pcall` to not error with swap messages.
+    pcall(vim.api.nvim_win_set_buf, win_id or 0, buf_id)
+    vim.bo[buf_id].buflisted = true
+    if try_mimic_buf_reuse then pcall(vim.api.nvim_buf_delete, b, { unload = false }) end
+    return buf_id
+end
 
 H.get_timestamp = function() return vim.fn.strftime('%Y-%m-%d %H:%M:%S') end
 
@@ -1632,13 +1648,6 @@ end
 
 H.source = function(path)
     pcall(function() vim.cmd('source ' .. vim.fn.fnameescape(path)) end)
-end
-
-H.buf_set_name = function(buf_id, name)
-    local n = (H.buf_name_counts[name] or 0) + 1
-    H.buf_name_counts[name] = n
-    local suffix = n == 1 and '' or ('_' .. n)
-    vim.api.nvim_buf_set_name(buf_id, name .. suffix)
 end
 
 -- TODO: Remove after compatibility with Neovim=0.9 is dropped
