@@ -17,7 +17,7 @@ return {
         }
         vim.treesitter.language.register("json5", "json")
 
-        MiniDeps.later_add {
+        MiniDeps.lazy {
             source = "https://github.com/nvim-treesitter/playground",
             config = function()
                 Core.setKeyMaps { { "n", "<F2>", "<Cmd>TSHighlightCapturesUnderCursor<CR>" } }

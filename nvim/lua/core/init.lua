@@ -103,6 +103,14 @@ Core.betterHome = function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(feedkeys, true, false, true), "n", false)
 end
 
+Core.hlCursorWord = function()
+    local word = vim.fn.expand('<cword>')
+    if word ~= '' then
+        vim.cmd(string.format("let @/ = '%s'", word))
+        vim.cmd('set hlsearch')
+    end
+end
+
 Core.compile_commands = {
     ["cpp"]  = "make\n",
     ["rust"] = "cargo build\n",
