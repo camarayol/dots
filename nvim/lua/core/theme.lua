@@ -68,9 +68,11 @@ Core.setHighlights {
     ["Function"]               = { fg = C.Blue   },
     ["Keyword"]                = { fg = C.Purple },
     ["Conditional"]            = { fg = C.Purple },
-    ["Comment"]                = { fg = C.Gray,  ui = S.Italic },
-    ["Search"]                 = { fg = C.Black, bg = C.Orange },
-    ["Todo"]                   = { fg = C.Gray,  bg = C.Blue   },
+    ["Comment"]                = { fg = C.Gray,  ui = S.Italic    },
+    ["Search"]                 = { fg = C.Black, bg = C.Orange    },
+    ["Todo"]                   = { fg = C.Gray,  bg = C.Blue      },
+    ["IndentScopeOther"]       = { fg = C.DGray, ui = S.Nocombine },
+    ["IndentScopeCurrent"]     = { fg = C.Gray,  ui = S.Nocombine },
 
     -- Treesitter
     ["@variable"]              = { fg = C.Red    },
