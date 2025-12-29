@@ -11,7 +11,7 @@ return {
             ["NvimTreeGitDirty"]         = "GitSignsChange",
             ["NvimTreeCursorLine"]       = "CursorLine",
             ["NvimTreeOpenedFolderIcon"] = "NvimTreeOpenedFolderName",
-            ["NvimTreeIndentMarker"]     = "IndentBlanklineContextChar",
+            ["NvimTreeIndentMarker"]     = "IndentScopeOther",
         }
 
         require("nvim-tree").setup {

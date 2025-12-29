@@ -5,8 +5,8 @@ return {
         vim.diagnostic.config { severity_sort = true }
 
         Core.linkHighlights {
-            ["SagaVirtLine"]  = "IndentBlanklineChar",
-            ["SagaInCurrent"] = "IndentBlanklineContextChar"
+            ["SagaVirtLine"]  = "IndentScopeOther",
+            ["SagaInCurrent"] = "IndentScopeCurrent"
         }
         local function lspsaga(cmd) return string.format("<Cmd>Lspsaga %s<CR>", cmd) end
         Core.setKeyMaps {
