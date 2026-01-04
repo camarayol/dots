@@ -77,36 +77,3 @@ end)
 Core.createAutoCommand("FileType", "gitcommit", function()
     vim.bo.textwidth = 200
 end)
-
-Core.createAutoCommand("FileType", { "markdown", "typst" }, function()
-    local remove_current_list = function(indent)
-        vim.schedule(function()
-            local row = vim.api.nvim_win_get_cursor(0)[1] - 1
-            local buf = vim.api.nvim_get_current_buf()
-            vim.api.nvim_buf_set_lines(buf, row, row + 1, false, { indent })
-        end)
-        return "<CR>"
-    end
-
-    local auto_next_list = function()
-        local line = vim.api.nvim_get_current_line()
-
-        local indent, bullet, content = line:match("^(%s*)([-+*])%s*(.*)$")
-        if indent and bullet then
-            if content == "" then return remove_current_list(indent) end
-            return "<CR>" .. bullet .. " "
-        end
-
-        indent, bullet, content = line:match("^(%s*)(%d+)%.%s*(.*)$")
-        if indent and bullet then
-            if content == "" then return remove_current_list(indent) end
-            return "<CR>" .. tonumber(bullet) + 1 .. ". "
-        end
-
-        return "<CR>"
-    end
-
-    Core.setKeyMaps {
-        { "i", "<CR>", auto_next_list, { buffer = true, expr = true } },
-    }
-end)

@@ -1,3 +1,25 @@
+local autolist = function()
+    local line = vim.api.nvim_get_current_line()
+
+    local indent, bullet, content = line:match("^(%s*)([-+*])%s*(.*)$")
+    if indent and bullet then
+        if content == '' then
+            vim.api.nvim_set_current_line(indent)
+        else
+            vim.api.nvim_feedkeys(indent .. bullet .. ' ', 'n', true)
+        end
+    end
+
+    indent, bullet, content = line:match("^(%s*)(%d+)%.%s*(.*)$")
+    if indent and bullet then
+        if content == '' then
+            vim.api.nvim_set_current_line(indent)
+        else
+            vim.api.nvim_feedkeys(indent .. tonumber(bullet) + 1 .. '. ', 'n', true)
+        end
+    end
+end
+
 return {
     source = "https://github.com/ZhiyuanLck/smart-pairs",
     config = function()
@@ -38,7 +60,14 @@ return {
                     text_bracket = { one = { strategy = "leave_one_start", } },
                 }
             },
-            enter = { enable_mapping = true, enable_cond = true }
+            enter = {
+                enable_mapping = true, enable_cond = true,
+                after_hook = function()
+                    if vim.bo.filetype == 'markdown' or vim.bo.filetype == 'typst' then
+                        autolist()
+                    end
+                end
+            }
         }
     end
 }
