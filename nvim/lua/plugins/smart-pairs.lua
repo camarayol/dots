@@ -4,18 +4,18 @@ local autolist = function()
     local indent, bullet, content = line:match("^(%s*)([-+*])%s*(.*)$")
     if indent and bullet then
         if content == '' then
-            vim.api.nvim_set_current_line(indent)
+            return vim.api.nvim_set_current_line('')
         else
-            vim.api.nvim_feedkeys(indent .. bullet .. ' ', 'n', true)
+            return vim.api.nvim_feedkeys(bullet .. ' ', 'n', true)
         end
     end
 
     indent, bullet, content = line:match("^(%s*)(%d+)%.%s*(.*)$")
     if indent and bullet then
         if content == '' then
-            vim.api.nvim_set_current_line(indent)
+            return vim.api.nvim_set_current_line('')
         else
-            vim.api.nvim_feedkeys(indent .. tonumber(bullet) + 1 .. '. ', 'n', true)
+            return vim.api.nvim_feedkeys(tonumber(bullet) + 1 .. '. ', 'n', true)
         end
     end
 end
@@ -69,5 +69,11 @@ return {
                 end
             }
         }
+
+        Core.createAutoCommand('FileType', { 'markdown', 'typst' }, function()
+            Core.setKeyMaps {
+                { 'n', 'o', function() vim.fn.feedkeys('o', 'n'); autolist() end, { noremap = true, silent = true } }
+            }
+        end)
     end
 }
