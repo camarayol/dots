@@ -2,19 +2,11 @@ return {
     source = "https://github.com/nvim-telescope/telescope.nvim",
     depends = { "https://github.com/nvim-lua/plenary.nvim" },
     config = function()
-        local telescope = function(cmd) return string.format("<Cmd>Telescope %s<CR>", cmd) end
-        Core.setKeyMaps {
-            { "n", "\\",            telescope("builtin"),                   { desc = "[Telescope] builtin"    } },
-            { "n", "F",             telescope("find_files"),                { desc = "[Telescope] find_files" } },
-            { "n", "B",             telescope("buffers"),                   { desc = "[Telescope] buffers"    } },
-            { "n", "<C-f>",         telescope("current_buffer_fuzzy_find"), { desc = "[Telescope] buffers"    } },
-            { "n", "<leader><C-f>", telescope("live_grep"),                 { desc = "[Telescope] buffers"    } },
-
-        }
+        local builtin = require("telescope.builtin")
         local actions = require("telescope.actions")
         require("telescope").setup {
             defaults = {
-                layout_strategy = 'horizontal',
+                layout_strategy = "horizontal",
                 sorting_strategy = "ascending",
                 layout_config = {
                     horizontal = {
@@ -23,6 +15,11 @@ return {
                         preview_width = 0.4,
                         prompt_position = "top",
                     }
+                },
+                cache_picker = {
+                    num_pickers = 10,
+                    limit_entries = 1000,
+                    ignore_empty_prompt = true
                 },
                 default_mappings = {
                     n = {
@@ -47,6 +44,16 @@ return {
                     }
                 }
             }
+
+        }
+
+        Core.setKeyMaps {
+            { "n", "\\",            builtin.builtin,                   { desc = "[Telescope] builtin" } },
+            { "n", "<M-\\>",        builtin.pickers,                   { desc = "[Telescope] pickers" } },
+            { "n", "F",             builtin.find_files,                { desc = "[Telescope] find_files" } },
+            { "n", "B",             builtin.buffers,                   { desc = "[Telescope] buffers" } },
+            { "n", "<C-f>",         builtin.current_buffer_fuzzy_find, { desc = "[Telescope] current_buffer_fuzzy_find" } },
+            { "n", "<leader><C-f>", builtin.live_grep,                 { desc = "[Telescope] live_grep" } },
         }
     end
 }
