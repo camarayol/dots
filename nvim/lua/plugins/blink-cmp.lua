@@ -10,8 +10,6 @@ return {
     depends = { "https://github.com/L3MON4D3/LuaSnip" },
     hooks = { post_install = build, post_checkout = build },
     config = function()
-        Core.linkHighlights { ["BlinkCmpGhostText"] = "Comment" }
-
         require("blink.cmp").setup {
             completion = {
                 -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == "cmdline" end } },

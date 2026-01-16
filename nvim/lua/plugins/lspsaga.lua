@@ -2,23 +2,25 @@ return {
     source = "https://github.com/nvimdev/lspsaga.nvim",
     depends = { "https://github.com/nvim-tree/nvim-web-devicons" },
     config = function()
-        vim.diagnostic.config { severity_sort = true }
+        local lspsaga_keymapping = function(mapping)
+            return {
+                string.format('<Cmd>Lspsaga %s<CR>', mapping),
+                { desc = '[LSP] ' .. mapping, noremap = true, silent = true }
+            }
+        end
 
-        Core.linkHighlights {
-            ["SagaVirtLine"]  = "IndentScopeOther",
-            ["SagaInCurrent"] = "IndentScopeCurrent"
-        }
-        local function lspsaga(cmd) return string.format("<Cmd>Lspsaga %s<CR>", cmd) end
-        Core.setKeyMaps {
-            { "n", "K",          lspsaga("hover_doc"),                  { desc = "[lspsaga] Lsp hover"                             } },
-            { "n", "gd",         lspsaga("goto_definition"),            { desc = "[lspsaga] Lsp goto_definition"                   } },
-            { "n", "<leader>lf", lspsaga("finder"),                     { desc = "[lspsaga] Finder"                                } },
-            { "n", "<leader>rn", lspsaga("rename"),                     { desc = "[lspsaga] Rename"                                } },
-            { "n", "<leader>la", lspsaga("code_action"),                { desc = "[lspsaga] Code Action"                           } },
-            { "n", "<leader>ln", lspsaga("diagnostic_jump_next"),       { desc = "[lspsaga] Jump to the next diagnostic"           } },
-            { "n", "<leader>lp", lspsaga("diagnostic_jump_prev"),       { desc = "[lspsaga] Jump to the prev diagnostic"           } },
-            { "n", "<leader>le", lspsaga("show_line_diagnostics"),      { desc = "[lspsaga] Show diagnostics in a floating window" } },
-            { "n", "<leader>ll", lspsaga("show_workspace_diagnostics"), { desc = "[lspsaga] Show diagnostics in a floating window" } },
+        Core.setKeyMaps2 {
+            n = {
+                ['K']          = lspsaga_keymapping('hover_doc'),
+                ['gd']         = lspsaga_keymapping('goto_definition'),
+                ['<Leader>lf'] = lspsaga_keymapping('finder'),
+                ['<Leader>rn'] = lspsaga_keymapping('rename'),
+                ['<Leader>la'] = lspsaga_keymapping('code_action'),
+                ['<Leader>ln'] = lspsaga_keymapping('diagnostic_jump_next'),
+                ['<Leader>lp'] = lspsaga_keymapping('diagnostic_jump_prev'),
+                ['<Leader>le'] = lspsaga_keymapping('show_line_diagnostics'),
+                ['<Leader>ll'] = lspsaga_keymapping('show_workspace_diagnostics'),
+            }
         }
 
         require("lspsaga").setup {

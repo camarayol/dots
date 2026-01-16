@@ -6,13 +6,6 @@ return {
             { "n", "<leader>e", "<Cmd>NvimTreeFocus<CR>",  { desc = "[NvimTree] Focus"  } },
             { "n", "<leader>f", "<Cmd>NvimTreeToggle<CR>", { desc = "[NvimTree] Toggle" } }
         }
-        Core.linkHighlights {
-            ["NvimTreeGitNew"]           = "GitSignsAdd",
-            ["NvimTreeGitDirty"]         = "GitSignsChange",
-            ["NvimTreeCursorLine"]       = "CursorLine",
-            ["NvimTreeOpenedFolderIcon"] = "NvimTreeOpenedFolderName",
-            ["NvimTreeIndentMarker"]     = "IndentScopeOther",
-        }
 
         require("nvim-tree").setup {
             on_attach = function(bufnr)
