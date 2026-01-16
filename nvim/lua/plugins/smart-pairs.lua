@@ -71,9 +71,7 @@ return {
         }
 
         Core.createAutoCommand('FileType', { 'markdown', 'typst' }, function()
-            Core.setKeyMaps {
-                { 'n', 'o', function() vim.fn.feedkeys('o', 'n'); autolist() end, { noremap = true, silent = true } }
-            }
+            Core.setKeyMaps { n = { ['o'] = function() vim.fn.feedkeys('o', 'n') autolist() end} }
         end)
     end
 }

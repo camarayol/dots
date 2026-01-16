@@ -2,23 +2,18 @@ return {
     source = "https://github.com/nvimdev/lspsaga.nvim",
     depends = { "https://github.com/nvim-tree/nvim-web-devicons" },
     config = function()
-        vim.diagnostic.config { severity_sort = true }
-
-        Core.linkHighlights {
-            ["SagaVirtLine"]  = "IndentScopeOther",
-            ["SagaInCurrent"] = "IndentScopeCurrent"
-        }
-        local function lspsaga(cmd) return string.format("<Cmd>Lspsaga %s<CR>", cmd) end
         Core.setKeyMaps {
-            { "n", "K",          lspsaga("hover_doc"),                  { desc = "[lspsaga] Lsp hover"                             } },
-            { "n", "gd",         lspsaga("goto_definition"),            { desc = "[lspsaga] Lsp goto_definition"                   } },
-            { "n", "<leader>lf", lspsaga("finder"),                     { desc = "[lspsaga] Finder"                                } },
-            { "n", "<leader>rn", lspsaga("rename"),                     { desc = "[lspsaga] Rename"                                } },
-            { "n", "<leader>la", lspsaga("code_action"),                { desc = "[lspsaga] Code Action"                           } },
-            { "n", "<leader>ln", lspsaga("diagnostic_jump_next"),       { desc = "[lspsaga] Jump to the next diagnostic"           } },
-            { "n", "<leader>lp", lspsaga("diagnostic_jump_prev"),       { desc = "[lspsaga] Jump to the prev diagnostic"           } },
-            { "n", "<leader>le", lspsaga("show_line_diagnostics"),      { desc = "[lspsaga] Show diagnostics in a floating window" } },
-            { "n", "<leader>ll", lspsaga("show_workspace_diagnostics"), { desc = "[lspsaga] Show diagnostics in a floating window" } },
+            n = {
+                ['K']          = '<Cmd>Lspsaga hover_doc<CR>',
+                ['gd']         = '<Cmd>Lspsaga goto_definition<CR>',
+                ['<Leader>lf'] = '<Cmd>Lspsaga finder<CR>',
+                ['<Leader>rn'] = '<Cmd>Lspsaga rename<CR>',
+                ['<Leader>la'] = '<Cmd>Lspsaga code_action<CR>',
+                ['<Leader>ln'] = '<Cmd>Lspsaga diagnostic_jump_next<CR>',
+                ['<Leader>lp'] = '<Cmd>Lspsaga diagnostic_jump_prev<CR>',
+                ['<Leader>le'] = '<Cmd>Lspsaga show_line_diagnostics<CR>',
+                ['<Leader>ll'] = '<Cmd>Lspsaga show_workspace_diagnostics<CR>',
+            }
         }
 
         require("lspsaga").setup {
@@ -29,7 +24,7 @@ return {
                 title = true,
                 expand = "⊞",
                 collapse = "⊟",
-                code_action = "💡",
+                code_action = "",
                 lines = { "└", "│", "│", "─", " " },
                 kind = nil,
                 button = { "", "" },

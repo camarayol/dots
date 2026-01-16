@@ -757,15 +757,20 @@ MiniDeps.later = function(f)
     H.schedule_finish()
 end
 
-MiniDeps.lazy = function(plugins)
-    if type(plugins) == "table" then
-        for _, spec in ipairs(#plugins == 0 and { plugins } or plugins) do
-            if type(spec) == "table" then
+MiniDeps.lazy = function(f)
+    if type(f) == 'table' then
+        for _, spec in ipairs(#f == 0 and { f } or f) do
+            if type(spec) == 'table' then
                 table.insert(H.cache.later_callback_queue, function() MiniDeps.add(spec) end)
             end
         end
-        H.schedule_finish()
     end
+
+    if type(f) == 'function' then
+        table.insert(H.cache.later_callback_queue, f)
+    end
+
+    H.schedule_finish()
 end
 
 -- Helper data ================================================================

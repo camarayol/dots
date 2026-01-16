@@ -4,14 +4,6 @@ return {
     config = function()
         require("lualine").setup {
             options = {
-                theme = {
-                    normal   = { a = { fg = C.DGray, bg = C.Green  }, b = { bg = C.DGray }, c = { bg = C.None } },
-                    insert   = { a = { fg = C.DGray, bg = C.Blue   } },
-                    visual   = { a = { fg = C.DGray, bg = C.Purple } },
-                    replace  = { a = { fg = C.DGray, bg = C.Red    } },
-                    command  = { a = { fg = C.DGray, bg = C.Yellow } },
-                    terminal = { a = { fg = C.DGray, bg = C.Orange } },
-                },
                 globalstatus = true,
                 icons_enabled = false,
                 section_separators = "",

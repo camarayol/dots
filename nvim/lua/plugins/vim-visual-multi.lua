@@ -11,9 +11,11 @@ return {
     source = "https://github.com/mg979/vim-visual-multi",
     config = function()
         Core.setKeyMaps {
-            { "n", "<C-k>", "<Plug>(VM-Add-Cursor-Up)",   { noremap = true, silent = true } },
-            { "n", "<C-j>", "<Plug>(VM-Add-Cursor-Down)", { noremap = true, silent = true } },
-            { "n", "<C-n>", "<Plug>(VM-Find-Under)",      { noremap = true, silent = true } },
+            n = {
+                ["<C-k>"] = "<Plug>(VM-Add-Cursor-Up)",
+                ["<C-j>"] = "<Plug>(VM-Add-Cursor-Down)",
+                ["<C-n>"] = "<Plug>(VM-Find-Under)",
+            }
         }
     end
 }

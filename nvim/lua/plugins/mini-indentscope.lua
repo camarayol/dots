@@ -1,8 +1,6 @@
 return {
     source = "https://github.com/nvim-mini/mini.indentscope",
     config = function()
-        Core.linkHighlights { ["MiniIndentscopeSymbol"] = "IndentScopeCurrent" }
-
         require("mini.indentscope").setup {
             symbol = '│',
             draw = {

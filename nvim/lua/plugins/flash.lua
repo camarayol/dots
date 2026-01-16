@@ -2,7 +2,9 @@ return {
     source = "https://github.com/folke/flash.nvim",
     config = function()
         Core.setKeyMaps {
-            { { "n", "x", "o" }, "<leader>j", function() require("flash").jump() end, { desc = "Flash" } }
+            [{ 'n', 'x', 'o' }] = {
+                ["<leader>j"] = function() require("flash").jump() end
+            }
         }
         require("flash").setup {
             labels = "asdfghjklqwertyuiopzxcvbnm",

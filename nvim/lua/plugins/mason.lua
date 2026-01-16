@@ -1,10 +1,7 @@
 return {
     source = "https://github.com/williamboman/mason.nvim",
     config = function()
-        require("mason").setup {
-            ui = { border = "single" },
-            github = { download_url_template = "https://github.com/%s/releases/download/%s/%s" }
-        }
+        require("mason").setup { ui = { border = "rounded" } }
         -- https://github.com/williamboman/mason-lspconfig.nvim/blob/main/doc/server-mapping.md
         local mason_servers = {
             -- "gopls",

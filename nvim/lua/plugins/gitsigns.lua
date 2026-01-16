@@ -1,23 +1,15 @@
 return {
     source = "https://github.com/lewis6991/gitsigns.nvim",
     config = function()
-        Core.setHighlights {
-            ["Added"]   = { fg = C.DGreen, bg = C.None },
-            ["Changed"] = { fg = C.Orange, bg = C.None },
-            ["Removed"] = { fg = C.Red,    bg = C.None },
-        }
-        Core.linkHighlights {
-            ["DiffAdd"]    = "Added",
-            ["DiffChange"] = "Changed",
-            ["DiffDelete"] = "Removed",
-            ["GitSignsCurrentLineBlame"] = "Comment",
-        }
         Core.setKeyMaps {
-            { "n",     "[",      "<Cmd>Gitsigns prev_hunk<CR>",    { desc = "[Git] prev_hunk"    } },
-            { "n",     "]",      "<Cmd>Gitsigns next_hunk<CR>",    { desc = "[Git] next_hunk"    } },
-            { "n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>",   { desc = "[Git] reset_hunk"   } },
-            { "n", "<leader>gv", "<Cmd>Gitsigns preview_hunk<CR>", { desc = "[Git] preview_hunk" } },
+            n = {
+                ["[c"]         = "<Cmd>Gitsigns prev_hunk<CR>",
+                ["]c"]         = "<Cmd>Gitsigns next_hunk<CR>",
+                ["<leader>gr"] = "<Cmd>Gitsigns reset_hunk<CR>",
+                ["<leader>gv"] = "<Cmd>Gitsigns preview_hunk<CR>",
+            }
         }
+
         require("gitsigns").setup {
             signs                        = {
                 add          = { text = "▌" },
