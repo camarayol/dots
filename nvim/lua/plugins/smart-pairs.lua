@@ -1,7 +1,7 @@
 local autolist = function()
     local line = vim.api.nvim_get_current_line()
 
-    local indent, bullet, content = line:match("^(%s*)([-+*])%s*(.*)$")
+    local indent, bullet, content = line:match('^(%s*)([-+*])%s*(.*)$')
     if indent and bullet then
         if content == '' then
             return vim.api.nvim_set_current_line('')
@@ -10,7 +10,7 @@ local autolist = function()
         end
     end
 
-    indent, bullet, content = line:match("^(%s*)(%d+)%.%s*(.*)$")
+    indent, bullet, content = line:match('^(%s*)(%d+)%.%s*(.*)$')
     if indent and bullet then
         if content == '' then
             return vim.api.nvim_set_current_line('')
@@ -21,9 +21,9 @@ local autolist = function()
 end
 
 return {
-    source = "https://github.com/ZhiyuanLck/smart-pairs",
+    source = 'https://github.com/ZhiyuanLck/smart-pairs',
     config = function()
-        require("pairs"):setup {
+        require('pairs'):setup {
             pairs = {
                 ['*'] = {
                     { '(', ')' },
@@ -41,23 +41,23 @@ return {
             --[[
                 Scenes like this:
                     {
-                        str = "Hello World"
+                        str = 'Hello World'
                         |
                     }
                 Default press <bs>:
                     {
-                        str = "Hello World"|
+                        str = 'Hello World'|
                     }
-                Add 'delete.empty_line.text_bracket.one.strategy = "leave_one_start"' fix into:
+                Add 'delete.empty_line.text_bracket.one.strategy = 'leave_one_start'' fix into:
                     {
-                        str = "Hello World"
+                        str = 'Hello World'
                     |
                     }
             ]]
             delete = {
                 empty_line = {
-                    bracket_text = { one = { strategy = "leave_one_start", } },
-                    text_bracket = { one = { strategy = "leave_one_start", } },
+                    bracket_text = { one = { strategy = 'leave_one_start', } },
+                    text_bracket = { one = { strategy = 'leave_one_start', } },
                 }
             },
             enter = {
@@ -70,10 +70,10 @@ return {
             }
         }
 
-        Core.createAutoCommand('FileType', { 'markdown', 'typst' }, function()
-            Core.setKeyMaps {
-                { 'n', 'o', function() vim.fn.feedkeys('o', 'n'); autolist() end, { noremap = true, silent = true } }
-            }
+        core.create_autocommand('FileType', { 'markdown', 'typst' }, function()
+            core.set_mode_keymaps('n', {
+                ['o'] = function() vim.fn.feedkeys('o', 'n'); autolist() end
+            })
         end)
     end
 }

@@ -1,11 +1,11 @@
 return {
-    source = "https://github.com/folke/flash.nvim",
+    source = 'https://github.com/folke/flash.nvim',
     config = function()
-        Core.setKeyMaps {
-            { { "n", "x", "o" }, "<leader>j", function() require("flash").jump() end, { desc = "Flash" } }
-        }
-        require("flash").setup {
-            labels = "asdfghjklqwertyuiopzxcvbnm",
+        core.set_mode_keymaps({ 'n', 'x', 'o' }, {
+            ['<leader>j'] = function() require('flash').jump() end
+        })
+        require('flash').setup {
+            labels = 'asdfghjklqwertyuiopzxcvbnm',
             search = {
                 -- search/jump in all windows
                 multi_window = true,
@@ -14,15 +14,15 @@ return {
                 -- when `false`, find only matches in the given direction
                 wrap = true,
                 -- Each mode will take ignorecase and smartcase into account.
-                mode = "fuzzy", ---@type "exact" | "search" | "fuzzy"
+                mode = 'fuzzy', ---@type 'exact' | 'search' | 'fuzzy'
                 -- behave like `incsearch`
                 incremental = false,
                 -- Excluded filetypes and custom window filters
                 exclude = {
-                    "notify",
-                    "cmp_menu",
-                    "noice",
-                    "flash_prompt",
+                    'notify',
+                    'cmp_menu',
+                    'noice',
+                    'flash_prompt',
                     function(win)
                         -- exclude non-focusable windows
                         return not vim.api.nvim_win_get_config(win).focusable
@@ -31,7 +31,7 @@ return {
                 -- Optional trigger character that needs to be typed before
                 -- a jump label can be used. It's NOT recommended to set this,
                 -- unless you know what you're doing
-                trigger = "",
+                trigger = '',
                 -- max pattern length. If the pattern length is equal to this
                 -- labels will no longer be skipped. When it exceeds this length
                 -- it will either end in a jump or terminate the search
@@ -41,7 +41,7 @@ return {
                 -- save location in the jumplist
                 jumplist = true,
                 -- jump position
-                pos = "end", ---@type "start" | "end" | "range"
+                pos = 'end', ---@type 'start' | 'end' | 'range'
                 -- add pattern to search history
                 history = false,
                 -- add pattern to search register
@@ -56,14 +56,14 @@ return {
                 inclusive = nil, ---@type boolean?
                 -- jump position offset. Not used for range jumps.
                 -- 0: default
-                -- 1: when pos == "end" and pos < current position
+                -- 1: when pos == 'end' and pos < current position
                 offset = nil, ---@type number
             },
             label = {
                 -- allow uppercase labels
                 uppercase = false,
                 -- add any labels with the correct case here, that you want to exclude
-                exclude = "",
+                exclude = '',
                 -- add a label for the first match in the current window.
                 -- you can always jump to the first match with `<CR>`
                 current = true,
@@ -72,10 +72,10 @@ return {
                 -- show the label before the match
                 before = false, ---@type boolean|number[]
                 -- position of the label extmark
-                style = "inline", ---@type "eol" | "overlay" | "right_align" | "inline"
+                style = 'inline', ---@type 'eol' | 'overlay' | 'right_align' | 'inline'
                 -- flash tries to re-use labels that were already assigned to a position,
                 -- when typing more characters. By default only lower-case labels are re-used.
-                reuse = "lowercase", ---@type "lowercase" | "all" | "none"
+                reuse = 'lowercase', ---@type 'lowercase' | 'all' | 'none'
                 -- for the current window, label targets closer to the cursor first
                 distance = true,
                 -- minimum pattern length to show labels
@@ -100,10 +100,10 @@ return {
                 -- extmark priority
                 priority = 5000,
                 groups = {
-                    match = "FlashMatch",
-                    current = "FlashCurrent",
-                    backdrop = "FlashBackdrop",
-                    label = "FlashLabel",
+                    match = 'FlashMatch',
+                    current = 'FlashCurrent',
+                    backdrop = 'FlashBackdrop',
+                    label = 'FlashLabel',
                 },
             },
             modes = {
@@ -114,9 +114,9 @@ return {
             -- for regular jumps
             prompt = {
                 enabled = true,
-                prefix = { { "⚡", "FlashPromptIcon" } },
+                prefix = { { '⚡', 'FlashPromptIcon' } },
                 win_config = {
-                    relative = "editor",
+                    relative = 'editor',
                     width = 1, -- when <=1 it's a percentage of the editor width
                     height = 1,
                     row = -1,  -- when negative it's an offset from the bottom

@@ -1,12 +1,7 @@
 return {
-    source = "https://github.com/nvim-tree/nvim-web-devicons",
+    source = 'https://github.com/nvim-tree/nvim-web-devicons',
     config = function()
-        require("nvim-web-devicons").setup {
-            override = {
-                ["md"]       = { icon = "󰂺", color = C.Orange, name = "Markdown" },
-                ["markdown"] = { icon = "󰂺", color = C.Orange, name = "Markdown" },
-                ["readme"]   = { icon = "󰂺", color = C.Orange, name = "Readme"   },
-            },
+        require('nvim-web-devicons').setup {
             override_by_filename = {},
             override_by_extension = {},
         }
