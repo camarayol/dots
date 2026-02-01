@@ -757,15 +757,20 @@ MiniDeps.later = function(f)
     H.schedule_finish()
 end
 
-MiniDeps.lazy = function(plugins)
-    if type(plugins) == "table" then
-        for _, spec in ipairs(#plugins == 0 and { plugins } or plugins) do
-            if type(spec) == "table" then
+MiniDeps.lazy = function(f)
+    if type(f) == 'table' then
+        for _, spec in ipairs(#f == 0 and { f } or f) do
+            if type(spec) == 'table' then
                 table.insert(H.cache.later_callback_queue, function() MiniDeps.add(spec) end)
             end
         end
-        H.schedule_finish()
     end
+
+    if type(f) == 'function' then
+        table.insert(H.cache.later_callback_queue, f)
+    end
+
+    H.schedule_finish()
 end
 
 -- Helper data ================================================================
@@ -997,6 +1002,9 @@ H.expand_spec = function(target, spec)
     if spec.checkout and type(spec.checkout) ~= 'string' then H.error('`checkout` in plugin spec should be string.') end
     if spec.monitor and type(spec.monitor) ~= 'string' then H.error('`monitor` in plugin spec should be string.') end
 
+    if type(spec.hooks) == 'function' then
+        spec.hooks = { post_install = spec.hooks, post_checkout = spec.hooks }
+    end
     spec.hooks = vim.deepcopy(spec.hooks) or {}
     if type(spec.hooks) ~= 'table' then H.error('`hooks` in plugin spec should be table.') end
     local hook_names = { 'pre_install', 'post_install', 'pre_checkout', 'post_checkout' }

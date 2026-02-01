@@ -1,9 +1,9 @@
 return {
-    source = "https://github.com/folke/which-key.nvim",
+    source = 'https://github.com/folke/which-key.nvim',
     config = function()
-        require("which-key").setup {
+        require('which-key').setup {
             win = {
-                border = "single"
+                border = 'rounded'
             }
         }
     end

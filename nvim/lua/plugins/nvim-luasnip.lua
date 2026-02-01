@@ -1,31 +1,31 @@
 local snippets = function()
-    local ls  = require("luasnip")
-    local e   = require("luasnip.extras")
-    local fmt = require("luasnip.extras.fmt").fmt
+    local ls  = require('luasnip')
+    local e   = require('luasnip.extras')
+    local fmt = require('luasnip.extras.fmt').fmt
     local s   = ls.snippet
     local i   = ls.insert_node
     local t   = ls.text_node
 
     -- all
-    ls.add_snippets("all", {
-        s("date", { e.partial(os.date, "%Y-%m-%d %H:%M:%S") }),
+    ls.add_snippets('all', {
+        s('date', { e.partial(os.date, '%Y-%m-%d %H:%M:%S') }),
     })
 
     -- shell
-    ls.add_snippets("sh", {
-        s("sh", fmt(
+    ls.add_snippets('sh', {
+        s('sh', fmt(
             [[
                 #!/bin/{}
 
                 {}
-            ]], { i(1, "bash"), i(0) }
+            ]], { i(1, 'bash'), i(0) }
         ))
     })
 
     -- lua
-    ls.add_snippets("lua", {
-        s("fmt", fmt([=[
-            s("{}", fmt([[
+    ls.add_snippets('lua', {
+        s('fmt', fmt([=[
+            s('{}', fmt([[
                 {}
             ]]{})),
         ]=], { i(1), i(2), i(3) }
@@ -33,18 +33,18 @@ local snippets = function()
     })
 
     -- markdown
-    ls.add_snippets("markdown", {
-        s("code", fmt(
+    ls.add_snippets('markdown', {
+        s('code', fmt(
             [[
                 ```{}
                 {start}
                 ```
-            ]], { i(1, "code"), start = i(0) }
+            ]], { i(1, 'code'), start = i(0) }
         )),
 
-        s("link", fmt("[{}]({})", { i(2), i(1) })),
+        s('link', fmt('[{}]({})', { i(2), i(1) })),
 
-        s("title", fmt(
+        s('title', fmt(
             [[
                 ---
                 title: {}
@@ -57,13 +57,13 @@ local snippets = function()
                 image: {}
                 ---
                 {start}
-            ]], { i(1, "title"), i(2, os.date("%Y-%m-%d")), i(3), i(4), i(5), start = i(0) }
+            ]], { i(1, 'title'), i(2, os.date('%Y-%m-%d')), i(3), i(4), i(5), start = i(0) }
         ))
     })
 
     -- Golang
-    ls.add_snippets("go", {
-        s("main", fmt(
+    ls.add_snippets('go', {
+        s('main', fmt(
             [[
                 package main
 
@@ -73,15 +73,15 @@ local snippets = function()
             ]], i(0)
         )),
 
-        s("func", fmt(
+        s('func', fmt(
             [[
                 func {}({}) ({}) {{
                     {}
                 }}
-            ]], { i(1, "func"), i(2, "params"), i(3, "rets"), i(0) }
+            ]], { i(1, 'func'), i(2, 'params'), i(3, 'rets'), i(0) }
         )),
 
-        s("ife", fmt(
+        s('ife', fmt(
             [[
                 if err != nil {{
                     {}
@@ -89,18 +89,18 @@ local snippets = function()
             ]], i(0)
         )),
 
-        s("db", fmt([[`db:"{}"`]], i(0))),
+        s('db', fmt([[`db:'{}'`]], i(0))),
 
-        s("json", fmt([[`json:"{}"`]], i(0))),
+        s('json', fmt([[`json:'{}'`]], i(0))),
 
-        s("date", t([["2006-01-02 15:04:05"]])),
+        s('date', t([['2006-01-02 15:04:05']])),
     })
 
     -- cpp
-    ls.add_snippets("cpp", {
-        s("cout", fmt([[std::cout << {} << std::endl;]], { i(0, [["Hello World"]]) })),
+    ls.add_snippets('cpp', {
+        s('cout', fmt([[std::cout << {} << std::endl;]], { i(0, [['Hello World']]) })),
 
-        s("main", fmt(
+        s('main', fmt(
             [[
                 int main(int argc, char *argv[]) {{
                     {}
@@ -109,7 +109,7 @@ local snippets = function()
             ]], { i(0) }
         )),
 
-        s("ifndef", fmt(
+        s('ifndef', fmt(
             [[
                 #ifndef {def}
                 #define {def}
@@ -117,10 +117,10 @@ local snippets = function()
                 {}
 
                 #endif // {def}
-            ]], { def = i(1, "__XXX_H__"), i(0) }, { repeat_duplicates = true }
+            ]], { def = i(1, '__XXX_H__'), i(0) }, { repeat_duplicates = true }
         )),
 
-        s("for", fmt(
+        s('for', fmt(
             [[
                 for ({}) {{
                     {}
@@ -130,8 +130,8 @@ local snippets = function()
     })
 
     -- rust
-    ls.add_snippets("rust", {
-        s("main", fmt(
+    ls.add_snippets('rust', {
+        s('main', fmt(
             [[
                 fn main() {{
                     {}
@@ -139,30 +139,30 @@ local snippets = function()
             ]], i(0)
         )),
 
-        s("println", fmt([[println!("{}");]], i(0))),
+        s('println', fmt([[println!('{}');]], i(0))),
 
-        s("for", fmt([[
+        s('for', fmt([[
             for {} in {} {{
                 {}
             }}
         ]], { i(1), i(2), i(0) }
         )),
 
-        s("struct", fmt([[
+        s('struct', fmt([[
             struct {} {{
                 {}
             }}
         ]], { i(1), i(0) }
         )),
 
-        s("fn", fmt([[
+        s('fn', fmt([[
             fn {}({}){} {{
                 {}
             }}
         ]], { i(1), i(2), i(3), i(4) }
         )),
 
-        s("match", fmt([[
+        s('match', fmt([[
             match {}{{
                 {} => {{ {} }},
                 {} => {{ {} }}
@@ -170,33 +170,41 @@ local snippets = function()
         ]], { i(1), i(2), i(3), i(4), i(5) }
         )),
 
-        s("closure", fmt([[
+        s('closure', fmt([[
             |{}| {}{{
                {}
             }}
         ]], { i(1), i(2), i(3) })),
 
-        s("derive", fmt([[
+        s('derive', fmt([[
             #[derive({})]
         ]], i(0)
         )),
     })
 end
 
-local function build(params)
-    Core.info("[luasnip] building ...")
-    local ret = vim.system({ "make", "install_jsregexp" }, { cwd = params.path }):wait()
-    Core.info(ret.code == 0 and "[luasnip] build success!" or "[luasnip] build failed!")
+
+local M = {
+    source = 'https://github.com/L3MON4D3/LuaSnip'
+}
+
+M.hooks = function(ev)
+    vim.notify('[luasnip] building ...')
+    vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
+        if out.code == 0 then
+            vim.notify('[luasnip] build success!')
+        else
+            vim.notify('[luasnip] build failed! ' .. out.stderr, vim.log.levels.WARN)
+        end
+    end))
 end
 
-return {
-    source = "https://github.com/L3MON4D3/LuaSnip",
-    hooks = { post_install = build, post_checkout = build },
-    config = function()
-        require("luasnip").setup {
-            update_events = "TextChanged,TextChangedI",
-            delete_check_events = "TextChanged",
-        }
-        vim.defer_fn(snippets, 100)
-    end
-}
+M.config = function()
+    require('luasnip').setup {
+        update_events = 'TextChanged,TextChangedI',
+        delete_check_events = 'TextChanged',
+    }
+    vim.schedule(snippets)
+end
+
+return M

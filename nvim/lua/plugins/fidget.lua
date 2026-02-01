@@ -1,12 +1,11 @@
 return {
-    source = "https://github.com/j-hui/fidget.nvim",
-    depends = { "https://github.com/williamboman/nvim-lspconfig" },
+    source = 'https://github.com/j-hui/fidget.nvim',
     config = function()
-        require("fidget").setup {
+        require('fidget').setup {
             notification = {
                 window = {
                     winblend = 0,
-                    border = "rounded"
+                    border = 'rounded'
                 }
             }
         }
