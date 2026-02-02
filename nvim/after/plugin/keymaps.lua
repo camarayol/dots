@@ -1,5 +1,6 @@
 core.set_keymaps {
     n = {
+        ['<C-r>']      = '<Nop>',
         ['<Leader>q']  = '<Cmd>qall<CR>',
         ['U']          = '<Cmd>redo<CR>',
         ['<C-a>']      = 'ggVG',
@@ -30,7 +31,7 @@ core.set_keymaps {
         ['<Leader>h']  = function()
             local word = vim.fn.expand('<cword>')
             if word ~= '' then
-                vim.cmd(string.format("let @/ = '%s'", word))
+                vim.fn.setreg('/', word)
                 vim.cmd('set hlsearch')
             end
         end,
@@ -51,8 +52,10 @@ core.set_keymaps {
         ['<S-Tab>'] = '<gv',
     },
     c = {
-        ['<M-j>'] = '<Down>',
-        ['<M-k>'] = '<Up>',
+        ['<M-h>'] = { '<Left>',  { noremap = false, silent = false } },
+        ['<M-j>'] = { '<Down>',  { noremap = false, silent = false } },
+        ['<M-k>'] = { '<Up>',    { noremap = false, silent = false } },
+        ['<M-l>'] = { '<Right>', { noremap = false, silent = false } },
     }
 }
 
@@ -71,5 +74,5 @@ core.set_mode_keymaps({ 'n', 'i', 'v' }, {
         local row = vim.api.nvim_win_get_cursor(0)[1]
         require('vim._comment').toggle_lines(row, row)
     end,
-    ['<C-_>'] = { '<C-/>', { noremap = false } },
+    ['<C-_>'] = { '<C-/>', { noremap = false, remap = true } },
 })

@@ -25,12 +25,15 @@ M.config = function()
     local a = require('telescope.actions')
 
     core.set_mode_keymaps('n', {
-        ['\\']            = b.builtin,
-        ['<C-\\>']        = b.pickers,
-        ['F']             = b.find_files,
-        ['B']             = b.buffers,
-        ['<C-f>']         = b.current_buffer_fuzzy_find,
-        ['<Leader><C-f>'] = b.live_grep,
+        ['<Bslash><Bslash>'] = b.builtin,
+        ['<Bslash>b']        = b.buffers,
+        ['<Bslash>f']        = b.find_files,
+        ['<Bslash>g']        = b.git_status,
+        ['<Bslash>h']        = b.help_tags,
+        ['<Bslash>o']        = b.oldfiles,
+        ['<Bslash>q']        = b.quickfix,
+        ['<Bslash>s']        = b.current_buffer_fuzzy_find,
+        ['<Bslash>S']        = b.live_grep,
     })
 
     require('telescope').setup {
@@ -78,6 +81,7 @@ M.config = function()
                 layout_config = { horizontal = { preview_width = 0.6 } }
             },
             current_buffer_fuzzy_find = {
+                theme = 'ivy',
                 layout_config = {
                     width = { padding = 0.1 },
                     height = { padding = 0.1 },

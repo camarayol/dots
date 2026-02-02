@@ -1,3 +1,4 @@
+--- @diagnostic disable: lowercase-global
 core = {}
 
 core.group = vim.api.nvim_create_augroup('core.default', { clear = true })
@@ -47,6 +48,48 @@ core.prepend_env_path = function(path)
     if string.find(current_path, pattern) then return end
 
     vim.env.PATH = expanded_path .. sep .. current_path
+end
+
+
+--- @class core.bwoptions
+--- @field winopts? vim.api.keyset.win_config
+--- @field on_open? function
+--- @field on_exec? function
+--- @field on_exit? function
+--- @param opts core.bwoptions
+core.create_once_cursor_window = function(opts)
+    local buf = vim.api.nvim_create_buf(false, true)
+
+    vim.bo[buf].bufhidden = 'wipe'
+
+    opts.winopts = vim.tbl_extend('force', {
+        row = 1, col = 0, height = 1, width = 50, relative = 'cursor', style = 'minimal', border = 'rounded'
+    }, opts.winopts or {})
+
+    local win = vim.api.nvim_open_win(buf, true, opts.winopts)
+
+    if opts.on_open then opts.on_open(buf, win) end
+
+    local function close()
+        if vim.api.nvim_win_is_valid(win) then vim.api.nvim_win_close(win, true) end
+    end
+
+    local function callback()
+        if opts.on_exec then opts.on_exec(buf, win) end
+        close()
+        if opts.on_exit then opts.on_exit(buf, win) end
+    end
+
+    core.set_keymaps {
+        n = {
+            ['q']     = { close, { buffer = buf } },
+            ['<Esc>'] = { close, { buffer = buf } },
+        },
+        i = {
+            ['<Esc>'] = { close, { buffer = buf } },
+            ['<CR>']  = { callback, { buffer = buf } },
+        }
+    }
 end
 
 return core
