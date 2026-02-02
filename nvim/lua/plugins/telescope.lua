@@ -25,31 +25,28 @@ M.config = function()
     local a = require('telescope.actions')
 
     core.set_mode_keymaps('n', {
-        ['<Bslash><Bslash>'] = b.builtin,
-        ['<Bslash>b']        = b.buffers,
-        ['<Bslash>f']        = b.find_files,
-        ['<Bslash>g']        = b.git_status,
-        ['<Bslash>h']        = b.help_tags,
-        ['<Bslash>o']        = b.oldfiles,
-        ['<Bslash>q']        = b.quickfix,
-        ['<Bslash>s']        = b.current_buffer_fuzzy_find,
-        ['<Bslash>S']        = b.live_grep,
+        ['<Bslash>\\'] = { b.builtin,    { desc = 'telescope builtin'    } },
+        ['<Bslash>b']  = { b.buffers,    { desc = 'telescope buffers'    } },
+        ['<Bslash>f']  = { b.find_files, { desc = 'telescope find_files' } },
+        ['<Bslash>g']  = { b.git_status, { desc = 'telescope git_status' } },
+        ['<Bslash>h']  = { b.help_tags,  { desc = 'telescope help_tags'  } },
+        ['<Bslash>j']  = { b.jumplist,   { desc = 'telescope jumplist'   } },
+        ['<Bslash>o']  = { b.oldfiles,   { desc = 'telescope oldfiles'   } },
+        ['<Bslash>q']  = { b.quickfix,   { desc = 'telescope quickfix'   } },
+        ['<Bslash>S']  = { b.live_grep,  { desc = 'telescope live_grep'  } },
+        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = 'telescope current_buffer_fuzzy_find' } },
     })
 
     require('telescope').setup {
-        defaults = {
-            preview = false,
+        defaults = require('telescope.themes').get_ivy {
+            path_display = { 'tail' },
             dynamic_preview_title = true,
-            layout_strategy = 'horizontal',
             sorting_strategy = 'ascending',
             layout_config = {
+                bottom_pane = { preview_width = 0.6 },
                 horizontal = { prompt_position = 'top', height = 0.6, width = 0.6 }
             },
-            cache_picker = {
-                num_pickers = 10,
-                limit_entries = 1000,
-                ignore_empty_prompt = true
-            },
+            -- cache_picker = { num_pickers = 10, limit_entries = 1000, ignore_empty_prompt = true },
             default_mappings = {
                 n = {
                     ['<Esc>']      = a.close,
@@ -70,46 +67,6 @@ M.config = function()
                     ['<PageDown>'] = a.preview_scrolling_down,
                 }
             }
-        },
-        pickers = {
-            keymaps = { layout_config = { horizontal = { height = 0.9, width = 0.9 } } },
-            commands = { layout_config = { horizontal = { height = 0.9, width = 0.9 } } },
-            live_grep = {
-                theme = 'ivy',
-                preview = true,
-                path_display = { 'tail' },
-                layout_config = { horizontal = { preview_width = 0.6 } }
-            },
-            current_buffer_fuzzy_find = {
-                theme = 'ivy',
-                layout_config = {
-                    width = { padding = 0.1 },
-                    height = { padding = 0.1 },
-                }
-            },
-            lsp_definitions = {
-                theme = 'ivy',
-                preview = true,
-                path_display = { 'tail' },
-                layout_config = { horizontal = { preview_width = 0.6 } }
-            },
-            lsp_type_definitions = {
-                theme = 'ivy',
-                preview = true,
-                path_display = { 'tail' },
-                layout_config = { horizontal = { preview_width = 0.6 } }
-            },
-            lsp_references = {
-                theme = 'ivy',
-                preview = true,
-                path_display = { 'tail' },
-                layout_config = { horizontal = { preview_width = 0.6 } }
-            },
-            highlights = {
-                preview = true,
-                layout_config = { horizontal = { height = 0.8, width = 0.8, preview_width = 0.6 } }
-            },
-            buffers = { path_display = { 'filename_first' } },
         },
         extensions = {
             fzf = {
