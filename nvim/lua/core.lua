@@ -50,6 +50,12 @@ core.prepend_env_path = function(path)
     vim.env.PATH = expanded_path .. sep .. current_path
 end
 
+core.get_visual_text = function()
+    if vim.api.nvim_get_mode().mode ~= 'v' then return '' end
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), 'x', true)
+    local spos, epos = vim.fn.getpos("'<"), vim.fn.getpos("'>")
+    return vim.api.nvim_buf_get_text(0, spos[2] - 1, spos[3] - 1, epos[2] - 1, epos[3], {})[1]
+end
 
 --- @class core.bwoptions
 --- @field winopts? vim.api.keyset.win_config
@@ -63,7 +69,7 @@ core.create_once_cursor_window = function(opts)
     vim.bo[buf].bufhidden = 'wipe'
 
     opts.winopts = vim.tbl_extend('force', {
-        row = 1, col = 0, height = 1, width = 50, relative = 'cursor', style = 'minimal', border = 'rounded'
+        row = 1, col = 0, height = 1, width = 30, relative = 'cursor', style = 'minimal', border = 'rounded'
     }, opts.winopts or {})
 
     local win = vim.api.nvim_open_win(buf, true, opts.winopts)

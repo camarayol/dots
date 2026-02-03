@@ -9,11 +9,7 @@ local function lsprename()
     if oldname == '' then return end
 
     core.create_once_cursor_window {
-        winopts = {
-            width = math.max(20, #oldname + 10),
-            title = 'LSP Rename',
-            title_pos = 'center'
-        },
+        winopts = { title = 'LSP Rename', title_pos = 'center' },
         on_open = function()
             vim.api.nvim_set_current_line(oldname)
             vim.cmd('startinsert!')

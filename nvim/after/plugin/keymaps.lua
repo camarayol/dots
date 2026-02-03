@@ -27,14 +27,13 @@ core.set_keymaps {
         ['<M-z>']      = function() vim.wo.wrap = not vim.wo.wrap end,
 
         ['<Esc>']      = '<Cmd>nohlsearch<CR>',
-        ['<Leader>nh'] = '<Cmd>nohlsearch<CR>',
-        ['<Leader>h']  = function()
+        ['<Leader>h']  = { function()
             local word = vim.fn.expand('<cword>')
             if word ~= '' then
-                vim.fn.setreg('/', word)
+                vim.fn.setreg('/', word:gsub('/', '\\/'))
                 vim.cmd('set hlsearch')
             end
-        end,
+        end, { desc = 'hlsearch cusror word' } },
     },
     i = {
         ['jk']      = '<Esc>',
@@ -44,18 +43,38 @@ core.set_keymaps {
         ['<S-Tab>'] = '<C-d>',
     },
     v = {
-        ['<M-j>']     = ":move '>+1<CR>gv",
-        ['<M-J>']     = ":copy '<-1<CR>gv",
-        ['<M-k>']     = ":move '<-2<CR>gv",
-        ['<M-K>']     = ":copy '><CR>gv",
-        ['<Tab>']     = '>gv',
-        ['<S-Tab>']   = '<gv',
-        ['<Leader>h'] = function()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), 'x', true)
-            local spos, epos = vim.fn.getpos("'<"), vim.fn.getpos("'>")
-            local pattern = vim.api.nvim_buf_get_text(0, spos[2] - 1, spos[3] - 1, epos[2] - 1, epos[3], {})[1]
+        ['<M-j>']   = ":move '>+1<CR>gv",
+        ['<M-J>']   = ":copy '<-1<CR>gv",
+        ['<M-k>']   = ":move '<-2<CR>gv",
+        ['<M-K>']   = ":copy '><CR>gv",
+        ['<Tab>']   = '>gv',
+        ['<S-Tab>'] = '<gv',
+        ['n']       = function()
+            local pattern = core.get_visual_text()
+            if pattern == '' then return end
             vim.fn.setreg('/', pattern:gsub('/', '\\/'))
             vim.cmd('set hlsearch')
+        end,
+        ['rn']      = function()
+            local pattern = core.get_visual_text()
+            if pattern == '' then return end
+            string.gsub(pattern, '/', '\\/')
+
+            local newstring = ''
+            core.create_once_cursor_window {
+                winopts = { title = 'Rename', title_pos = 'center' },
+                on_open = function()
+                    vim.cmd('startinsert!')
+                end,
+                on_exec = function()
+                    newstring = vim.api.nvim_get_current_line()
+                end,
+                on_exit = function()
+                    vim.cmd('stopinsert')
+                    local command = string.format(':%%s/%s/%s', pattern, newstring:gsub('/', '\\/'))
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(command, true, false, true), 'n', false)
+                end
+            }
         end,
     },
     c = {
