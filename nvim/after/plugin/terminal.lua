@@ -22,8 +22,10 @@ local terminal = function(config, callback)
             term = true,
             cwd = vim.fn.expand('%:p:h'),
             on_exit = function()
-                vim.api.nvim_win_close(opts.win, true)
-                opts.buf, opts.win = nil, nil
+                if vim.api.nvim_win_is_valid(opts.win) then
+                    vim.api.nvim_win_close(opts.win, true)
+                end
+                opts.win = nil
             end
         })
     end
