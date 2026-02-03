@@ -127,6 +127,7 @@ nvim_set_highlights {
     ['Changed']                  = { fg = c.org0, bg = c.None },
     ['Removed']                  = { fg = c.red0, bg = c.None },
 
+    ['DiagnosticInfo']           = { fg = c.org0 },
     ['DiagnosticError']          = { fg = c.red0 },
     ['DiagnosticUnderlineWarn']  = { fg = c.ylw0, underline = true },
     ['DiagnosticUnderlineError'] = { fg = c.red0, underline = true },
