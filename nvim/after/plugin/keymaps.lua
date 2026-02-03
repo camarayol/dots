@@ -44,12 +44,19 @@ core.set_keymaps {
         ['<S-Tab>'] = '<C-d>',
     },
     v = {
-        ['<M-j>']   = ":move '>+1<CR>gv",
-        ['<M-J>']   = ":copy '<-1<CR>gv",
-        ['<M-k>']   = ":move '<-2<CR>gv",
-        ['<M-K>']   = ":copy '><CR>gv",
-        ['<Tab>']   = '>gv',
-        ['<S-Tab>'] = '<gv',
+        ['<M-j>']     = ":move '>+1<CR>gv",
+        ['<M-J>']     = ":copy '<-1<CR>gv",
+        ['<M-k>']     = ":move '<-2<CR>gv",
+        ['<M-K>']     = ":copy '><CR>gv",
+        ['<Tab>']     = '>gv',
+        ['<S-Tab>']   = '<gv',
+        ['<Leader>h'] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), 'x', true)
+            local spos, epos = vim.fn.getpos("'<"), vim.fn.getpos("'>")
+            local pattern = vim.api.nvim_buf_get_text(0, spos[2] - 1, spos[3] - 1, epos[2] - 1, epos[3], {})[1]
+            vim.fn.setreg('/', pattern:gsub('/', '\\/'))
+            vim.cmd('set hlsearch')
+        end,
     },
     c = {
         ['<M-h>'] = { '<Left>',  { noremap = false, silent = false } },
