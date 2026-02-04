@@ -34,6 +34,8 @@ core.set_keymaps {
                 vim.cmd('set hlsearch')
             end
         end, { desc = 'hlsearch cusror word' } },
+
+        ['<C-/>']      = { 'gcc', { noremap = false, remap = true } },
     },
     i = {
         ['jk']      = '<Esc>',
@@ -41,14 +43,19 @@ core.set_keymaps {
         ['<M-h>']   = '<Left>',
         ['<M-l>']   = '<Right>',
         ['<S-Tab>'] = '<C-d>',
+        ['<C-/>']   = { 'gcc', { noremap = false, remap = true } },
     },
     v = {
         ['<M-j>']   = ":move '>+1<CR>gv",
         ['<M-J>']   = ":copy '<-1<CR>gv",
         ['<M-k>']   = ":move '<-2<CR>gv",
         ['<M-K>']   = ":copy '><CR>gv",
+
         ['<Tab>']   = '>gv',
         ['<S-Tab>'] = '<gv',
+
+        ['<C-/>']   = { 'gc', { noremap = false, remap = true } },
+
         ['n']       = function()
             local pattern = core.get_visual_text()
             if pattern == '' then return end
@@ -71,7 +78,7 @@ core.set_keymaps {
                 end,
                 on_exit = function()
                     vim.cmd('stopinsert')
-                    local command = string.format(':%%s/%s/%s', pattern, newstring:gsub('/', '\\/'))
+                    local command = string.format(':%%s/%s/%s/gc', pattern, newstring:gsub('/', '\\/'))
                     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(command, true, false, true), 'n', false)
                 end
             }
@@ -95,10 +102,6 @@ core.set_mode_keymaps({ 'n', 'i', 'v' }, {
             (vim.api.nvim_get_mode().mode == 'i' and '<C-o>^' or '^')
 
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(feedkeys, true, false, true), 'n', false)
-    end,
-    ['<C-/>'] = function()
-        local row = vim.api.nvim_win_get_cursor(0)[1]
-        require('vim._comment').toggle_lines(row, row)
     end,
     ['<C-_>'] = { '<C-/>', { noremap = false, remap = true } },
 })
