@@ -24,19 +24,6 @@ M.config = function()
     local b = require('telescope.builtin')
     local a = require('telescope.actions')
 
-    core.set_mode_keymaps('n', {
-        ['<Bslash>\\'] = { b.builtin,    { desc = 'telescope builtin'    } },
-        ['<Bslash>b']  = { b.buffers,    { desc = 'telescope buffers'    } },
-        ['<Bslash>f']  = { b.find_files, { desc = 'telescope find_files' } },
-        ['<Bslash>g']  = { b.git_status, { desc = 'telescope git_status' } },
-        ['<Bslash>h']  = { b.help_tags,  { desc = 'telescope help_tags'  } },
-        ['<Bslash>j']  = { b.jumplist,   { desc = 'telescope jumplist'   } },
-        ['<Bslash>o']  = { b.oldfiles,   { desc = 'telescope oldfiles'   } },
-        ['<Bslash>q']  = { b.quickfix,   { desc = 'telescope quickfix'   } },
-        ['<Bslash>S']  = { b.live_grep,  { desc = 'telescope live_grep'  } },
-        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = 'telescope current_buffer_fuzzy_find' } },
-    })
-
     require('telescope').setup {
         defaults = require('telescope.themes').get_ivy {
             path_display = { 'tail' },
@@ -79,6 +66,23 @@ M.config = function()
     }
     require('telescope').load_extension('fzf')
     require('telescope').load_extension('live_grep_args')
+
+    core.set_mode_keymaps('n', {
+        ['<Bslash>\\'] = { b.builtin,    { desc = 'telescope builtin'    } },
+        ['<Bslash>b']  = { b.buffers,    { desc = 'telescope buffers'    } },
+        ['<Bslash>f']  = { b.find_files, { desc = 'telescope find_files' } },
+        ['<Bslash>g']  = { b.git_status, { desc = 'telescope git_status' } },
+        ['<Bslash>h']  = { b.help_tags,  { desc = 'telescope help_tags'  } },
+        ['<Bslash>j']  = { b.jumplist,   { desc = 'telescope jumplist'   } },
+        ['<Bslash>o']  = { b.oldfiles,   { desc = 'telescope oldfiles'   } },
+        ['<Bslash>q']  = { b.quickfix,   { desc = 'telescope quickfix'   } },
+    })
+
+    core.set_mode_keymaps('n', {
+        ['<Bslash>S']  = { require('telescope').extensions.live_grep_args.live_grep_args,  { desc = 'telescope live_grep_args' } },
+        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = 'telescope current_buffer_fuzzy_find' } },
+    })
+
 end
 
 return M
