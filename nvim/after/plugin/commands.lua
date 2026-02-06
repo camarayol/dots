@@ -3,7 +3,7 @@ core.create_autocommand('TextYankPost', '*', function()
 end)
 
 -- Automatic switch 'fcitx5-remote'
-if vim.fn.has('linux') and vim.fn.executable('fcitx5-remote') then
+if vim.fn.has('linux') and not vim.fn.has('wsl') and vim.fn.executable('fcitx5-remote') then
     core.create_autocommand('InsertLeave', '*', function()
         if tonumber(vim.fn.system('fcitx5-remote')) == 2 then
             vim.fn.system('fcitx5-remote -c')
