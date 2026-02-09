@@ -16,6 +16,7 @@ core.set_keymaps {
         ['<Leader>wj'] = '<Cmd>wincmd j<CR>',
         ['<Leader>wk'] = '<Cmd>wincmd k<CR>',
         ['<Leader>wl'] = '<Cmd>wincmd l<CR>',
+        ['<Leader>wt'] = function() if vim.fn.tabpagenr('$') > 1 then vim.cmd('tabclose') else vim.cmd('tab split') end end,
 
         ['<F2>']       = '<Cmd>Inspect<CR>',
 
