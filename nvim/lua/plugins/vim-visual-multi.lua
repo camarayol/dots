@@ -3,17 +3,18 @@ core.set_options {
         VM_theme = 'iceblue',
         VM_highlight_matches = 'underline',
         VM_default_mappings = 0,
-        VM_maps = { ['Remove Region'] = 'q' }
+        VM_leader = '<Nop>',
+        VM_maps = {
+            ['Remove Region'  ] = 'q',
+            ['Add Cursor Up'  ] = '<C-k>',
+            ['Add Cursor Down'] = '<C-j>',
+            ['Find Under'     ] = '<C-n>',
+            ['Goto Prev'      ] = '<Nop>',
+            ['Goto Next'      ] = '<Nop>',
+        }
     }
 }
 
 return {
     source = 'https://github.com/mg979/vim-visual-multi',
-    config = function()
-        core.set_mode_keymaps('n', {
-            ['<C-k>'] = '<Plug>(VM-Add-Cursor-Up)',
-            ['<C-j>'] = '<Plug>(VM-Add-Cursor-Down)',
-            ['<C-n>'] = '<Plug>(VM-Find-Under)',
-        })
-    end
 }

@@ -18,6 +18,7 @@ core.set_options {
         relativenumber = false,
         updatetime     = 300,
         showmode       = false,
+        scrolloff      = 20,
         sidescrolloff  = 8,
         -- :h listchar
         list           = true,
