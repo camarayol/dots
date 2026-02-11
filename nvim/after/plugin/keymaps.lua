@@ -29,9 +29,9 @@ core.set_keymaps {
 
         ['<Esc>']      = '<Cmd>nohlsearch<CR>',
         ['<Leader>h']  = { function()
-            local word = vim.fn.expand('<cword>')
-            if word ~= '' then
-                vim.fn.setreg('/', word:gsub('/', '\\/'))
+            local value = vim.fn.expand('<cword>')
+            if value ~= '' then
+                vim.fn.setreg('/', '\\V' .. vim.fn.escape(value, '\\'))
                 vim.cmd('set hlsearch')
             end
         end, { desc = 'hlsearch cusror word' } },
@@ -58,9 +58,9 @@ core.set_keymaps {
         ['<C-/>']   = { 'gc', { noremap = false, remap = true } },
 
         ['n']       = function()
-            local pattern = core.get_visual_text()
-            if pattern == '' then return end
-            vim.fn.setreg('/', pattern:gsub('/', '\\/'))
+            local value = core.get_visual_text()
+            if value == '' then return end
+            vim.fn.setreg('/', '\\V' .. vim.fn.escape(value, '\\'))
             vim.cmd('set hlsearch')
         end,
         ['rn']      = function()
