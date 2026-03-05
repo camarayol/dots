@@ -9,6 +9,7 @@ return {
             },
             triggers = {
                 { mode = { 'n', 'x' }, keys = '<Leader>' },
+                { mode = { 'n', 'x' }, keys = 's' },
                 { mode = { 'n', 'x' }, keys = 'z' },
                 { mode = { 'n', 'x' }, keys = 'g' },
                 { mode = { 'n', 'x' }, keys = '"' },

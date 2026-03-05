@@ -3,6 +3,7 @@ require('options')
 
 require('mini-deps').setup {}
 require('mini-deps').lazy {
+    require('plugins.copilot'),
     require('plugins.blink-cmp'),
     require('plugins.fidget'),
     require('plugins.flash'),

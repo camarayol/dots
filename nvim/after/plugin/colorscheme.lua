@@ -182,4 +182,6 @@ nvim_set_highlights {
 
     -- blink.cmp
     ['BlinkCmpGhostText']        = { link = 'Comment' },
+
+    ['NvimSurroundHighlight']    = { link = 'IndentScopeCurrent' },
 }
