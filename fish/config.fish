@@ -1,11 +1,9 @@
-function fish_greeting
-    # echo welcome to fish
-end
+functions -e fish_greeting
 
 function fish_prompt
     echo -n (set_color -i blue) (prompt_pwd)
-    if command -sq git
-        set branch (command git describe --contains --all HEAD 2>/dev/null)
+    if command -sq git; and command git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
+        set -l branch (command git describe --contains --all HEAD 2>/dev/null)
         if not command git diff --quiet --exit-code 2>/dev/null
             echo -n (set_color red) $branch"*"
         else
@@ -16,15 +14,15 @@ function fish_prompt
 end
 
 function fish_right_prompt
-    if command -sq git
-        set commit (command git rev-parse HEAD 2>/dev/null | string sub -l 7)
+    if command -sq git; and command git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
+        set -l commit (command git rev-parse HEAD 2>/dev/null | string sub -l 7)
     end
     echo -n (set_color $fish_color_autosuggestion) $commit (date "+%H:%M")(set_color normal)
 end
 
-# keybinds
 function fish_user_key_bindings
-    bind \el forward-char   # <M-l>
+    fish_vi_key_bindings
+    bind -M insert \el forward-char
 end
 
 function add_environment --description "export environment once"
@@ -49,51 +47,67 @@ add_environment CPATH           "$XDG_LOCAL_HOME/include"
 add_environment LIBRARY_PATH    "$XDG_LOCAL_HOME/lib"
 add_environment LD_LIBRARY_PATH "$XDG_LOCAL_HOME/lib"
 
-## archlinux pacman
-function pacmans --description "pacman -S"
-    set -l pkg (begin; pacman -Slq; pacman -Qq; end | sort | uniq -u | fzf -q "$1" -m --preview "pacman -Si {1}")
-    if test -n "$pkg"
-        commandline -r "sudo pacman -S $pkg"
+function linux_configurations --description "Linux specific configurations"
+    function pacmans --description "pacman -S"
+        set -l pkg (begin; pacman -Slq; pacman -Qq; end | sort | uniq -u | fzf -q "$1" -m --preview "pacman -Si {1}")
+        if test -n "$pkg"
+            commandline -r "sudo pacman -S $pkg"
+        end
+    end
+
+    function pacmanr --description "pacman -Rns"
+        set -l pkg (pacman -Qq | fzf -q "$1" -m --preview "pacman -Qi {1}")
+        if test -n "$pkg"
+            commandline -r "sudo pacman -Rns $pkg"
+        end
+    end
+
+    function pacmanu --description "pacman -Syu"
+        sudo pacman -Syu
+    end
+
+    function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
+        set -l pkg (pacman -Qdtq)
+        if test -n "$pkg"
+            sudo pacman -Rns $pkg
+        end
+    end
+
+    function brightness --description "set brightness"
+        echo $argv[1] | sudo tee /sys/class/backlight/amdgpu_bl1/brightness
+    end
+
+    if test (tty) = "/dev/tty1" && test -z "$DISPLAY_SESSION_TYPE"
+        niri-session
     end
 end
 
-function pacmanr --description "pacman -Rns"
-    set -l pkg (pacman -Qq | fzf -q "$1" -m --preview "pacman -Qi {1}")
-    if test -n "$pkg"
-        commandline -r "sudo pacman -Rns $pkg"
+function darwin_configurations --description "MacOS specific configurations"
+    set -gx COPYFILE_DISABLE 1
+
+    if command -q mole
+        mole completion fish | source
     end
-end
 
-function pacmanu --description "pacman -Syu"
-    sudo pacman -Syu
-end
+    abbr -a clean-macos "fd --hidden --no-ignore --type file '^\._|^\.DS_Store\$' # -X rm -v"
 
-function pacmanc --description "pacman -Rns \$(pacman -Qdtq)"
-    set -l pkg (pacman -Qdtq)
-    if test -n "$pkg"
-        sudo pacman -Rns $pkg
+    function brewu --description "brew update && brew upgrade"
+        brew update && brew upgrade
     end
-end
-
-function backlight --description "set backlight"
-    echo $argv[1] | sudo tee /sys/class/backlight/amdgpu_bl1/brightness
 end
 
 if status is-interactive
     set -U fish_complete_inline 1
 
-    # alias
-    alias x   extract # functions/extract.fish
-    alias nv  nvim
-    alias lg  lazygit
-    alias zj  zellij
+    alias x  extract
+    alias nv nvim
+    alias lg lazygit
+    alias zj zellij
 
-    alias ns  niri-session
-    alias vvi "nvim $XDG_CONFIG_HOME/nvim/init.lua"
-    alias vrc "nvim $XDG_CONFIG_HOME/fish/config.fish"
-    alias src "source $XDG_CONFIG_HOME/fish/config.fish"
+    abbr -a vvi "nvim   $XDG_CONFIG_HOME/nvim/init.lua"
+    abbr -a vrc "nvim   $XDG_CONFIG_HOME/fish/config.fish"
+    abbr -a src "source $XDG_CONFIG_HOME/fish/config.fish"
 
-    # source command keybindings
     if command -q zoxide
         zoxide init fish | source
     end
@@ -104,8 +118,14 @@ if status is-interactive
         set -gx FZF_DEFAULT_OPTS "--reverse --bind 'alt-j:down' --bind 'alt-k:up' --bind 'tab:accept' --bind 'ctrl-j:preview-down' --bind 'ctrl-k:preview-up'"
     end
 
-    if test (tty) = "/dev/tty1" && test -z "$DISPLAY_SESSION_TYPE"
-        niri-session
+    switch (uname)
+        case "Linux"
+            linux_configurations
+        case "Darwin"
+            darwin_configurations
     end
+
+    functions -e linux_configurations
+    functions -e darwin_configurations
 end
 
