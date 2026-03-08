@@ -150,4 +150,8 @@ sudo spctl --master-disable
 xattr -cr ${Application}
 
 defaults write com.apple.dock autohide-delay -int 0
+
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 ```
