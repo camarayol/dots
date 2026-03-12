@@ -9,7 +9,6 @@ return {
             },
             triggers = {
                 { mode = { 'n', 'x' }, keys = '<Leader>' },
-                { mode = { 'n', 'x' }, keys = 's' },
                 { mode = { 'n', 'x' }, keys = 'z' },
                 { mode = { 'n', 'x' }, keys = 'g' },
                 { mode = { 'n', 'x' }, keys = '"' },
@@ -17,6 +16,7 @@ return {
                 { mode = { 'n', 'x' }, keys = '`' },
                 { mode = 'n',          keys = '<Bslash>' },
                 { mode = 'n',          keys = '<C-w>' },
+                { mode = 'n',          keys = 'y' },
                 { mode = 'n',          keys = '[' },
                 { mode = 'n',          keys = ']' },
                 { mode = { 'i', 'c' }, keys = '<C-r>' },

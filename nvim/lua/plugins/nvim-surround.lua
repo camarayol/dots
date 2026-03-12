@@ -5,14 +5,12 @@ return {
     config = function()
         core.set_keymaps {
             n = {
-                ['s']  = '<Nop>',
-                ['sa'] = { '<Plug>(nvim-surround-normal)', { desc = '[nvim-surround] insert' } },
-                ['sd'] = { '<Plug>(nvim-surround-delete)', { desc = '[nvim-surround] delete' } },
-                ['sr'] = { '<Plug>(nvim-surround-change)', { desc = '[nvim-surround] change' } },
+                ['ys'] = { '<Plug>(nvim-surround-normal)', { desc = '[nvim-surround] insert' } },
+                ['ds'] = { '<Plug>(nvim-surround-delete)', { desc = '[nvim-surround] delete' } },
+                ['cs'] = { '<Plug>(nvim-surround-change)', { desc = '[nvim-surround] change' } },
             },
             x = {
-                ['s']  = '<Nop>',
-                ['sa'] = { '<Plug>(nvim-surround-visual)', { desc = '[nvim-surround] insert' } },
+                ['s']  = { '<Plug>(nvim-surround-visual)', { desc = '[nvim-surround] insert' } },
             }
         }
 
