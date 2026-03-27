@@ -1,14 +1,14 @@
 [mgr]
-ratio = [0, 2, 8]
-sort_by = "extension"
+ratio          = [0, 2, 8]
+sort_by        = "extension"
 sort_dir_first = true
-linemode = "size"
-show_hidden = true
-show_symlink = true
+linemode       = "size"
+show_hidden    = true
+show_symlink   = true
 
 [opener]
 edit = [
-    { run = "nvim %*", block = true, for = "windows" }
+    { run = "nvim %*",   block = true, desc = "nvim"},
 ]
 
 [[plugin.prepend_fetchers]]

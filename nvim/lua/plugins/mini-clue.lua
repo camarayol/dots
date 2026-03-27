@@ -16,7 +16,7 @@ return {
                 { mode = { 'n', 'x' }, keys = '`' },
                 { mode = 'n',          keys = '<Bslash>' },
                 { mode = 'n',          keys = '<C-w>' },
-                { mode = 'n',          keys = 'y' },
+                { mode = 'n',          keys = 'ys' },
                 { mode = 'n',          keys = '[' },
                 { mode = 'n',          keys = ']' },
                 { mode = { 'i', 'c' }, keys = '<C-r>' },
