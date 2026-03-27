@@ -3,8 +3,8 @@ functions -e fish_greeting
 function fish_prompt
     echo -n (set_color -i blue) (prompt_pwd)
     if command -sq git; and command git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
-        set -l branch (command git describe --contains --all HEAD 2>/dev/null)
-        if not command git diff --quiet --exit-code 2>/dev/null
+        set -l branch (command git symbolic-ref --short HEAD 2>/dev/null)
+        if not command git diff-index --quiet HEAD -- 2>/dev/null
             echo -n (set_color red) $branch"*"
         else
             echo -n (set_color green) $branch
@@ -14,10 +14,7 @@ function fish_prompt
 end
 
 function fish_right_prompt
-    if command -sq git; and command git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
-        set -l commit (command git rev-parse HEAD 2>/dev/null | string sub -l 7)
-    end
-    echo -n (set_color $fish_color_autosuggestion) $commit (date "+%H:%M")(set_color normal)
+    echo -n (set_color $fish_color_autosuggestion) (date "+%H:%M")(set_color normal)
 end
 
 function fish_user_key_bindings
@@ -33,12 +30,12 @@ function add_environment --description "export environment once"
     end
 end
 
-set -gx EDITOR          "nvim"
-set -gx XDG_LOCAL_HOME  "$HOME/.local"
-set -gx XDG_CACHE_HOME  "$HOME/.cache"
-set -gx XDG_CONFIG_HOME "$HOME/.config"
-set -gx CARGO_HOME      "$XDG_LOCAL_HOME/rust/cargo"
-set -gx RUSTUP_HOME     "$XDG_LOCAL_HOME/rust/rustup"
+set -gx EDITOR                  "nvim"
+set -gx XDG_LOCAL_HOME          "$HOME/.local"
+set -gx XDG_CACHE_HOME          "$HOME/.cache"
+set -gx XDG_CONFIG_HOME         "$HOME/.config"
+set -gx CARGO_HOME              "$XDG_LOCAL_HOME/rust/cargo"
+set -gx RUSTUP_HOME             "$XDG_LOCAL_HOME/rust/rustup"
 
 add_environment PATH            "$XDG_LOCAL_HOME/bin"
 add_environment PATH            "$XDG_LOCAL_HOME/bin/scripts"
@@ -85,15 +82,11 @@ end
 function darwin_configurations --description "MacOS specific configurations"
     set -gx COPYFILE_DISABLE 1
 
-    if command -q mole
-        mole completion fish | source
-    end
+    command -q mole; and mole completion fish | source
 
     abbr -a clean-macos "fd --hidden --no-ignore --type file '^\._|^\.DS_Store\$' # -X rm -v"
 
-    function brewu --description "brew update && brew upgrade"
-        brew update && brew upgrade
-    end
+    abbr -a brewu "brew update && brew upgrade --greedy"
 end
 
 if status is-interactive
@@ -104,13 +97,12 @@ if status is-interactive
     alias lg lazygit
     alias zj zellij
 
-    abbr -a vvi "nvim   $XDG_CONFIG_HOME/nvim/init.lua"
-    abbr -a vrc "nvim   $XDG_CONFIG_HOME/fish/config.fish"
+    abbr -a vvi "nvim $XDG_CONFIG_HOME/nvim/init.lua"
+    abbr -a vrc "nvim $XDG_CONFIG_HOME/fish/config.fish"
     abbr -a src "source $XDG_CONFIG_HOME/fish/config.fish"
 
-    if command -q zoxide
-        zoxide init fish | source
-    end
+    command -q zoxide; and zoxide init fish | source
+    command -q codex; and codex completion fish | source
 
     if command -q fzf
         fzf --fish | source

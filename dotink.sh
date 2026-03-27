@@ -1,6 +1,9 @@
-#!/bin/bash
+# !/usr/bin/env bash
 
 DOTINK_CONF_FILE=dotink.conf
+
+XDG_LOCAL_HOME=${XDG_LOCAL_HOME:-"$HOME/.local"}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
 
 function usage {
     echo "Usage: $1 [OPTION]"
@@ -11,9 +14,9 @@ function usage {
 
 function log {
     case "$1" in
-        info)  shift && echo -e "\e[32m$*\e[0m" ;;
-        warn)  shift && echo -e "\e[33m$*\e[0m" ;;
-        error) shift && echo -e "\e[31m$*\e[0m" ;;
+        info)  shift; printf '\033[32m%s\033[0m\n' "$*" ;;
+        warn)  shift; printf '\033[33m%s\033[0m\n' "$*" ;;
+        error) shift; printf '\033[31m%s\033[0m\n' "$*" ;;
         *) echo $* ;;
     esac
 }
@@ -24,32 +27,29 @@ function install {
     while read -r source target; do
         [[ $source =~ ^\s*# || -z $source || -z $target ]] && continue
 
-        source=$(realpath --no-symlinks $(eval echo $source))
-        target=$(realpath --no-symlinks $(eval echo $target))
+        source=$(realpath $(envsubst <<< "$source"))
+        target=$(envsubst <<< "$target")
 
-        [ ! -e $source ] && {
-            log error "source file not exist: $source"
-            continue
+        [ ! -e "$source" ] && {
+            log error "source file not exist: $source" && continue
         }
 
-        [[ -L $target && ! -e $target ]] && {
-            rm $target
-            log warn "remove invalid symlink: $target -> $(realpath $target)"
+        [[ -L "$target" && ! -e "$target" ]] && {
+            rm "$target" && log warn "remove invalid symlink: $target"
         }
 
-        [ -e $target ] && {
-            if [ $(realpath $target) != $source ]; then
+        [ -e "$target" ] && {
+            [ "$(realpath "$target")" != "$source" ] && {
                 log error "target file exist: $target"
-            fi
+            }
             continue
         }
 
-        mkdir -p ${target%/*} || {
-            log error "create directory failed: ${target%/*}"
-            continue
+        mkdir -p "${target%/*}" || {
+            log error "create directory failed: ${target%/*}" && continue
         }
 
-        if ln -s $source $target; then
+        if ln -s "$source" "$target"; then
             log info "create symlink: $source -> $target"
         else
             log error "create symlink failed: $source -> $target"
@@ -65,14 +65,13 @@ function uninstall {
     while read -r source target; do
         [[ $source =~ ^\s*# || -z $source || -z $target ]] && continue
 
-        source=$(realpath --no-symlinks $(eval echo $source))
-        target=$(realpath --no-symlinks $(eval echo $target))
+        source=$(realpath $(envsubst <<< "$source"))
+        target=$(envsubst <<< "$target")
 
         [ ! -e $target ] && continue
 
         if [ $source == $(realpath $target) ]; then
-            rm $target
-            log info "remove symlink file: $target"
+            rm $target && log info "remove symlink: $target"
         else
             log error "target not a symlink to source: $target"
         fi

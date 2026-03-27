@@ -2,7 +2,7 @@ theme = One Half Dark
 
 # font
 font-size = 20
-font-family = Courier
+font-family = Courier New
 font-style = Normal
 font-style-bold = Bold
 font-style-italic = Italic
@@ -27,7 +27,7 @@ shell-integration-features = no-cursor
 macos-icon = custom
 macos-custom-icon = /System/Applications/Utilities/Terminal.app/Contents/Resources/Terminal.icns
 macos-option-as-alt = true
-macos-titlebar-style  = hidden
+macos-titlebar-style  = tabs
 
 # keybinds
 keybind = clear
