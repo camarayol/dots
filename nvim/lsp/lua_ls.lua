@@ -11,6 +11,11 @@ return {
                 library = {
                     vim.env.VIMRUNTIME,
                 }
+            },
+            diagnostics = {
+                globals = {
+                    's', 'c', 't', 'i', 'fmt', 'extras' -- luasnip
+                }
             }
         }
     }
