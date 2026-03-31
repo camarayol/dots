@@ -1,7 +1,3 @@
-# Rime default settings
-# encoding: utf-8
-
-
 # 要比共享目录的同名文件的 config_version 大才可以生效
 config_version: '2024-02-05'
 

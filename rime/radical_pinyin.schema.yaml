@@ -1,6 +1,3 @@
-# Rime schema settings
-# encoding: utf-8
-
 schema:
   schema_id: radical_pinyin
   name: "部件拆字 | 全拼双拼"

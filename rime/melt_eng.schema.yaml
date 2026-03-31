@@ -1,12 +1,4 @@
-﻿# Rime schema
-# vim: set sw=2 sts=2 et:
-# encoding: utf-8
-#
-# 复制自 https://github.com/tumuyan/rime-melt，修改了拼写派生
-# 感谢 @[Mirtle](https://github.com/mirtlecn) 贡献的极其好用的拼写派生
-# 全拼和各个双拼有部分拼写规则不通用，需要修改 speller/algebra 下的 __include: algebra_rime_ice 为你所使用的方案
-
-schema:
+﻿schema:
   schema_id: melt_eng
   name: Easy English Nano
   version: "2023-10-17"
