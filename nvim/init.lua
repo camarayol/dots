@@ -1,8 +1,7 @@
 require('core')
 require('options')
 
-require('mini-deps').setup {}
-require('mini-deps').lazy {
+require('pack').lazy {
     require('plugins.copilot'),
     require('plugins.blink-cmp'),
     require('plugins.fidget'),

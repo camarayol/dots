@@ -2,7 +2,7 @@ local M = {
     source = 'https://github.com/L3MON4D3/LuaSnip'
 }
 
-M.hooks = function(ev)
+M.hook = function(ev)
     vim.notify('[luasnip] building ...')
     vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
         if out.code == 0 then

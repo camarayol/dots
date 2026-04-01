@@ -7,7 +7,7 @@ local M  = {
     },
 }
 
-M.hooks  = function(ev)
+M.hook   = function(ev)
     vim.notify('[blink.cmp] building ...')
     vim.system({ 'cargo', 'build', '--release' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
         if out.code == 0 then

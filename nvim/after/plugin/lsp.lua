@@ -74,6 +74,6 @@ core.create_autocommand('LspAttach', nil, {
 })
 
 -- Don't use 'vim.schedule'. Ensure 'telescope' is loaded to guarantee proper keymap setup during 'LspAttach'
-require('mini-deps').lazy(function()
+require('pack').later(function()
     vim.lsp.enable { 'lua_ls', 'rust_analyzer', 'clangd', 'tinymist' }
 end)
