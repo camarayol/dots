@@ -16,7 +16,10 @@ window-padding-y = 4,4
 resize-overlay = never
 window-decoration = true
 window-padding-balance = true
+window-title-font-family = Courier New
 background-opacity = 0.95
+
+notify-on-command-finish = unfocused
 
 confirm-close-surface = false
 
@@ -27,15 +30,19 @@ shell-integration-features = no-cursor
 macos-icon = custom
 macos-custom-icon = /System/Applications/Utilities/Terminal.app/Contents/Resources/Terminal.icns
 macos-option-as-alt = true
-macos-titlebar-style  = tabs
+macos-titlebar-style = tabs
 
 # keybinds
 keybind = clear
 keybind = command+q=quit
 keybind = command+c=copy_to_clipboard
 keybind = command+v=paste_from_clipboard
+
+keybind = command+t=new_tab
+keybind = command+]=next_tab
+keybind = command+[=previous_tab
+keybind = command+w=close_surface
+
 keybind = command+shift+r=reload_config
 keybind = command+==increase_font_size:1
 keybind = command+-=decrease_font_size:1
-
-
