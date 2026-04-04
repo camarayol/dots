@@ -7,8 +7,9 @@ tools/mpd/state
 tools/ncmpcpp/error.log
 tools/yazi/plugins
 tools/yazi/package.toml
+
 tools/glance/glance
-tools/glance/glance.yml
+tools/glance/bookmarks.yml
 
 rime/sync
 rime/build
