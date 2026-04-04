@@ -1,7 +1,19 @@
 body {
-    font-family: monospace;
+    font-family: var(--font-main);
 }
 
 :root {
-    font-size: 20px;
+    font-size: 12px;
+    --font-main: "Courier New";
+    --widget-gap: 16px;
+    --border-radius: 16px !important;
+}
+
+.search.widget-content-frame {
+    height: 60px !important;
+}
+
+.search-input {
+    font-size: 20px !important;
+    height: 60px !important;
 }

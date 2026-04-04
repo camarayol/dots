@@ -1,0 +1,65 @@
+server:
+  host: 127.0.0.1
+  port: 8080
+  assets-path: ${XDG_CONFIG_HOME}/glance
+
+theme:
+  background-color: 220 8 16
+  primary-color: 157 47 65
+  positive-color: 96 44 68
+  negative-color: 359 68 71
+  contrast-multiplier: 1.3
+  custom-css-file: /assets/glance.css
+
+pages:
+  - name: GlanceHomepage
+    hide-desktop-navigation: true
+
+    head-widgets:
+      - type: search
+        hide-header: true
+        placeholder: Search ...
+        search-engine: https://cn.bing.com/search?q={QUERY}
+        new-tab: true
+        autofocus: true
+        bangs:
+          - title: Google
+            shortcut: "!gg"
+            url: https://www.google.com/search?q={QUERY}
+
+          - title: Github
+            shortcut: "@gh"
+            url: https://github.com/search?q={QUERY}&type=repositories
+
+          - title: Youtube
+            shortcut: "!yt"
+            url: https://www.youtube.com/results?search_query={QUERY}
+
+          - title: Biliblili
+            shortcut: "!bl"
+            url: https://search.bilibili.com/all?keyword={QUERY}
+
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hide-header: true
+          - type: weather
+            cache: 1d
+            hour-format: 24h
+            hide-header: true
+            location: ShenZhen
+          - type: to-do
+            hide-header: true
+          - type: rss
+            hide-header: true
+            feeds:
+              - url: https://www.ruanyifeng.com/blog/atom.xml
+
+      - size: full
+        widgets:
+          - type: group
+            widgets:
+              # openssl enc -e -aes-256-cbc -in bookmarks.yml -out bookmarks.yml.enc
+              # openssl enc -d -aes-256-cbc -in bookmarks.yml.enc -out bookmarks.yml
+              - $include: bookmarks.yml
