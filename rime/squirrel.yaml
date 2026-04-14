@@ -18,7 +18,7 @@ style:
   candidate_list_width: 80%
   color_scheme: default
   corner_radius: 7
-  font_face: LXGW WenKai Mono
+  font_face: LXGW WenKai Mono GB Screen
   font_point: 16
   hilited_corner_radius: 0
   inline_candidate: false
