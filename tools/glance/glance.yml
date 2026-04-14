@@ -1,7 +1,7 @@
 server:
   host: 127.0.0.1
   port: 8080
-  assets-path: ${XDG_CONFIG_HOME}/glance
+  assets-path: ${HOME}/.config/glance
 
 theme:
   background-color: 220 8 16
@@ -19,7 +19,7 @@ pages:
       - type: search
         hide-header: true
         placeholder: Search ...
-        search-engine: https://cn.bing.com/search?q={QUERY}
+        search-engine: https://www.bing.com/search?q={QUERY}
         new-tab: true
         autofocus: true
         bangs:

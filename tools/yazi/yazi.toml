@@ -2,7 +2,6 @@
 ratio          = [0, 2, 8]
 sort_by        = "extension"
 sort_dir_first = true
-linemode       = "size"
 show_hidden    = true
 show_symlink   = true
 
@@ -12,11 +11,11 @@ edit = [
 ]
 
 [[plugin.prepend_fetchers]]
-id   = "git"
-name = "*"
-run  = "git"
+id  = "git"
+url = "*"
+run = "git"
 
 [[plugin.prepend_fetchers]]
-id   = "git"
-name = "*/"
-run  = "git"
+id  = "git"
+url = "*/"
+run = "git"
