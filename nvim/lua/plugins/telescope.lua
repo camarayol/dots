@@ -1,13 +1,13 @@
 local M = {
-    source = 'https://github.com/nvim-telescope/telescope.nvim',
+    src = 'https://github.com/nvim-telescope/telescope.nvim',
 }
 
 M.depends = {
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/nvim-telescope/telescope-live-grep-args.nvim',
     {
-        source = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
-        hook = function(ev)
+        src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
+        hooks = function(ev)
             vim.notify('[telescope-fzf-native] building ...')
             vim.system({ 'make' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
                 if out.code == 0 then

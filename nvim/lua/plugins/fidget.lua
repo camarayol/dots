@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/j-hui/fidget.nvim',
+    src = 'https://github.com/j-hui/fidget.nvim',
     config = function()
         require('fidget').setup {
             notification = {

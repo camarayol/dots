@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/nvim-mini/mini.indentscope',
+    src = 'https://github.com/nvim-mini/mini.indentscope',
     config = function()
         require('mini.indentscope').setup {
             symbol = '│',

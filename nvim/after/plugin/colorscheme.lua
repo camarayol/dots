@@ -172,6 +172,7 @@ nvim_set_highlights {
     -- nvim-tree
     ['NvimTreeGitNew']           = { link = 'Added' },
     ['NvimTreeGitDirty']         = { link = 'Changed' },
+    ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
     ['NvimTreeCursorLine']       = { link = 'CursorLine' },
     ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
     ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },

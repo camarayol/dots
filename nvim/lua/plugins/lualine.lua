@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/nvim-lualine/lualine.nvim',
+    src = 'https://github.com/nvim-lualine/lualine.nvim',
     depends = { 'https://github.com/nvim-tree/nvim-web-devicons' },
     config = function()
         require('lualine').setup {
