@@ -1,24 +1,20 @@
 -- https://cmp.saghen.dev/configuration/reference.html
-local M  = {
+local M = {
     src = 'https://github.com/saghen/blink.cmp',
     depends = {
+        'https://github.com/saghen/blink.lib',
         'https://github.com/L3MON4D3/LuaSnip',
         'https://github.com/fang2hou/blink-copilot'
-    },
+    }
 }
 
-M.hooks   = function(ev)
-    vim.notify('[blink.cmp] building ...')
-    vim.system({ 'cargo', 'build', '--release' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
-        if out.code == 0 then
-            vim.notify('[blink.cmp] build success!')
-        else
-            vim.notify('[blink.cmp] build failed! ' .. out.stderr, vim.log.levels.WARN)
-        end
-    end))
-end
+M.build = function() require('blink.cmp').build():wait(6000) end
 
 M.config = function()
+    core.nvim_set_highlights {
+        ['BlinkCmpGhostText'] = { link = 'Comment' },
+    }
+
     require('blink.cmp').setup {
         completion = {
             -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == 'cmdline' end } },

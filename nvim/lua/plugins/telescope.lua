@@ -7,7 +7,7 @@ M.depends = {
     'https://github.com/nvim-telescope/telescope-live-grep-args.nvim',
     {
         src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
-        hooks = function(ev)
+        build = function(ev)
             vim.notify('[telescope-fzf-native] building ...')
             vim.system({ 'make' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
                 if out.code == 0 then

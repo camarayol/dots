@@ -1,15 +1,33 @@
 return {
     src = 'https://github.com/lewis6991/gitsigns.nvim',
     config = function()
-        core.set_mode_keymaps('n', {
-            ['[c']         = '<Cmd>Gitsigns prev_hunk<CR>',
-            [']c']         = '<Cmd>Gitsigns next_hunk<CR>',
-            ['<leader>gr'] = '<Cmd>Gitsigns reset_hunk<CR>',
-            ['<leader>gv'] = '<Cmd>Gitsigns preview_hunk<CR>',
-        })
-
+        core.nvim_set_highlights {
+            ['GitSignsCurrentLineBlame'] = { link = 'Comment' },
+        }
         require('gitsigns').setup {
+            on_attach                    = function(buffer)
+                local gs = require('gitsigns')
+                core.set_mode_keymaps('n', {
+                    ['[c'] = { function()
+                        return vim.wo.diff and vim.cmd.normal { '[c', bang = true } or gs.prev_hunk()
+                    end, { buffer = buffer } },
+                    [']c'] = { function()
+                        return vim.wo.diff and vim.cmd.normal { ']c', bang = true } or gs.next_hunk()
+                    end, { buffer = buffer } },
+                    ['<leader>gr'] = { gs.reset_hunk, { buffer = buffer } },
+                    ['<leader>gv'] = { gs.preview_hunk, { buffer = buffer } },
+                    ['<leader>gd'] = { gs.diffthis, { buffer = buffer } },
+                })
+            end,
             signs                        = {
+                add          = { text = '▌' },
+                change       = { text = '▌' },
+                delete       = { text = '▌' },
+                topdelete    = { text = '▌' },
+                changedelete = { text = '▌' },
+                untracked    = { text = '▌' },
+            },
+            signs_staged                 = {
                 add          = { text = '▌' },
                 change       = { text = '▌' },
                 delete       = { text = '▌' },

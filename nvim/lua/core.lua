@@ -10,17 +10,21 @@ core.set_options = function(opts)
 end
 
 --- @type fun(mode: string|string[], keymaps: table)
-core.set_mode_keymaps = vim.schedule_wrap(function(mode, keymaps)
+core.set_mode_keymaps = function(mode, keymaps)
     for lhs, v in pairs(keymaps) do
         local rhs = type(v) == 'table' and v[1] or v
         local opts = vim.tbl_extend('force', { noremap = true, silent = true },
             type(v) == 'table' and v[2] or {})
         vim.keymap.set(mode, lhs, rhs, opts)
     end
-end)
+end
 
 core.set_keymaps = function(mdkeymaps)
     for mode, keymaps in pairs(mdkeymaps) do core.set_mode_keymaps(mode, keymaps) end
+end
+
+core.nvim_set_highlights = function(hl)
+    for name, val in pairs(hl) do vim.api.nvim_set_hl(0, name, val) end
 end
 
 --- @param event any
