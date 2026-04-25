@@ -3,6 +3,9 @@ vim.g.nvim_surround_no_mappings = true
 return {
     src = 'https://github.com/kylechui/nvim-surround',
     config = function()
+        core.nvim_set_highlights {
+            ['NvimSurroundHighlight'] = { link = 'IndentScopeCurrent' },
+        }
         core.set_keymaps {
             n = {
                 ['ys'] = { '<Plug>(nvim-surround-normal)', { desc = '[nvim-surround] insert' } },
@@ -10,7 +13,7 @@ return {
                 ['cs'] = { '<Plug>(nvim-surround-change)', { desc = '[nvim-surround] change' } },
             },
             x = {
-                ['s']  = { '<Plug>(nvim-surround-visual)', { desc = '[nvim-surround] insert' } },
+                ['S']  = { '<Plug>(nvim-surround-visual)', { desc = '[nvim-surround] insert' } },
             }
         }
 

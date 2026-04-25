@@ -18,9 +18,7 @@ core.set_options {
         relativenumber = false,
         updatetime     = 300,
         showmode       = false,
-        -- scrolloff      = 20,
         sidescrolloff  = 8,
-        -- :h listchar
         list           = true,
         listchars      = { space = ' ', tab = '> ', trail = '·' },
         textwidth      = 160,
@@ -31,7 +29,6 @@ core.set_options {
         shiftwidth     = 4,
         expandtab      = true,
         smartindent    = true,
-        -- :h cinkeys-format
         cinkeys        = { ':', '0#', '!<Tab>' },
         termguicolors  = true,
         cursorline     = true,
@@ -40,6 +37,8 @@ core.set_options {
         signcolumn     = 'yes',
         hlsearch       = true,
         incsearch      = true,
+        jumpoptions    = 'view',
+        shortmess      = 'IltToOCF',
     }
 }
 
@@ -47,6 +46,7 @@ vim.schedule(function()
     vim.opt.clipboard = 'unnamedplus'
     vim.opt.iskeyword:append('-')
     vim.opt.whichwrap:append('<,>,h,l')
+    vim.opt.fillchars:append { diff = ' ' }
 
     -- https://neovim.io/doc/user/diagnostic.html#vim.diagnostic
     vim.diagnostic.config {

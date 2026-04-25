@@ -1,6 +1,9 @@
 return {
     src = 'https://github.com/nvim-mini/mini.indentscope',
     config = function()
+        core.nvim_set_highlights {
+            ['MiniIndentscopeSymbol'] = { link = 'IndentScopeOther' },
+        }
         require('mini.indentscope').setup {
             symbol = '│',
             draw = {

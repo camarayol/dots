@@ -1,7 +1,9 @@
 local specs = {}
 local options = {}
 
-local group = vim.api.nvim_create_augroup('core.vimpack.changed', { clear = true })
+local group = vim.api.nvim_create_augroup('core.packer', { clear = true })
+
+-- auto run plugin's `build` function after install or update
 vim.api.nvim_create_autocmd('PackChanged', {
     group = group,
     callback = function(ev)
@@ -11,22 +13,47 @@ vim.api.nvim_create_autocmd('PackChanged', {
             pcall(vim.cmd.packadd, ev.data.spec.name)
         end
 
-        if type(options[ev.data.spec.src].hooks) == 'function' then
-            pcall(options[ev.data.spec.src].hooks, { path = ev.data.path })
+        if type(options[ev.data.spec.src].build) == 'function' then
+            pcall(options[ev.data.spec.src].build, { path = ev.data.path })
         end
     end,
 })
 
+-- auto reload plugin's `config` function when source 'lua/plugins/*.lua'
+vim.api.nvim_create_autocmd('SourcePost', {
+    group = group,
+    pattern = vim.uv.fs_realpath(vim.fn.stdpath('config')) .. '/lua/plugins/*.lua',
+    callback = function(ev)
+        local ok, spec = pcall(dofile, ev.file)
+        if not ok then
+            return vim.notify('[NvimPack] dofile failed: ' .. tostring(spec), vim.log.levels.ERROR)
+        end
+
+        if type(spec) ~= 'table' or type(spec.src) ~= 'string' or spec.src == '' then return end
+
+        options[spec.src] = options[spec.src] and vim.tbl_extend('force', options[spec.src], spec) or spec
+
+        local opts = options[spec.src]
+        if type(opts.config) == 'function' then
+            pcall(opts.config)
+            print('[NvimPack] reload plugins: ' .. opts.src)
+        end
+    end,
+})
+
+-- update plugins with `:PackUpdate [name]`
 vim.api.nvim_create_user_command('PackUpdate', function(opts)
     local s = (#opts.fargs > 0) and opts.fargs or nil
     vim.pack.update(s, { force = opts.bang })
 end, { bang = true, nargs = '*', complete = 'packadd', desc = '[NvimPack] update plugins' })
 
+-- update plugins offline with `:PackOfflineUpdate [name]`
 vim.api.nvim_create_user_command('PackOfflineUpdate', function(opts)
     local s = (#opts.fargs > 0) and opts.fargs or nil
     vim.pack.update(s, { force = opts.bang, offline = true })
 end, { bang = true, nargs = '*', complete = 'packadd', desc = '[NvimPack] update plugins offline' })
 
+-- remove inactive plugins with `:PackClean [name]`
 vim.api.nvim_create_user_command('PackClean', function()
     local s = vim.iter(vim.pack.get())
         :filter(function(x) return not x.active end)
@@ -35,12 +62,7 @@ vim.api.nvim_create_user_command('PackClean', function()
 
     if #s == 0 then return end
 
-    local answer = vim.fn.confirm(
-        'Delete inactive plugins?\n' .. table.concat(s, '\n'),
-        '&Yes\n&No',
-        2
-    )
-    if answer == 1 then
+    if vim.fn.confirm('Delete: ' .. table.concat(s, ' ') .. '?', '&Yes\n&No', 2) == 1 then
         vim.pack.del(s, { force = false })
     end
 end, { nargs = '*', complete = 'packadd', desc = '[NvimPack] remove inactive plugins' })
@@ -74,15 +96,11 @@ local function parse_specs(s)
 end
 
 return vim.schedule_wrap(function(spec)
-    for _, s in ipairs(spec) do
-        parse_specs(s)
-    end
+    for _, s in ipairs(spec) do parse_specs(s) end
 
     vim.pack.add(specs)
 
     for _, s in pairs(options) do
-        if type(s.config) == 'function' then
-            pcall(s.config)
-        end
+        if type(s.config) == 'function' then pcall(s.config) end
     end
 end)
