@@ -57,5 +57,4 @@ core.set_keymaps {
     t = {
         ['<Esc>'] = '<C-\\><C-n>'
     }
-
 }

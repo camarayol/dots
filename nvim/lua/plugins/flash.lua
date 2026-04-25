@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/folke/flash.nvim',
+    src = 'https://github.com/folke/flash.nvim',
     config = function()
         core.set_mode_keymaps({ 'n', 'x', 'o' }, {
             ['<leader>j'] = function() require('flash').jump() end

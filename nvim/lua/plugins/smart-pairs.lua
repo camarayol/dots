@@ -21,7 +21,7 @@ local autolist = function()
 end
 
 return {
-    source = 'https://github.com/ZhiyuanLck/smart-pairs',
+    src = 'https://github.com/ZhiyuanLck/smart-pairs',
     config = function()
         require('pairs'):setup {
             pairs = {

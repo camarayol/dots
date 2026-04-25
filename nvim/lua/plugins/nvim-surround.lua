@@ -1,7 +1,7 @@
 vim.g.nvim_surround_no_mappings = true
 
 return {
-    source = 'https://github.com/kylechui/nvim-surround',
+    src = 'https://github.com/kylechui/nvim-surround',
     config = function()
         core.set_keymaps {
             n = {

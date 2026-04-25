@@ -1,7 +1,7 @@
 require('core')
 require('options')
 
-require('pack').lazy {
+require('packer') {
     require('plugins.copilot'),
     require('plugins.blink-cmp'),
     require('plugins.fidget'),

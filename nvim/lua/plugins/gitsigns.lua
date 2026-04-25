@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/lewis6991/gitsigns.nvim',
+    src = 'https://github.com/lewis6991/gitsigns.nvim',
     config = function()
         core.set_mode_keymaps('n', {
             ['[c']         = '<Cmd>Gitsigns prev_hunk<CR>',

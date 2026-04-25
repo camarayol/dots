@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/nvim-tree/nvim-tree.lua',
+    src = 'https://github.com/nvim-tree/nvim-tree.lua',
     depends = { 'https://github.com/nvim-tree/nvim-web-devicons' },
     config = function()
         core.set_mode_keymaps('n', {

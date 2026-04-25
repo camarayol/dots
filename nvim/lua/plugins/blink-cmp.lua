@@ -1,13 +1,13 @@
 -- https://cmp.saghen.dev/configuration/reference.html
 local M  = {
-    source = 'https://github.com/saghen/blink.cmp',
+    src = 'https://github.com/saghen/blink.cmp',
     depends = {
         'https://github.com/L3MON4D3/LuaSnip',
         'https://github.com/fang2hou/blink-copilot'
     },
 }
 
-M.hook   = function(ev)
+M.hooks   = function(ev)
     vim.notify('[blink.cmp] building ...')
     vim.system({ 'cargo', 'build', '--release' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
         if out.code == 0 then

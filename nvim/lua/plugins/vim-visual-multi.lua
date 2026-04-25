@@ -16,5 +16,5 @@ core.set_options {
 }
 
 return {
-    source = 'https://github.com/mg979/vim-visual-multi',
+    src = 'https://github.com/mg979/vim-visual-multi',
 }

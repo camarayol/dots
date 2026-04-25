@@ -1,5 +1,5 @@
 return {
-    source = 'https://github.com/nvim-mini/mini.clue',
+    src = 'https://github.com/nvim-mini/mini.clue',
     config = function()
         local miniclue = require('mini.clue')
         miniclue.setup {
