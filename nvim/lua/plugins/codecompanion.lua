@@ -7,7 +7,7 @@ local init_codecompanion_fidget = function()
         group = group,
         callback = function(ev)
             handles[ev.data.id] = require('fidget.progress').handle.create {
-                title = '  CodeCompanion - ' .. ev.data.interaction,
+                title = ' CodeCompanion - ' .. ev.data.interaction,
                 lsp_client = { name = ev.data.adapter.formatted_name .. ' ' .. (ev.data.adapter.model or '') }
             }
         end,
@@ -18,7 +18,7 @@ local init_codecompanion_fidget = function()
         callback = function(ev)
             local h = handles[ev.data.id]
             if h then
-                h.title = '  CodeCompanion - ' .. ev.data.interaction
+                h.title = ' CodeCompanion - ' .. ev.data.interaction
                 h.message = ev.data.status
                 h:finish()
                 handles[ev.data.id] = nil
@@ -34,19 +34,28 @@ return {
         'https://github.com/j-hui/fidget.nvim',
     },
     config = function()
+        core.set_mode_keymaps('n', {
+            ['<Leader>a'] = require('codecompanion').toggle,
+        })
+
         init_codecompanion_fidget()
 
         require('codecompanion').setup {
-            opts = { log_level = 'ERROR' },
+            opts = { language = 'Chinese', log_level = 'ERROR' },
             display = {
-                cli = { window = { opts = { number = false, signcolumn = "no" } } },
+                chat = { window = { border = 'rounded' } },
+                cli  = { window = { opts = { number = false, signcolumn = 'no' } } },
             },
             interactions = {
+                inline = {
+                    adapter = { name = 'copilot', model = 'gpt-5.3-codex' }
+                },
                 chat = {
                     adapter = { name = 'copilot', model = 'gpt-5.3-codex' },
-                },
-                inline = {
-                    adapter = { name = 'copilot', model = 'gpt-5.3-codex' },
+                    keymaps = {
+                        send  = { modes = { n = '<C-CR>', i = '<C-CR>' } },
+                        close = { modes = { n = '<Nop>',  i = '<Nop>'  } },
+                    },
                 },
                 cli = {
                     agent = 'opencode',

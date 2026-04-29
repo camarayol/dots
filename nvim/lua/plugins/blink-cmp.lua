@@ -20,6 +20,7 @@ M.config = function()
             -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == 'cmdline' end } },
             list = { selection = { preselect = true, auto_insert = true } },
             accept = {
+                create_undo_point = false,
                 auto_brackets = {
                     enabled = true,
                     -- https://github.com/Saghen/blink.cmp/issues/359

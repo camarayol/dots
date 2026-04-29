@@ -2,13 +2,12 @@ require('core')
 require('options')
 
 require('packer') {
-    require('plugins.copilot'),
     require('plugins.blink-cmp'),
     require('plugins.codecompanion'),
+    require('plugins.copilot'),
     require('plugins.fidget'),
     require('plugins.flash'),
     require('plugins.gitsigns'),
-    require('plugins.image'),
     require('plugins.lualine'),
     require('plugins.mini-clue'),
     require('plugins.mini-indentscope'),
