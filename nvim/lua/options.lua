@@ -39,6 +39,7 @@ core.set_options {
         incsearch      = true,
         jumpoptions    = 'view',
         shortmess      = 'IltToOCF',
+        winborder      = 'rounded',
     }
 }
 

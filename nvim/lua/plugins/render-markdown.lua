@@ -1,5 +1,5 @@
 return {
-    src = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+    src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim',
     depends = {
         'https://github.com/nvim-tree/nvim-web-devicons',
     },
@@ -11,8 +11,8 @@ return {
             ['RenderMarkdownH4Bg']       = { fg = '#D19A66', bg = 'none' },
             ['RenderMarkdownH6Bg']       = { fg = '#D19A66', bg = 'none' },
             ['RenderMarkdownH5Bg']       = { fg = '#D19A66', bg = 'none' },
-            ["RenderMarkdownCode"]       = { fg = 'none', bg = '#1f2228' },
-            ["RenderMarkdownCodeInline"] = { fg = 'none', bg = '#1f2228' },
+            ['RenderMarkdownCode']       = { fg = 'none', bg = '#1f2228' },
+            ['RenderMarkdownCodeInline'] = { fg = 'none', bg = '#1f2228' },
         }
 
         require('render-markdown').setup({
