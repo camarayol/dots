@@ -98,7 +98,7 @@ end
 return vim.schedule_wrap(function(spec)
     for _, s in ipairs(spec) do parse_specs(s) end
 
-    vim.pack.add(specs)
+    vim.pack.add(specs, { confirm = false })
 
     for _, s in pairs(options) do
         if type(s.config) == 'function' then pcall(s.config) end
