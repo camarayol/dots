@@ -4,7 +4,6 @@ local M = {
 
 M.depends = {
     'https://github.com/nvim-lua/plenary.nvim',
-    'https://github.com/nvim-telescope/telescope-live-grep-args.nvim',
     {
         src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
         build = function(ev)
@@ -64,25 +63,21 @@ M.config = function()
             }
         }
     }
+
     require('telescope').load_extension('fzf')
-    require('telescope').load_extension('live_grep_args')
 
     core.set_mode_keymaps('n', {
-        ['<Bslash>\\'] = { b.builtin,    { desc = 'telescope builtin'    } },
-        ['<Bslash>b']  = { b.buffers,    { desc = 'telescope buffers'    } },
-        ['<Bslash>f']  = { b.find_files, { desc = 'telescope find_files' } },
-        ['<Bslash>g']  = { b.git_status, { desc = 'telescope git_status' } },
-        ['<Bslash>h']  = { b.help_tags,  { desc = 'telescope help_tags'  } },
-        ['<Bslash>j']  = { b.jumplist,   { desc = 'telescope jumplist'   } },
-        ['<Bslash>o']  = { b.oldfiles,   { desc = 'telescope oldfiles'   } },
-        ['<Bslash>q']  = { b.quickfix,   { desc = 'telescope quickfix'   } },
+        ['<Bslash>\\'] = { b.builtin,    { desc = '[Telescope] builtin'    } },
+        ['<Bslash>b']  = { b.buffers,    { desc = '[Telescope] buffers'    } },
+        ['<Bslash>f']  = { b.find_files, { desc = '[Telescope] find_files' } },
+        ['<Bslash>g']  = { b.git_status, { desc = '[Telescope] git_status' } },
+        ['<Bslash>h']  = { b.help_tags,  { desc = '[Telescope] help_tags'  } },
+        ['<Bslash>j']  = { b.jumplist,   { desc = '[Telescope] jumplist'   } },
+        ['<Bslash>o']  = { b.oldfiles,   { desc = '[Telescope] oldfiles'   } },
+        ['<Bslash>q']  = { b.quickfix,   { desc = '[Telescope] quickfix'   } },
+        ['<Bslash>S']  = { b.live_grep,  { desc = '[Telescope] live_grep_args' } },
+        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = '[Telescope] current_buffer_fuzzy_find' } },
     })
-
-    core.set_mode_keymaps('n', {
-        ['<Bslash>S']  = { require('telescope').extensions.live_grep_args.live_grep_args,  { desc = 'telescope live_grep_args' } },
-        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = 'telescope current_buffer_fuzzy_find' } },
-    })
-
 end
 
 return M

@@ -4,7 +4,6 @@ local M = {
     depends = {
         'https://github.com/saghen/blink.lib',
         'https://github.com/L3MON4D3/LuaSnip',
-        'https://github.com/fang2hou/blink-copilot'
     }
 }
 
@@ -76,10 +75,9 @@ M.config = function()
         snippets = { preset = 'luasnip' },
         appearance = { nerd_font_variant = 'mono' },
         sources = {
-            default = { 'copilot', 'snippets', 'path', 'buffer', 'lsp' },
+            default = { 'snippets', 'path', 'buffer', 'lsp' },
             providers = {
                 path = { opts = { show_hidden_files_by_default = true } },
-                copilot = { name = 'copilot', module = 'blink-copilot', score_offset = 100, async = true },
             }
         },
     }
