@@ -3,10 +3,9 @@ require('options')
 
 require('packer') {
     require('plugins.blink-cmp'),
-    require('plugins.codecompanion'),
     require('plugins.fidget'),
-    require('plugins.flash'),
     require('plugins.gitsigns'),
+    require('plugins.hop'),
     require('plugins.lualine'),
     require('plugins.mini-clue'),
     require('plugins.mini-indentscope'),

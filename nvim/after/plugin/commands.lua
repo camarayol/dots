@@ -1,18 +1,22 @@
-core.create_autocommand('TextYankPost', '*', function()
+core.create_autocommand('TextYankPost', function()
     vim.hl.on_yank { higroup = 'Search', timeout = 100 }
 end)
 
--- Automatic switch 'fcitx5-remote'
 if vim.fn.has('linux') and not vim.fn.has('wsl') and vim.fn.executable('fcitx5-remote') then
-    core.create_autocommand('InsertLeave', '*', function()
+    core.create_autocommand('InsertLeave', function()
         if tonumber(vim.fn.system('fcitx5-remote')) == 2 then
             vim.fn.system('fcitx5-remote -c')
         end
     end)
 end
 
--- Automatic install 'treesitter'
-core.create_autocommand('FileType', '*', function(ev)
+if vim.fn.has('win32') then
+    core.create_autocommand('InsertLeave', function()
+        vim.fn.system('WeaselServer.exe /ascii')
+    end)
+end
+
+core.create_autocommand('FileType', function(ev)
     if vim.bo[ev.buf].buftype ~= '' then return end
     if ev.match == 'sagarename' then return end
 
@@ -27,22 +31,37 @@ core.create_autocommand('FileType', '*', function(ev)
     end
 end)
 
-core.create_autocommand('FileType', 'yaml', function()
-    vim.bo.shiftwidth = 2
-end)
+local cleanup_noname_buffer = vim.api.nvim_create_augroup('core.cleanup.noname.buffer', { clear = true })
+core.create_autocommand('BufLeave', {
+    group = cleanup_noname_buffer,
+    callback = function(ev)
+        if vim.api.nvim_buf_get_name(ev.buf) ~= '' then return end
+        if vim.bo[ev.buf].buftype ~= '' then return end
+        if vim.bo[ev.buf].modified then return end
 
-core.create_autocommand('FileType', 'gitcommit', function()
-    vim.bo.textwidth = 200
-end)
+        vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(ev.buf) then
+                vim.api.nvim_buf_delete(ev.buf, { force = true })
+                for _, opts in pairs(vim.api.nvim_get_autocmds { group = cleanup_noname_buffer, event = 'BufLeave' }) do
+                    vim.api.nvim_del_autocmd(opts.id)
+                end
+            end
+        end)
+    end
+})
 
-core.create_autocommand('FileType', 'qf', function(ev)
-    core.set_mode_keymaps('n', {
-        ['<CR>'] = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
-        ['o']    = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
-        ['j']    = { 'j<CR><C-w>j', { buffer = ev.buf } },
-        ['k']    = { 'k<CR><C-w>j', { buffer = ev.buf } },
-    })
-end)
+core.create_autocommand('FileType', { pattern = 'yaml', callback = function() vim.bo.shiftwidth = 2 end })
+
+core.create_autocommand('FileType', { pattern = 'gitcommit', callback = function() vim.bo.textwidth = 200 end })
+
+-- core.create_autocommand('FileType', 'qf', function(ev)
+--     core.set_mode_keymaps('n', {
+--         ['<CR>'] = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
+--         ['o']    = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
+--         ['j']    = { 'j<CR><C-w>j', { buffer = ev.buf } },
+--         ['k']    = { 'k<CR><C-w>j', { buffer = ev.buf } },
+--     })
+-- end)
 
 core.create_usercommand('CoreTreesitter', function()
     local filetype = vim.bo.filetype

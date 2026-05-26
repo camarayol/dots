@@ -1,60 +1,70 @@
---- @diagnostic disable: lowercase-global
+--- @diagnostic disable: lowercase-global, unused-local
 core = {}
 
 core.group = vim.api.nvim_create_augroup('core.default', { clear = true })
 
-core.set_options = function(opts)
+function core.set_options(opts)
     for t, o in pairs(opts) do
         for k, v in pairs(o) do vim[t][k] = v end
     end
 end
 
---- @type fun(mode: string|string[], keymaps: table)
-core.set_mode_keymaps = function(mode, keymaps)
-    for lhs, v in pairs(keymaps) do
-        local rhs = type(v) == 'table' and v[1] or v
-        local opts = vim.tbl_extend('force', { noremap = true, silent = true },
-            type(v) == 'table' and v[2] or {})
-        vim.keymap.set(mode, lhs, rhs, opts)
+---@param t type
+local function check_opts_type(v, t, def)
+    if type(v) == t then return v end
+    return def
+end
+
+function core.set_keymaps(modes, keymaps)
+    for lhs, options in pairs(keymaps) do
+        local rhs, buf, opts = '', nil, { desc = nil, callback = nil, nowait = false, silent = true, noremap = true }
+
+        if type(options) == 'string' then
+            rhs = options
+        elseif type(options) == 'function' then
+            opts.callback = options
+        elseif type(options) == 'table' then
+            rhs           = check_opts_type(options.rhs, 'string', '')
+            buf           = check_opts_type(options.buf, 'number', nil)
+
+            opts.desc     = check_opts_type(options.desc, 'string', nil)
+            opts.callback = check_opts_type(options.callback, 'function', nil)
+            opts.nowait   = check_opts_type(options.nowait, 'boolean', false)
+            opts.silent   = check_opts_type(options.silent, 'boolean', true)
+            opts.noremap  = check_opts_type(options.noremap, 'boolean', true)
+        end
+
+        modes = type(modes) == 'string' and { modes } or modes
+
+        for _, mode in ipairs(modes) do
+            if buf then
+                vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, opts)
+            else
+                vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+            end
+        end
     end
 end
 
-core.set_keymaps = function(mdkeymaps)
-    for mode, keymaps in pairs(mdkeymaps) do core.set_mode_keymaps(mode, keymaps) end
-end
-
-core.nvim_set_highlights = function(hl)
+function core.nvim_set_highlights(hl)
     for name, val in pairs(hl) do vim.api.nvim_set_hl(0, name, val) end
 end
 
---- @param event any
---- @param pattern? string|string[]
---- @param opts function|vim.api.keyset.create_autocmd
-core.create_autocommand = function(event, pattern, opts)
-    if type(opts) == 'function' then opts = { callback = opts } end
-    opts = vim.tbl_extend('force', { group = core.group, pattern = pattern }, opts)
-    vim.api.nvim_create_autocmd(event, opts)
+function core.create_autocommand(event, opts)
+    if type(opts) == 'function' then
+        opts = { callback = opts }
+    end
+
+    if type(opts) == 'table' then
+        opts = vim.tbl_extend('force', { group = core.group }, opts)
+    end
+
+    return vim.api.nvim_create_autocmd(event, opts)
 end
 
---- @type fun(name: string, command: string|fun(args: vim.api.keyset.create_user_command.command_args), opts: vim.api.keyset.user_command)
 core.create_usercommand = vim.schedule_wrap(vim.api.nvim_create_user_command)
 
----@param path string
-core.prepend_env_path = function(path)
-    local expanded_path = vim.fn.fnamemodify(vim.fn.expand(path), ':p:h')
-
-    if vim.fn.isdirectory(expanded_path) == 0 then return end
-
-    local sep = vim.fn.has('win32') and ';' or ':'
-
-    local current_path = vim.env.PATH
-    local pattern = '(^|' .. sep .. ')' .. vim.pesc(expanded_path) .. '($|' .. sep .. ')'
-    if string.find(current_path, pattern) then return end
-
-    vim.env.PATH = expanded_path .. sep .. current_path
-end
-
-core.get_visual_text = function()
+function core.get_visual_text()
     if vim.api.nvim_get_mode().mode ~= 'v' then return '' end
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), 'x', true)
     local spos, epos = vim.fn.getpos("'<"), vim.fn.getpos("'>")
@@ -67,13 +77,15 @@ end
 --- @field on_exec? function
 --- @field on_exit? function
 --- @param opts core.bwoptions
-core.create_once_cursor_window = function(opts)
+function core.create_once_cursor_window(opts)
     local buf = vim.api.nvim_create_buf(false, true)
 
     vim.bo[buf].bufhidden = 'wipe'
+    vim.bo[buf].filetype = opts.winopts.title
+    vim.api.nvim_buf_set_name(buf, opts.winopts.title)
 
     opts.winopts = vim.tbl_extend('force', {
-        row = 1, col = 0, height = 1, width = 30, relative = 'cursor', style = 'minimal', border = 'rounded'
+        row = 1, col = 0, height = 1, width = 30, relative = 'cursor', style = 'minimal'
     }, opts.winopts or {})
 
     local win = vim.api.nvim_open_win(buf, true, opts.winopts)
@@ -90,16 +102,15 @@ core.create_once_cursor_window = function(opts)
         if opts.on_exit then opts.on_exit(buf, win) end
     end
 
-    core.set_keymaps {
-        n = {
-            ['q']     = { close, { buffer = buf } },
-            ['<Esc>'] = { close, { buffer = buf } },
-        },
-        i = {
-            ['<Esc>'] = { close, { buffer = buf } },
-            ['<CR>']  = { callback, { buffer = buf } },
-        }
-    }
+    core.set_keymaps('n', {
+        ['q']     = { buf = buf, callback = close },
+        ['<Esc>'] = { buf = buf, callback = close },
+    })
+
+    core.set_keymaps('i', {
+        ['<CR>']  = { buf = buf, callback = callback },
+        ['<Esc>'] = { buf = buf, callback = close },
+    })
 end
 
 return core

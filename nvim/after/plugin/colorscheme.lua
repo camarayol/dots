@@ -19,7 +19,7 @@ core.nvim_set_highlights {
     ['EndOfBuffer']        = { link = 'NonText' },
     ['TermCursor']         = { link = 'Cursor' },
     ['ErrorMsg']           = { fg = '#E06C75' },
-    ['WinSeparator']       = { fg = '#FFFFFF' },
+    ['WinSeparator']       = { fg = '#3E4452' },
     ['Folded']             = { fg = 'none', bg = '#3E4452' },
     ['FoldColumn']         = { link = 'SignColumn' },
     ['SignColumn']         = {},
