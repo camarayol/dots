@@ -6,16 +6,16 @@ return {
         core.nvim_set_highlights {
             ['NvimSurroundHighlight'] = { link = 'IndentScopeCurrent' },
         }
-        core.set_keymaps {
-            n = {
-                ['ys'] = { '<Plug>(nvim-surround-normal)', { desc = '[nvim-surround] insert' } },
-                ['ds'] = { '<Plug>(nvim-surround-delete)', { desc = '[nvim-surround] delete' } },
-                ['cs'] = { '<Plug>(nvim-surround-change)', { desc = '[nvim-surround] change' } },
-            },
-            x = {
-                ['S']  = { '<Plug>(nvim-surround-visual)', { desc = '[nvim-surround] insert' } },
-            }
-        }
+
+        core.set_keymaps('n', {
+            ['ys'] = '<Plug>(nvim-surround-normal)',
+            ['ds'] = '<Plug>(nvim-surround-delete)',
+            ['cs'] = '<Plug>(nvim-surround-change)',
+        })
+
+        core.set_keymaps('x', {
+            ['S'] = '<Plug>(nvim-surround-visual)',
+        })
 
         require('nvim-surround').setup {}
     end

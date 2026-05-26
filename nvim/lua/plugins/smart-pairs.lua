@@ -70,10 +70,11 @@ return {
             }
         }
 
-        core.create_autocommand('FileType', { 'markdown', 'typst' }, function()
-            core.set_mode_keymaps('n', {
-                ['o'] = function() vim.fn.feedkeys('o', 'n'); autolist() end
-            })
-        end)
+        core.create_autocommand('FileType', {
+            pattern = { 'markdown', 'typst' },
+            callback = function()
+                core.set_keymaps('n', { ['o'] = function() vim.fn.feedkeys('o', 'n'); autolist() end })
+            end
+        })
     end
 }

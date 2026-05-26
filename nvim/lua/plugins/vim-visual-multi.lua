@@ -1,6 +1,7 @@
 core.set_options {
     g = {
         VM_theme = 'iceblue',
+        VM_silent_exit = true,
         VM_highlight_matches = 'underline',
         VM_default_mappings = 0,
         VM_leader = '<Nop>',

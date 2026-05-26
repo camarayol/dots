@@ -44,17 +44,12 @@ core.create_usercommand('CoreTerminalFloat', function()
         row = row,
         col = col,
         style = 'minimal',
-        border = 'rounded',
     }
 end, {})
 
 core.create_usercommand('CoreTerminalSplit', function() terminal { split = 'below' } end, {})
 
-core.set_keymaps {
-    n = {
-        ['<Leader>t'] = '<Cmd>CoreTerminalFloat<CR>'
-    },
-    t = {
-        ['<Esc>'] = '<C-\\><C-n>'
-    }
-}
+core.set_keymaps('t', { ['<Esc><Esc>'] = '<C-\\><C-n>' })
+core.set_keymaps('n', {
+    ['<Leader>t'] = { callback = function() vim.cmd('CoreTerminalFloat') end, desc = 'toggle float terminal' }
+})

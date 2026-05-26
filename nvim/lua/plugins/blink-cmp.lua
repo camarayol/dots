@@ -1,13 +1,12 @@
 -- https://cmp.saghen.dev/configuration/reference.html
 local M = {
     src = 'https://github.com/saghen/blink.cmp',
+    version = vim.version.range('*'),
     depends = {
         'https://github.com/saghen/blink.lib',
         'https://github.com/L3MON4D3/LuaSnip',
     }
 }
-
-M.build = function() require('blink.cmp').build():wait(6000) end
 
 M.config = function()
     core.nvim_set_highlights {
@@ -29,7 +28,6 @@ M.config = function()
             menu = {
                 min_width = 30,
                 max_height = 20,
-                border = 'rounded',
                 draw = {
                     treesitter = { 'lsp' },
                     columns = { { 'kind_icon', gap = 1, 'label', 'label_description', 'kind' } }
@@ -44,12 +42,11 @@ M.config = function()
                     min_width  = 30,
                     max_width  = 80,
                     max_height = 60,
-                    border     = 'rounded'
                 }
             },
             ghost_text = { enabled = false },
         },
-        signature = { enabled = true, window = { border = 'rounded' } },
+        signature = { enabled = true },
         keymap = {
             preset = 'none',
             ['<Esc>'] = { 'hide', 'fallback' },

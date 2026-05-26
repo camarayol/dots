@@ -24,13 +24,20 @@ M.config = function()
     local a = require('telescope.actions')
 
     require('telescope').setup {
-        defaults = require('telescope.themes').get_ivy {
+        defaults = {
             path_display = { 'tail' },
             dynamic_preview_title = true,
             sorting_strategy = 'ascending',
+            borderchars = {
+                prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+                results = { " " },
+                preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+            },
+            layout_strategy = 'bottom_pane',
             layout_config = {
-                bottom_pane = { preview_width = 0.6 },
-                horizontal = { prompt_position = 'top', height = 0.6, width = 0.6 }
+                bottom_pane = { prompt_position = 'top', height = 0.6, width = 1.0, preview_width = 0.6 },
+                horizontal  = { prompt_position = 'top', height = 0.6, width = 0.6, preview_width = 0.6 },
+                cursor      = { results_title = false, height = 10, width = 100 }
             },
             -- cache_picker = { num_pickers = 10, limit_entries = 1000, ignore_empty_prompt = true },
             default_mappings = {
@@ -55,28 +62,23 @@ M.config = function()
             }
         },
         extensions = {
-            fzf = {
-                fuzzy = true,
-                override_generic_sorter = true,
-                override_file_sorter = true,
-                case_mode = 'smart_case',
-            }
+            fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = 'smart_case' }
         }
     }
 
     require('telescope').load_extension('fzf')
 
-    core.set_mode_keymaps('n', {
-        ['<Bslash>\\'] = { b.builtin,    { desc = '[Telescope] builtin'    } },
-        ['<Bslash>b']  = { b.buffers,    { desc = '[Telescope] buffers'    } },
-        ['<Bslash>f']  = { b.find_files, { desc = '[Telescope] find_files' } },
-        ['<Bslash>g']  = { b.git_status, { desc = '[Telescope] git_status' } },
-        ['<Bslash>h']  = { b.help_tags,  { desc = '[Telescope] help_tags'  } },
-        ['<Bslash>j']  = { b.jumplist,   { desc = '[Telescope] jumplist'   } },
-        ['<Bslash>o']  = { b.oldfiles,   { desc = '[Telescope] oldfiles'   } },
-        ['<Bslash>q']  = { b.quickfix,   { desc = '[Telescope] quickfix'   } },
-        ['<Bslash>S']  = { b.live_grep,  { desc = '[Telescope] live_grep_args' } },
-        ['<Bslash>s']  = { b.current_buffer_fuzzy_find, { desc = '[Telescope] current_buffer_fuzzy_find' } },
+    core.set_keymaps('n', {
+        ['<Bslash>\\'] = { callback = b.builtin,    desc = '[Telescope] builtin' },
+        ['<Bslash>b']  = { callback = b.buffers,    desc = '[Telescope] buffers' },
+        ['<Bslash>f']  = { callback = b.find_files, desc = '[Telescope] find_files' },
+        ['<Bslash>g']  = { callback = b.git_status, desc = '[Telescope] git_status' },
+        ['<Bslash>h']  = { callback = b.help_tags,  desc = '[Telescope] help_tags' },
+        ['<Bslash>j']  = { callback = b.jumplist,   desc = '[Telescope] jumplist' },
+        ['<Bslash>o']  = { callback = b.oldfiles,   desc = '[Telescope] oldfiles' },
+        ['<Bslash>q']  = { callback = b.quickfix,   desc = '[Telescope] quickfix' },
+        ['<Bslash>S']  = { callback = b.live_grep,  desc = '[Telescope] live_grep_args' },
+        ['<Bslash>s']  = { callback = b.current_buffer_fuzzy_find, desc = '[Telescope] current_buffer_fuzzy_find' },
     })
 end
 

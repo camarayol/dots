@@ -1,5 +1,6 @@
 local M = {
-    src = 'https://github.com/L3MON4D3/LuaSnip'
+    src = 'https://github.com/L3MON4D3/LuaSnip',
+    version = vim.version.range('*')
 }
 
 M.build = function(ev)
@@ -14,14 +15,33 @@ M.build = function(ev)
 end
 
 M.config = function()
-    require('luasnip').setup {
+    local luasnip = require('luasnip')
+    local types = require('luasnip.util.types')
+
+    core.set_keymaps({ 'i', 's' }, {
+        ['<Tab>'] = function()
+            if luasnip.choice_active() then
+                luasnip.change_choice(1)
+            else
+                vim.api.nvim_feedkeys(vim.keycode('<Tab>'), 'n', false)
+            end
+        end,
+    })
+
+    luasnip.setup {
         update_events = 'TextChanged,TextChangedI',
         delete_check_events = 'TextChanged',
+        ext_opts = {
+            [types.snippet] = {
+                active = { sign_text = '▌', sign_hl_group = 'Keyword' },
+            },
+            [types.choiceNode] = {
+                active = { virt_text = { { '<Tab>', 'Comment' } } },
+            },
+        }
     }
 
-    require("luasnip.loaders.from_lua").lazy_load {
-        paths = vim.fn.stdpath('config') .. '/snippets'
-    }
+    require('luasnip.loaders.from_lua').lazy_load { paths = vim.fn.stdpath('config') .. '/snippets' }
 end
 
 return M

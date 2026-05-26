@@ -14,7 +14,7 @@ return {
             },
             diagnostics = {
                 globals = {
-                    's', 'c', 't', 'i', 'fmt', 'extras' -- luasnip
+                    's', 'c', 't', 'i', 'd', 'sn', 'fmt', 'extras' -- luasnip
                 }
             }
         }
