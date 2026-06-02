@@ -71,7 +71,10 @@ M.config = function()
     core.set_keymaps('n', {
         ['<Bslash>\\'] = { callback = b.builtin,    desc = '[Telescope] builtin' },
         ['<Bslash>b']  = { callback = b.buffers,    desc = '[Telescope] buffers' },
-        ['<Bslash>f']  = { callback = b.find_files, desc = '[Telescope] find_files' },
+        ['<Bslash>f']  = {
+            desc = '[Telescope] find_files',
+            callback = function () b.find_files { hidden = true, no_ignore = true } end,
+        },
         ['<Bslash>g']  = { callback = b.git_status, desc = '[Telescope] git_status' },
         ['<Bslash>h']  = { callback = b.help_tags,  desc = '[Telescope] help_tags' },
         ['<Bslash>j']  = { callback = b.jumplist,   desc = '[Telescope] jumplist' },
