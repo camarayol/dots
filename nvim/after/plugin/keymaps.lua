@@ -1,3 +1,5 @@
+-- NOTE
+-- use `:echo getcharstr()` to print keyboard input character
 core.set_keymaps('n', {
     -- Exit Neovim
     ['<Leader>q'] = '<Cmd>qall<CR>',
@@ -5,6 +7,14 @@ core.set_keymaps('n', {
     -- Redo
     ['<C-r>']     = '<Nop>',
     ['U']         = '<Cmd>redo<CR>',
+
+    -- Scroll window
+    ['<C-u>']     = '<Nop>',
+    ['<C-d>']     = '<Nop>',
+    ['<C-f>']     = '<Nop>',
+    ['<C-b>']     = '<Nop>',
+    ['H']         = '<PageUp>',
+    ['L']         = '<PageDown>',
 
     -- Select all
     ['<C-a>']     = 'ggVG',
