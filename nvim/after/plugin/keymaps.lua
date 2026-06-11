@@ -1,5 +1,3 @@
--- NOTE
--- use `:echo getcharstr()` to print keyboard input character
 core.set_keymaps('n', {
     -- Exit Neovim
     ['<Leader>q'] = '<Cmd>qall<CR>',
@@ -16,6 +14,13 @@ core.set_keymaps('n', {
     ['H']         = '<PageUp>',
     ['L']         = '<PageDown>',
 
+    -- Switch window
+    ['<Leader>wh'] = { callback = function() vim.cmd 'wincmd h' end, desc = 'wincmd h' },
+    ['<Leader>wj'] = { callback = function() vim.cmd 'wincmd j' end, desc = 'wincmd j' },
+    ['<Leader>wk'] = { callback = function() vim.cmd 'wincmd k' end, desc = 'wincmd k' },
+    ['<Leader>wl'] = { callback = function() vim.cmd 'wincmd l' end, desc = 'wincmd l' },
+    ['<Leader>wt'] = { callback = function() if vim.fn.tabpagenr('$') > 1 then vim.cmd 'tabclose' else vim.cmd 'tab split' end end, desc = 'tab split' },
+
     -- Select all
     ['<C-a>']     = 'ggVG',
 
@@ -24,9 +29,9 @@ core.set_keymaps('n', {
     ['<M-d>']     = '<C-i>',
 
     -- Close/Switch Buffer
-    ['<S-q>']     = function() vim.cmd('bdelete') end,
-    ['<Tab>']     = function() vim.cmd('bnext') end,
-    ['<S-Tab>']   = function() vim.cmd('bprevious') end,
+    ['<S-q>']     = function() vim.cmd 'bdelete'   end,
+    ['<Tab>']     = function() vim.cmd 'bnext'     end,
+    ['<S-Tab>']   = function() vim.cmd 'bprevious' end,
 
     -- Inspect
     ['<F2>']      = '<Cmd>Inspect<CR>',
