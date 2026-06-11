@@ -10,6 +10,12 @@
 - after/plugin/*.lua(vim)
 - after/ftplugin/${filetype}.lua(vim)
 
+### 查某个组合键输出的键值
+
+```vim
+:echo getcharstr()
+```
+
 ### 查看某个配置最后的修改记录
 
 ```vim
