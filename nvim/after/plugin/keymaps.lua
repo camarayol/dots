@@ -11,8 +11,8 @@ core.set_keymaps('n', {
     ['<C-d>']     = '<Nop>',
     ['<C-f>']     = '<Nop>',
     ['<C-b>']     = '<Nop>',
-    ['H']         = '<PageUp>',
-    ['L']         = '<PageDown>',
+    ['<C-h>']     = '<PageUp>',
+    ['<C-l>']     = '<PageDown>',
 
     -- Switch window
     ['<Leader>wh'] = { callback = function() vim.cmd 'wincmd h' end, desc = 'wincmd h' },
@@ -29,6 +29,7 @@ core.set_keymaps('n', {
     ['<M-d>']     = '<C-i>',
 
     -- Close/Switch Buffer
+    ['<S-c>']     = function() vim.cmd 'close'     end,
     ['<S-q>']     = function() vim.cmd 'bdelete'   end,
     ['<Tab>']     = function() vim.cmd 'bnext'     end,
     ['<S-Tab>']   = function() vim.cmd 'bprevious' end,
@@ -52,7 +53,7 @@ core.set_keymaps('n', {
 
 core.set_keymaps('i', {
     -- Exit to NORMAL mode
-    ['jk'] = '<Esc>',
+    ['jk']    = '<Esc>',
 
     ['<C-n>'] = '<Nop>',
     ['<C-p>'] = '<Nop>',

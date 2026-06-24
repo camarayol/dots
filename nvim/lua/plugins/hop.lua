@@ -5,8 +5,10 @@ return {
         local hop = require('hop')
 
         core.set_keymaps({ 'n', 'x', 'o' }, {
-            ['f'] = { callback = function() hop.hint_char1 { direction = 2 } end, noremap = false },
-            ['F'] = { callback = function() hop.hint_char1 { direction = 1 } end, noremap = false },
+            ['f']  = { callback = function() hop.hint_char1 { direction = 2 } end, noremap = false },
+            ['ff'] = { callback = function() hop.hint_char2 { direction = 2 } end, noremap = false },
+            ['F']  = { callback = function() hop.hint_char1 { direction = 1 } end, noremap = false },
+            ['FF'] = { callback = function() hop.hint_char2 { direction = 1 } end, noremap = false },
         })
 
         hop.setup {

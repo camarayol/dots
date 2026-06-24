@@ -18,6 +18,7 @@ core.set_options {
 
         -- Enable mouse
         mouse = 'a',
+        mousemodel = 'extend',
 
         -- Enable confirm while close unsaved buffer
         confirm = true,
