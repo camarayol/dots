@@ -1,4 +1,3 @@
-hs.loadSpoon("WM")
-hs.loadSpoon("MPD")
+hs.loadSpoon("AM")
 
-spoon.MPD.start()
+spoon.AM.start()
