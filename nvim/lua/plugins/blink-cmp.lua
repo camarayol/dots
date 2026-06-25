@@ -48,25 +48,32 @@ M.config = function()
         },
         signature = { enabled = true },
         keymap = {
-            preset = 'none',
-            ['<Esc>'] = { 'hide', 'fallback' },
-            ['<Tab>'] = { function(cmp) return cmp.snippet_active() and cmp.accept() or cmp.select_and_accept() end, 'fallback' },
-            ['<M-j>'] = { 'select_next', 'fallback' },
-            ['<M-k>'] = { 'select_prev', 'fallback' },
-            ['<M-n>'] = { 'snippet_forward', 'fallback' },
-            ['<M-p>'] = { 'snippet_backward', 'fallback' },
-            ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
-            ['<C-k>'] = { 'scroll_documentation_up', 'fallback' },
+            preset     = 'none',
+            ['<Esc>']  = { 'hide', 'fallback' },
+            ['<Tab>']  = { function(cmp) return cmp.snippet_active() and cmp.accept() or cmp.select_and_accept() end, 'fallback' },
+
+            ['<Down>'] = { 'select_next', 'fallback' },
+            ['<M-j>']  = { 'select_next', 'fallback' },
+            ['<Up>']   = { 'select_prev', 'fallback' },
+            ['<M-k>']  = { 'select_prev', 'fallback' },
+
+            ['<M-n>']  = { 'snippet_forward', 'fallback' },
+            ['<M-p>']  = { 'snippet_backward', 'fallback' },
+
+            ['<C-j>']  = { 'scroll_documentation_down', 'fallback' },
+            ['<C-k>']  = { 'scroll_documentation_up', 'fallback' },
         },
         cmdline = {
             enabled = true,
             completion = { menu = { auto_show = true } },
             keymap = {
-                preset = 'none',
+                preset     = 'none',
                 -- <Esc> fallback will automatic execution commands.
-                ['<Tab>'] = { 'accept', 'fallback' },
-                ['<M-j>'] = { 'select_next', 'fallback' },
-                ['<M-k>'] = { 'select_prev', 'fallback' },
+                ['<Tab>']  = { 'accept', 'fallback' },
+                ['<Down>'] = { 'select_next', 'fallback' },
+                ['<M-j>']  = { 'select_next', 'fallback' },
+                ['<Up>']   = { 'select_prev', 'fallback' },
+                ['<M-k>']  = { 'select_prev', 'fallback' },
             }
         },
         snippets = { preset = 'luasnip' },

@@ -26,6 +26,13 @@ M.config = function()
                 vim.api.nvim_feedkeys(vim.keycode('<Tab>'), 'n', false)
             end
         end,
+        ['<Esc>'] = function()
+            if luasnip.expand_or_jumpable() then
+                luasnip.unlink_current()
+            else
+                vim.api.nvim_feedkeys(vim.keycode('<Esc>'), 'n', false)
+            end
+        end
     })
 
     luasnip.setup {

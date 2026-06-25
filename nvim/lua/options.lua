@@ -11,6 +11,8 @@ core.set_options {
         loaded_ruby_provider    = 0,
         loaded_python3_provider = 0,
         loaded_node_provider    = 0,
+
+        omni_sql_no_default_maps = 1,
     },
     opt = {
         -- Enable FileEncoding

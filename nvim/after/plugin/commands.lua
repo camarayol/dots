@@ -40,6 +40,15 @@ core.create_autocommand('BufLeave', {
         if vim.bo[ev.buf].modified then return end
 
         vim.schedule(function()
+            local buf = vim.api.nvim_get_current_buf()
+            local buftype = vim.bo[buf].buftype
+
+            if vim.api.nvim_buf_is_valid(buf)
+                and (buftype == 'terminal' or buftype == 'nofile')
+            then
+                return
+            end
+
             if vim.api.nvim_buf_is_valid(ev.buf) then
                 vim.api.nvim_buf_delete(ev.buf, { force = true })
                 for _, opts in pairs(vim.api.nvim_get_autocmds { group = cleanup_noname_buffer, event = 'BufLeave' }) do
