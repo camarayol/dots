@@ -53,7 +53,7 @@ core.set_keymaps('n', {
 
 core.set_keymaps('i', {
     -- Exit to NORMAL mode
-    ['jk']    = '<Esc>',
+    ['jk']    = function() vim.cmd('stopinsert') end,
 
     ['<C-n>'] = '<Nop>',
     ['<C-p>'] = '<Nop>',
