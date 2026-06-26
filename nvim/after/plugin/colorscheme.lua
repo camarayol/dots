@@ -151,3 +151,20 @@ core.nvim_set_highlights {
     ['LspReferenceText'] = { underline = true },
 }
 
+-- plugins
+core.nvim_set_highlights {
+    ['GitSignsCurrentLineBlame'] = { link = 'Comment' },
+
+    ['BlinkCmpGhostText']        = { link = 'Comment' },
+
+    ['MiniIndentscopeSymbol']    = { link = 'IndentScopeOther' },
+
+    ['NvimSurroundHighlight']    = { link = 'IndentScopeCurrent' },
+
+    ['NvimTreeGitNew']           = { link = 'Added' },
+    ['NvimTreeGitDirty']         = { link = 'Changed' },
+    ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
+    ['NvimTreeCursorLine']       = { link = 'CursorLine' },
+    ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
+    ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
+}

@@ -9,10 +9,6 @@ local M = {
 }
 
 M.config = function()
-    core.nvim_set_highlights {
-        ['BlinkCmpGhostText'] = { link = 'Comment' },
-    }
-
     require('blink.cmp').setup {
         completion = {
             -- list = { selection = { preselect = true, auto_insert = function(ctx) return ctx.mode == 'cmdline' end } },

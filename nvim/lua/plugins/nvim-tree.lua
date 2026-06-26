@@ -4,15 +4,6 @@ local M = {
 }
 
 M.config = function()
-    core.nvim_set_highlights {
-        ['NvimTreeGitNew']           = { link = 'Added' },
-        ['NvimTreeGitDirty']         = { link = 'Changed' },
-        ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
-        ['NvimTreeCursorLine']       = { link = 'CursorLine' },
-        ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
-        ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
-    }
-
     core.set_keymaps('n', {
         ['<Leader>e'] = { callback = function() vim.cmd('NvimTreeFocus') end, desc = '[NvimTree] focus filetree' },
         ['<Leader>f'] = { callback = function() vim.cmd('NvimTreeToggle') end, desc = '[NvimTree] toggle filetree' },
