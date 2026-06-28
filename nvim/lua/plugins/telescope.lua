@@ -48,6 +48,8 @@ M.config = function()
                     ['j']          = a.move_selection_next,
                     ['k']          = a.move_selection_previous,
                     ['<C-q>']      = a.smart_send_to_qflist + a.open_qflist,
+                    ['<C-j>']      = a.preview_scrolling_down,
+                    ['<C-k>']      = a.preview_scrolling_up,
                     ['<PageUp>']   = a.preview_scrolling_up,
                     ['<PageDown>'] = a.preview_scrolling_down,
                 },
@@ -57,6 +59,8 @@ M.config = function()
                     ['<M-j>']      = a.move_selection_next,
                     ['<M-k>']      = a.move_selection_previous,
                     ['<C-q>']      = a.smart_send_to_qflist + a.open_qflist,
+                    ['<C-j>']      = a.preview_scrolling_down,
+                    ['<C-k>']      = a.preview_scrolling_up,
                     ['<PageUp>']   = a.preview_scrolling_up,
                     ['<PageDown>'] = a.preview_scrolling_down,
                 }
