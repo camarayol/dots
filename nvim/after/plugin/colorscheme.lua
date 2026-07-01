@@ -44,6 +44,7 @@ core.nvim_set_highlights {
     ['MatchParen']           = { bg = '#7F848E' },
 
     ['OkMsg']                = { fg = '#98C379' },
+    ['MoreMsg']              = { fg = '#56B6C2' },
     ['WarningMsg']           = { fg = '#D19A66' },
     ['ErrorMsg']             = { fg = '#E06C75' },
     ['StderrMsg']            = { link = 'ErrorMsg' },
@@ -51,15 +52,14 @@ core.nvim_set_highlights {
     ['ModeMsg']              = { link = 'OkMsg' },
     ['MsgArea']              = {},
     ['MsgSeparator']         = { link = 'WinSeparator' },
-    ['MoreMsg']              = {},
 
     ['NonText']              = { fg = '#3E4452' },
 
-    ['Normal']               = {},
+    ['Normal']               = { bg = '#282C34' },
     ['NormalNC']             = {},
 
-    ['NormalFloat']          = { bg = 'none' },
-    ['FloatBorder']          = { link = 'NormalFloat' },
+    ['NormalFloat']          = { fg = '#ABB2BF', bg = 'none' },
+    ['FloatBorder']          = { link = 'WinSeparator' },
     ['FloatShadow']          = {},
     ['FloatShadowThrough']   = {},
     ['FloatTitle']           = { link = 'Title' },
@@ -178,8 +178,8 @@ core.nvim_set_highlights {
     --- Base diagnostic groups
     ['DiagnosticError']             = { link = 'ErrorMsg' },
     ['DiagnosticWarn']              = { link = 'WarningMsg' },
-    ['DiagnosticInfo']              = { fg = '#D19A66' },
-    ['DiagnosticHint']              = { fg = '#56B6C2' },
+    ['DiagnosticInfo']              = { link = 'MoreMsg' },
+    ['DiagnosticHint']              = { link = 'MoreMsg' },
     ['DiagnosticOk']                = { link = 'OkMsg' },
 
     --- Virtual text
@@ -224,26 +224,21 @@ core.nvim_set_highlights {
 
 -- treesitter-highlights
 core.nvim_set_highlights {
-    --- @variable
     ['@variable']                    = { link = 'Identifier' },
     ['@variable.builtin']            = { link = '@variable' },
     ['@variable.parameter']          = { link = '@variable' },
     ['@variable.parameter.builtin']  = { link = '@variable.builtin' },
     ['@variable.member']             = { link = '@variable' },
 
-    --- @constant
     ['@constant']                    = { fg = '#E5C07B' },
     ['@constant.builtin']            = { fg = '#D19A66' },
     ['@constant.macro']              = { link = '@constant' },
 
-    --- @module
     ['@module']                      = { fg = '#E5C07B' },
     ['@module.builtin']              = { link = '@module' },
 
-    --- @label
     ['@label']                       = { link = 'Label' },
 
-    --- @string
     ['@string']                      = { link = 'String' },
     ['@string.documentation']        = { link = '@string' },
     ['@string.regexp']               = { link = '@string' },
@@ -253,30 +248,23 @@ core.nvim_set_highlights {
     ['@string.special.path']         = { link = '@string.special' },
     ['@string.special.url']          = { link = '@markup.link.url' },
 
-    --- @character
     ['@character']                   = { link = 'Character' },
     ['@character.special']           = { link = 'SpecialChar' },
 
-    --- @boolean
     ['@boolean']                     = { link = 'Boolean' },
 
-    --- @number
     ['@number']                      = { link = 'Number' },
     ['@number.float']                = { link = 'Float' },
 
-    --- @type
     ['@type']                        = { link = 'Type' },
     ['@type.builtin']                = { link = 'Keyword' },
     ['@type.definition']             = { link = 'Typedef' },
 
-    --- @attribute
     ['@attribute']                   = { link = 'PreProc' },
     ['@attribute.builtin']           = { link = '@attribute' },
 
-    --- @property
     ['@property']                    = { link = '@variable.member' },
 
-    --- @function
     ['@function']                    = { link = 'Function' },
     ['@function.builtin']            = { link = '@function' },
     ['@function.call']               = { link = '@function' },
@@ -284,13 +272,10 @@ core.nvim_set_highlights {
     ['@function.method']             = { link = '@function' },
     ['@function.method.call']        = { link = '@function.method' },
 
-    --- @constructor
     ['@constructor']                 = { link = 'Special' },
 
-    --- @operator
     ['@operator']                    = { fg = '#56B6C2' },
 
-    --- @keyword
     ['@keyword']                     = { link = 'Keyword' },
     ['@keyword.coroutine']           = { link = '@keyword' },
     ['@keyword.function']            = { link = '@keyword' },
@@ -307,12 +292,10 @@ core.nvim_set_highlights {
     ['@keyword.directive']           = { link = 'PreProc' },
     ['@keyword.directive.define']    = { link = 'Define' },
 
-    --- @punctuation
     ['@punctuation.delimiter']       = { fg = '#ABB2BF' },
     ['@punctuation.bracket']         = { link = '@punctuation.delimiter' },
     ['@punctuation.special']         = { fg = '#C678DD' },
 
-    --- @comment
     ['@comment']                     = { link = 'Comment' },
     ['@comment.documentation']       = { link = '@comment' },
     ['@comment.error']               = { link = 'DiagnosticError' },
@@ -320,7 +303,6 @@ core.nvim_set_highlights {
     ['@comment.todo']                = { link = 'Todo' },
     ['@comment.note']                = { link = '@comment' },
 
-    --- @markup
     ['@markup.strong']               = { bold = true },
     ['@markup.italic']               = { italic = true },
     ['@markup.strikethrough']        = { strikethrough = true },
@@ -343,18 +325,15 @@ core.nvim_set_highlights {
     ['@markup.list.checked']         = { link = '@markup.list' },
     ['@markup.list.unchecked']       = { link = '@markup.list' },
 
-    --- @diff
     ['@diff.plus']                   = { link = 'Added' },
     ['@diff.minus']                  = { link = 'Removed' },
     ['@diff.delta']                  = { link = 'Changed' },
 
-    --- @tag
     ['@tag']                         = { link = 'Tag' },
     ['@tag.builtin']                 = { link = '@tag' },
     ['@tag.attribute']               = { link = '@property' },
     ['@tag.delimiter']               = { link = 'Delimiter' },
 
-    --- @lsp.type.*  (semantic tokens from LSP)
     ['@lsp.type.class']              = { link = 'Type' },
     ['@lsp.type.comment']            = { link = '@comment' },
     ['@lsp.type.decorator']          = { link = '@attribute' },
@@ -379,7 +358,6 @@ core.nvim_set_highlights {
     ['@lsp.type.typeParameter']      = { link = '@type' },
     ['@lsp.type.variable']           = { link = '@variable' },
 
-    --- @lsp.mod.*
     ['@lsp.mod.abstract']            = { link = '@lsp.type.class' },
     ['@lsp.mod.async']               = { link = '@lsp.type.function' },
     ['@lsp.mod.declaration']         = { link = '@lsp.type' },
@@ -390,53 +368,36 @@ core.nvim_set_highlights {
 
 -- plugins
 core.nvim_set_highlights {
-    --- GitSigns
+    -- gitsigns.nvim
     ['GitSignsCurrentLineBlame'] = { link = 'Comment' },
 
-    --- BlinkCmp
+    -- blink.cmp
     ['BlinkCmpGhostText']        = { link = 'Comment' },
 
-    --- mini.indentscope
+    -- mini.indentscope
     ['IndentScopeOther']         = { link = 'WinSeparator' },
     ['IndentScopeCurrent']       = { link = 'WinSeparator' },
     ['MiniIndentscopeSymbol']    = { link = 'WinSeparator' },
 
-    --- nvim-surround
+    -- nvim-surround
     ['NvimSurroundHighlight']    = { link = 'IndentScopeCurrent' },
+}
 
-    --- NvimTree
+-- nvim-tree
+core.nvim_set_highlights {
     ['NvimTreeGitNew']           = { link = 'Added' },
     ['NvimTreeGitDirty']         = { link = 'Changed' },
     ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
     ['NvimTreeCursorLine']       = { link = 'CursorLine' },
     ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
     ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
+}
 
-    -- Pi
-    ['PiUserMessageLabel']       = { bg = '#61AFEF' },
-    ['PiAgentResponseLabel']     = { bg = '#D19A66' },
-    ['PiDebugLabel']             = { link = 'Comment' },
-    ['PiStartupLabel']           = { link = 'Comment' },
-    ['PiStartupErrorLabel']      = { link = 'ErrorMsg' },
-    ['PiStartupHint']            = {},
-    ['PiStartupDetail']          = { link = 'Comment' },
-    ['PiStartupError']           = {},
-    ['PiCompactionLabel']        = {},
-    ['PiCompactionText']         = {},
-    ['PiCompactionHint']         = {},
-    ['PiMessageDateTime']        = { link = 'Comment' },
-    ['PiMessageQueueTag']        = {},
-    ['PiMessageAttachments']     = {},
-    ['PiPendingQueueLabel']      = {},
-    ['PiPendingQueueText']       = {},
-    ['PiThinking']               = {},
-    ['PiMention']                = { link = 'Keyword' },
-    ['PiCommand']                = {},
-    ['PiWelcome']                = {},
-    ['PiWelcomeHint']            = { link = 'Comment' },
-    ['PiBusy']                   = {},
-    ['PiBusyTime']               = {},
-    ['PiWarning']                = { link = 'WarningMsg' },
-    ['PiError']                  = { link = 'ErrorMsg' },
-    ['PiDebug']                  = {},
+-- avante.nvim
+core.nvim_set_highlights {
+    ['AvantePopupHint']               = { link = 'Comment' },
+    ['AvanteSidebarWinSeparator']     = { link = 'WinSeparator' },
+    ['AvanteStateSpinnerSucceeded']   = { link = 'OkMsg' },
+    ['AvanteStateSpinnerToolCalling'] = { link = 'MoreMsg' },
+
 }

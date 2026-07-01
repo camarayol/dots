@@ -2,6 +2,7 @@ require('core')
 require('options')
 
 require('packer') {
+    require('plugins.avante'),
     require('plugins.blink-cmp'),
     require('plugins.fidget'),
     require('plugins.gitsigns'),
@@ -14,7 +15,6 @@ require('packer') {
     require('plugins.nvim-tree'),
     require('plugins.render-markdown'),
     require('plugins.nvim-treesitter'),
-    require('plugins.pi'),
     require('plugins.smart-pairs'),
     require('plugins.telescope'),
     require('plugins.vim-visual-multi'),

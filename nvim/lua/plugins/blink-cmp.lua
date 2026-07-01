@@ -5,6 +5,7 @@ local M = {
     depends = {
         'https://github.com/saghen/blink.lib',
         'https://github.com/L3MON4D3/LuaSnip',
+        'https://github.com/Kaiser-Yang/blink-cmp-avante',
     }
 }
 
@@ -75,9 +76,10 @@ M.config = function()
         snippets = { preset = 'luasnip' },
         appearance = { nerd_font_variant = 'mono' },
         sources = {
-            default = { 'snippets', 'path', 'buffer', 'lsp' },
+            default = { 'avante', 'snippets', 'path', 'buffer', 'lsp' },
             providers = {
                 path = { opts = { show_hidden_files_by_default = true } },
+                avante = { module = 'blink-cmp-avante', name = 'Avante', opts = {} }
             }
         },
     }
