@@ -44,7 +44,7 @@ M.config = function()
             refresh  = '<leader>ar',
             focus    = '<leader>af',
             stop     = '<leader>aS',
-            cancel   = { normal = '<C-c>', insert = '<C-c>' },
+            cancel   = { normal = { '<C-c>' }, insert = { '<C-c>' } },
             toggle   = { default = '<leader>at', debug = '<leader>ad', selection = '<leader>aC', suggestion = '<leader>as', repomap = '<leader>aR' },
             sidebar  = {
                 next_prompt = ']]',

@@ -72,9 +72,13 @@ return {
 
         core.create_autocommand('FileType', {
             pattern = { 'markdown', 'typst' },
-            callback = function()
-                core.set_keymaps('n', { ['o']    = function() vim.fn.feedkeys('o',    'n'); autolist() end })
-                core.set_keymaps('i', { ['<CR>'] = function() vim.fn.feedkeys('<CR>', 'i'); autolist() end })
+            callback = function(ev)
+                core.set_keymaps('n', {
+                    ['o'] = { buf = ev.buf, callback = function() vim.fn.feedkeys('o', 'n'); autolist() end }
+                })
+                core.set_keymaps('i', {
+                    ['<CR>'] = { buf = ev.buf, callback = function() vim.fn.feedkeys('<CR>', 'n'); autolist() end }
+                })
             end
         })
     end
