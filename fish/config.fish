@@ -2,9 +2,10 @@ functions -e fish_greeting
 
 function fish_prompt
     echo -n (set_color -i blue) (prompt_pwd)
-    if command -sq git; and command git rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
-        set -l branch (command git symbolic-ref --short HEAD 2>/dev/null)
-        if not command git diff-index --quiet HEAD -- 2>/dev/null
+    if command -sq git
+        and command git --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
+        set -l branch (command git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
+        if test -n (command git --no-optional-locks status --porcelain -uno 2>/dev/null | head -c1)
             echo -n (set_color red) $branch"*"
         else
             echo -n (set_color green) $branch
@@ -34,6 +35,7 @@ set -gx EDITOR                  "nvim"
 set -gx XDG_LOCAL_HOME          "$HOME/.local"
 set -gx XDG_CACHE_HOME          "$HOME/.cache"
 set -gx XDG_CONFIG_HOME         "$HOME/.config"
+set -gx PI_CODING_AGENT_DIR     "$HOME/.config/pi/agent"
 set -gx CARGO_HOME              "$XDG_LOCAL_HOME/rust/cargo"
 set -gx RUSTUP_HOME             "$XDG_LOCAL_HOME/rust/rustup"
 
