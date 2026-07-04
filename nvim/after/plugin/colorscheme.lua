@@ -395,16 +395,7 @@ core.nvim_set_highlights {
     ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
 }
 
--- avante.nvim
-core.nvim_set_highlights {
-    ['AvantePopupHint']               = { link = 'Comment' },
-    ['AvanteSidebarWinSeparator']     = { link = 'WinSeparator' },
-    ['AvanteStateSpinnerSucceeded']   = { link = 'OkMsg' },
-    ['AvanteStateSpinnerToolCalling'] = { link = 'MoreMsg' },
-
-}
-
--- Pi
+-- pi.nvim
 core.nvim_set_highlights {
     ['PiUserMessageLabel']   = { bg = '#61AFEF' },
     ['PiAgentResponseLabel'] = { bg = '#D19A66' },
@@ -424,7 +415,6 @@ core.nvim_set_highlights {
     ['PiPendingQueueText']   = { link = 'Comment' },
     ['PiThinking']           = { link = 'Comment' },
 
-    -- Tool calls: no icon/border background; use foreground colors for status.
     ['PiToolBorder']         = { fg = 'none', bg = 'none' },
     ['PiToolHeader']         = { fg = '#98C379', bg = 'none' },
     ['PiToolStatus']         = { fg = '#98C379', bg = 'none' },

@@ -26,7 +26,7 @@ M.config = function()
                 max_height = 20,
                 draw = {
                     treesitter = { 'lsp' },
-                    columns = { { 'kind_icon', gap = 1, 'label', 'label_description', 'kind' } }
+                    columns = { { 'kind_icon' }, { 'label' }, { 'kind' } }
                 }
             },
             documentation = {
@@ -76,7 +76,11 @@ M.config = function()
         appearance = { nerd_font_variant = 'mono' },
         sources = {
             default = { 'snippets', 'path', 'buffer', 'lsp' },
+            per_filetype = {
+                ['pi-chat-prompt'] = { 'pi', 'snippets', 'buffer' }
+            },
             providers = {
+                pi = { name = 'Pi', module = 'pi.completion.blink' },
                 path = { opts = { show_hidden_files_by_default = true } },
             }
         },
