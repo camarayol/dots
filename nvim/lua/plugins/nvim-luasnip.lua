@@ -40,7 +40,7 @@ M.config = function()
         delete_check_events = 'TextChanged',
         ext_opts = {
             [types.snippet] = {
-                active = { sign_text = '▌', sign_hl_group = 'Keyword' },
+                active = { sign_text = '│', sign_hl_group = 'Keyword' },
             },
             [types.choiceNode] = {
                 active = { virt_text = { { '<Tab>', 'Comment' } } },

@@ -14,25 +14,12 @@ core.set_keymaps('n', {
     ['<C-h>']     = '<PageUp>',
     ['<C-l>']     = '<PageDown>',
 
-    -- Switch window
-    ['<Leader>wh'] = { callback = function() vim.cmd 'wincmd h' end, desc = 'wincmd h' },
-    ['<Leader>wj'] = { callback = function() vim.cmd 'wincmd j' end, desc = 'wincmd j' },
-    ['<Leader>wk'] = { callback = function() vim.cmd 'wincmd k' end, desc = 'wincmd k' },
-    ['<Leader>wl'] = { callback = function() vim.cmd 'wincmd l' end, desc = 'wincmd l' },
-    ['<Leader>wt'] = { callback = function() if vim.fn.tabpagenr('$') > 1 then vim.cmd 'tabclose' else vim.cmd 'tab split' end end, desc = 'tab split' },
-
     -- Select all
     ['<C-a>']     = 'ggVG',
 
     -- Goto Prev/Next Jumplist
     ['<M-a>']     = '<C-o>',
     ['<M-d>']     = '<C-i>',
-
-    -- Close/Switch Buffer
-    ['<S-c>']     = function() vim.cmd 'close'     end,
-    ['<S-q>']     = function() vim.cmd 'bdelete'   end,
-    ['<Tab>']     = function() vim.cmd 'bnext'     end,
-    ['<S-Tab>']   = function() vim.cmd 'bprevious' end,
 
     -- Inspect
     ['<F2>']      = '<Cmd>Inspect<CR>',
@@ -51,9 +38,63 @@ core.set_keymaps('n', {
     end,
 })
 
+-- Switch window
+core.set_keymaps('n', {
+    ['<Leader>wh'] = {
+        desc = 'move to LEFT window',
+        callback = function() vim.cmd('wincmd h') end,
+    },
+    ['<Leader>wj'] = {
+        desc = 'move to BOTTOM window',
+        callback = function() vim.cmd('wincmd j') end,
+    },
+    ['<Leader>wk'] = {
+        desc = 'move to TOP window',
+        callback = function() vim.cmd('wincmd k') end,
+    },
+    ['<Leader>wl'] = {
+        desc = 'move to RIGHT window',
+        callback = function() vim.cmd('wincmd l') end,
+    },
+    ['<Leader>wt'] = {
+        desc = 'split / close current tab',
+        callback = function()
+            if vim.fn.tabpagenr('$') > 1 then
+                vim.cmd('tabclose')
+            else
+                vim.cmd('tab split')
+            end
+        end,
+    },
+})
+
+-- Close/Switch Buffer
+core.set_keymaps('n', {
+    ['<S-c>']   = function()
+        if vim.bo.modifiable and not vim.wo.winfixbuf then
+            vim.cmd('close')
+        end
+    end,
+    ['<S-q>']   = function()
+        if vim.bo.modifiable and not vim.wo.winfixbuf then
+            vim.cmd('bdelete')
+        end
+    end,
+    ['<Tab>']   = function()
+        if vim.bo.modifiable and not vim.wo.winfixbuf then
+            vim.cmd('bnext')
+        end
+    end,
+    ['<S-Tab>'] = function()
+        if vim.bo.modifiable and not vim.wo.winfixbuf then
+            vim.cmd('bprevious')
+        end
+    end,
+})
+
 core.set_keymaps('i', {
     -- Exit to NORMAL mode
-    ['jk']    = '<Esc>',
+    ['jk']    = function() vim.cmd('stopinsert') end,
 
     ['<C-n>'] = '<Nop>',
     ['<C-p>'] = '<Nop>',

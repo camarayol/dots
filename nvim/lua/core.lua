@@ -3,6 +3,10 @@ core = {}
 
 core.group = vim.api.nvim_create_augroup('core.default', { clear = true })
 
+function core.hasfeature(feature)
+    return vim.fn.has(feature) == 1
+end
+
 function core.set_options(opts)
     for t, o in pairs(opts) do
         for k, v in pairs(o) do vim[t][k] = v end
@@ -11,8 +15,7 @@ end
 
 ---@param t type
 local function check_opts_type(v, t, def)
-    if type(v) == t then return v end
-    return def
+    return type(v) == t and v or def
 end
 
 function core.set_keymaps(modes, keymaps)
@@ -24,8 +27,8 @@ function core.set_keymaps(modes, keymaps)
         elseif type(options) == 'function' then
             opts.callback = options
         elseif type(options) == 'table' then
-            rhs           = check_opts_type(options.rhs, 'string', '')
-            buf           = check_opts_type(options.buf, 'number', nil)
+            rhs = check_opts_type(options.rhs, 'string', '')
+            buf = check_opts_type(options.buf, 'number', nil)
 
             opts.desc     = check_opts_type(options.desc, 'string', nil)
             opts.callback = check_opts_type(options.callback, 'function', nil)

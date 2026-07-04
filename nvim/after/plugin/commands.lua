@@ -2,7 +2,7 @@ core.create_autocommand('TextYankPost', function()
     vim.hl.on_yank { higroup = 'Search', timeout = 100 }
 end)
 
-if vim.fn.has('linux') and not vim.fn.has('wsl') and vim.fn.executable('fcitx5-remote') then
+if core.hasfeature('linux') and not core.hasfeature('wsl') and vim.fn.executable('fcitx5-remote') then
     core.create_autocommand('InsertLeave', function()
         if tonumber(vim.fn.system('fcitx5-remote')) == 2 then
             vim.fn.system('fcitx5-remote -c')
@@ -43,9 +43,8 @@ core.create_autocommand('BufLeave', {
             local buf = vim.api.nvim_get_current_buf()
             local buftype = vim.bo[buf].buftype
 
-            if vim.api.nvim_buf_is_valid(buf)
-                and (buftype == 'terminal' or buftype == 'nofile')
-            then
+            if vim.api.nvim_buf_is_valid(buf) and
+                vim.tbl_contains({ 'terminal', 'nofile', 'prompt' }, buftype) then
                 return
             end
 

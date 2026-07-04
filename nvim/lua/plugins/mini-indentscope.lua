@@ -3,9 +3,6 @@ local M = {
 }
 
 M.config = function()
-    core.nvim_set_highlights {
-        ['MiniIndentscopeSymbol'] = { link = 'IndentScopeOther' },
-    }
     require('mini.indentscope').setup {
         symbol = '│',
         draw = {

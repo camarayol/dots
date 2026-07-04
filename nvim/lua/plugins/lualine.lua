@@ -6,8 +6,8 @@ local M = {
 M.config = function()
     require('lualine').setup {
         options = {
-            theme                = {
-                normal   = {
+            theme = {
+                normal = {
                     a = { fg = '#98c379', bg = '#2c323c' },
                     b = { fg = '#abb2bf', bg = '#2c323c' },
                     c = { fg = '#abb2bf', bg = '#2c323c' },
@@ -29,10 +29,11 @@ M.config = function()
             lualine_b = {
                 { 'branch' },
                 { 'diff', symbols = { added = '+', modified = '~', removed = '-' } },
-                { 'diagnostics', symbols = { error = '󱓻 ', warn = '󱓻 ', info = '󱓻 ', hint = '󱓻 ' } }
+                { 'diagnostics', symbols = { error = '󱓻 ', warn = '󱓻 ', info = '󱓻 ', hint = '󱓻 ' } },
+                { 'filename', path = 1 },
             },
             lualine_c = {},
-            lualine_x = { { 'filename', path = 1 }, 'filesize', 'filetype', 'encoding', 'fileformat' },
+            lualine_x = { 'filesize', 'filetype', 'encoding', 'fileformat' },
             lualine_y = { 'location', 'progress' },
             lualine_z = {
                 { 'searchcount',    fmt = function(str) return str ~= '' and string.format('%7s', str) or str end, },

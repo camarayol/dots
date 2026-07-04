@@ -3,24 +3,17 @@ local M = {
 }
 
 M.config = function()
-    core.nvim_set_highlights {
-        ['GitSignsCurrentLineBlame'] = { link = 'Comment' },
-    }
     require('gitsigns').setup {
-        on_attach                    = function(buf)
+        on_attach = function(buf)
             local gs = require('gitsigns')
             core.set_keymaps('n', {
                 ['[c'] = {
                     buf = buf, desc = '[Gitsigns] prev_hunk',
-                    callback = function()
-                        return vim.wo.diff and vim.cmd.normal { '[c', bang = true } or gs.prev_hunk()
-                    end
+                    callback = function() return vim.wo.diff and vim.cmd.normal { '[c', bang = true } or gs.prev_hunk() end
                 },
                 [']c'] = {
                     buf = buf, desc = '[Gitsigns] next_hunk',
-                    callback = function()
-                        return vim.wo.diff and vim.cmd.normal { ']c', bang = true } or gs.next_hunk()
-                    end,
+                    callback = function() return vim.wo.diff and vim.cmd.normal { ']c', bang = true } or gs.next_hunk() end,
                 },
                 ['<Leader>gr'] = { buf = buf, desc = '[Gitsigns] reset_hunk', callback = gs.reset_hunk },
                 ['<Leader>gv'] = { buf = buf, desc = '[Gitsigns] preview_hunk_inline', callback = gs.preview_hunk_inline },
@@ -28,20 +21,20 @@ M.config = function()
             })
         end,
         signs = {
-            add          = { text = '▌' },
-            change       = { text = '▌' },
-            delete       = { text = '▌' },
-            topdelete    = { text = '▌' },
-            changedelete = { text = '▌' },
-            untracked    = { text = '▌' },
+            add          = { text = '│' },
+            change       = { text = '│' },
+            delete       = { text = '│' },
+            topdelete    = { text = '│' },
+            changedelete = { text = '│' },
+            untracked    = { text = '│' },
         },
-        signs_staged                 = {
-            add          = { text = '▌' },
-            change       = { text = '▌' },
-            delete       = { text = '▌' },
-            topdelete    = { text = '▌' },
-            changedelete = { text = '▌' },
-            untracked    = { text = '▌' },
+        signs_staged = {
+            add          = { text = '│' },
+            change       = { text = '│' },
+            delete       = { text = '│' },
+            topdelete    = { text = '│' },
+            changedelete = { text = '│' },
+            untracked    = { text = '│' },
         },
         signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
         numhl                        = true,  -- Toggle with `:Gitsigns toggle_numhl`

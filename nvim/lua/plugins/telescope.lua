@@ -4,6 +4,7 @@ local M = {
 
 M.depends = {
     'https://github.com/nvim-lua/plenary.nvim',
+    'https://github.com/nvim-telescope/telescope-ui-select.nvim',
     {
         src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
         build = function(ev)
@@ -47,6 +48,8 @@ M.config = function()
                     ['j']          = a.move_selection_next,
                     ['k']          = a.move_selection_previous,
                     ['<C-q>']      = a.smart_send_to_qflist + a.open_qflist,
+                    ['<C-j>']      = a.preview_scrolling_down,
+                    ['<C-k>']      = a.preview_scrolling_up,
                     ['<PageUp>']   = a.preview_scrolling_up,
                     ['<PageDown>'] = a.preview_scrolling_down,
                 },
@@ -56,17 +59,21 @@ M.config = function()
                     ['<M-j>']      = a.move_selection_next,
                     ['<M-k>']      = a.move_selection_previous,
                     ['<C-q>']      = a.smart_send_to_qflist + a.open_qflist,
+                    ['<C-j>']      = a.preview_scrolling_down,
+                    ['<C-k>']      = a.preview_scrolling_up,
                     ['<PageUp>']   = a.preview_scrolling_up,
                     ['<PageDown>'] = a.preview_scrolling_down,
                 }
             }
         },
         extensions = {
-            fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = 'smart_case' }
+            ['fzf'] = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = 'smart_case' },
+            ['ui-select'] = { require('telescope.themes').get_dropdown() }
         }
     }
 
     require('telescope').load_extension('fzf')
+    require('telescope').load_extension('ui-select')
 
     core.set_keymaps('n', {
         ['<Bslash>\\'] = { callback = b.builtin,    desc = '[Telescope] builtin' },
