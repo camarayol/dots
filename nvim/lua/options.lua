@@ -21,6 +21,7 @@ core.set_options {
         -- Enable mouse
         mouse = 'a',
         mousemodel = 'extend',
+        mousescroll = 'ver:3,hor:0',
 
         -- Enable confirm while close unsaved buffer
         confirm = true,
@@ -36,6 +37,7 @@ core.set_options {
         ruler = false,
         cmdheight = 1,
 
+        scrolloff = 4,
         sidescrolloff = 8,
 
         -- WhiteSpace display characters

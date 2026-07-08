@@ -13,31 +13,22 @@ function core.set_options(opts)
     end
 end
 
----@param t type
-local function check_opts_type(v, t, def)
-    return type(v) == t and v or def
-end
-
 function core.set_keymaps(modes, keymaps)
-    for lhs, options in pairs(keymaps) do
-        local rhs, buf, opts = '', nil, { desc = nil, callback = nil, nowait = false, silent = true, noremap = true }
+    modes = type(modes) == 'string' and { modes } or modes
 
-        if type(options) == 'string' then
-            rhs = options
-        elseif type(options) == 'function' then
-            opts.callback = options
-        elseif type(options) == 'table' then
-            rhs = check_opts_type(options.rhs, 'string', '')
-            buf = check_opts_type(options.buf, 'number', nil)
+    for lhs, opts in pairs(keymaps) do
+        local rhs, buf = '', nil
 
-            opts.desc     = check_opts_type(options.desc, 'string', nil)
-            opts.callback = check_opts_type(options.callback, 'function', nil)
-            opts.nowait   = check_opts_type(options.nowait, 'boolean', false)
-            opts.silent   = check_opts_type(options.silent, 'boolean', true)
-            opts.noremap  = check_opts_type(options.noremap, 'boolean', true)
+        if type(opts) == 'string' then
+            rhs, opts = opts, {}
+        elseif type(opts) == 'function' then
+            opts = { callback = opts }
+        elseif type(opts) == 'table' then
+            if type(opts.rhs) ~= 'nil' then rhs, opts.rhs = opts.rhs, nil end
+            if type(opts.buf) ~= 'nil' then buf, opts.buf = opts.buf, nil end
         end
 
-        modes = type(modes) == 'string' and { modes } or modes
+        opts = vim.tbl_extend('force', { nowait = false, silent = true, noremap = true }, opts)
 
         for _, mode in ipairs(modes) do
             if buf then

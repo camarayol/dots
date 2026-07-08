@@ -17,7 +17,12 @@ core.set_keymaps('n', {
     -- Select all
     ['<C-a>']     = 'ggVG',
 
+    -- Write
+    ['<C-s>']     = '<Cmd>write<CR>',
+
     -- Goto Prev/Next Jumplist
+    ['<C-o>']     = '<Nop>',
+    ['<C-i>']     = '<Nop>',
     ['<M-a>']     = '<C-o>',
     ['<M-d>']     = '<C-i>',
 
@@ -40,41 +45,11 @@ core.set_keymaps('n', {
 
 -- Switch window
 core.set_keymaps('n', {
-    ['<Leader>wh'] = {
-        desc = 'move to LEFT window',
-        callback = function() vim.cmd('wincmd h') end,
-    },
-    ['<Leader>wj'] = {
-        desc = 'move to BOTTOM window',
-        callback = function() vim.cmd('wincmd j') end,
-    },
-    ['<Leader>wk'] = {
-        desc = 'move to TOP window',
-        callback = function() vim.cmd('wincmd k') end,
-    },
-    ['<Leader>wl'] = {
-        desc = 'move to RIGHT window',
-        callback = function() vim.cmd('wincmd l') end,
-    },
-    ['<Leader>wt'] = {
-        desc = 'split / close current tab',
-        callback = function()
-            if vim.fn.tabpagenr('$') > 1 then
-                vim.cmd('tabclose')
-            else
-                vim.cmd('tab split')
-            end
-        end,
-    },
+    ['<Leader>w'] = { rhs = '<C-w>', noremap = false },
 })
 
 -- Close/Switch Buffer
 core.set_keymaps('n', {
-    ['<S-c>']   = function()
-        if vim.bo.modifiable and not vim.wo.winfixbuf then
-            vim.cmd('close')
-        end
-    end,
     ['<S-q>']   = function()
         if vim.bo.modifiable and not vim.wo.winfixbuf then
             vim.cmd('bdelete')

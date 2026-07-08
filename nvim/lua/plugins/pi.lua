@@ -1,26 +1,17 @@
 local M = {
-    src = 'https://github.com/camarayol/pi.nvim'
+    src = 'https://github.com/alex35mil/pi.nvim'
 }
 
 M.config = function()
     local pi = require('pi')
 
     core.set_keymaps('n', {
-        ['<Leader>aa'] = {
-            desc = '[Pi] toggle',
-            callback = function() vim.cmd('Pi') end
-        },
-        ['<Leader>ar'] = {
-            desc = '[Pi] resume',
-            callback = function() vim.cmd('PiResume') end
-        },
+        ['<Leader>aa'] = { rhs = '<Cmd>Pi<CR>', desc = '[Pi] toggle' },
+        ['<Leader>ar'] = { rhs = '<Cmd>PiResume<CR>', desc = '[Pi] resume' },
     })
 
     core.set_keymaps('v', {
-        ['<Leader>a'] = {
-            desc = '[Pi] send mention',
-            callback = function() vim.cmd('PiSendMention') end
-        },
+        ['<Leader>a'] = { rhs = '<Cmd>PiSendMention<CR>', desc = '[Pi] send mention' },
     })
 
     core.create_autocommand('FileType', {
@@ -68,6 +59,8 @@ M.config = function()
         -- Default expand/collapse state for the startup block
         -- (skills, extensions, startup announcements).
         expand_startup_details = true,
+        -- Format string passed to os.date for chat message timestamps.
+        timestamp_format = '%Y-%m-%d %H:%M:%S',
 
         -- Chat panels
         panels = {
@@ -92,14 +85,6 @@ M.config = function()
             attachment = '',
             attachments = '',
             error = '󰘨 󱚟 󱔁 ',
-        },
-
-        -- Tool glyphs used by pi.nvim tool renderer (mapped to pi.ui.chat.tools internals).
-        tool_glyphs = {
-            top = '',
-            mid = '   ',
-            sep = '   ',
-            bot = '',
         },
 
         -- Chat layout
