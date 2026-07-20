@@ -30,10 +30,10 @@ core.set_keymaps('n', {
     ['<F2>']      = '<Cmd>Inspect<CR>',
 
     -- Toggle Wrap Lines
-    ['<M-z>']     = function() vim.wo.wrap = not vim.wo.wrap end,
+    ['<M-z>']     = '<Cmd>set wrap!<CR>',
 
     -- Toggle hlsearch/nohlsearch
-    ['<Esc>']     = '<Cmd>nohlsearch<CR>',
+    ['<Esc>']     = { rhs = [[v:hlsearch ? "\<Cmd>nohlsearch\<CR>" : "\<Esc>"]], expr = true },
     ['<Leader>h'] = function()
         local value = vim.fn.expand('<cword>')
         if value ~= '' then
@@ -73,6 +73,7 @@ core.set_keymaps('i', {
 
     ['<C-n>'] = '<Nop>',
     ['<C-p>'] = '<Nop>',
+    ['<C-x>'] = '<Nop>',
 
     -- Move Left/Right in INSERT mode
     ['<M-h>'] = '<Left>',
@@ -115,7 +116,7 @@ core.set_keymaps('v', {
 -- Move/Copy Line Up/Down
 core.set_keymaps('n', {
     ['<M-j>'] = ':move .+1<CR>',
-    ['<M-J>'] = ':copy .<CR>',
+    ['<M-J>'] = ':copy .+0<CR>',
     ['<M-k>'] = ':move .-2<CR>',
     ['<M-K>'] = ':copy .-1<CR>',
 })
@@ -125,12 +126,22 @@ core.set_keymaps('v', {
     ['<M-j>'] = ":move '>+1<CR>gv",
     ['<M-J>'] = ":copy '<-1<CR>gv",
     ['<M-k>'] = ":move '<-2<CR>gv",
-    ['<M-K>'] = ":copy '><CR>gv",
+    ['<M-K>'] = ":copy '>+0<CR>gv",
 })
 
 -- Indent
 core.set_keymaps('i', {
-    ['<S-Tab>'] = '<C-d>',
+    ['<S-Tab>'] = function()
+        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local before = vim.api.nvim_get_current_line():sub(1, col)
+        local whitespace = before:match('[ \t]+$') or ''
+
+        local count = math.min(vim.bo.tabstop, #whitespace)
+        if count > 0 then
+            vim.api.nvim_buf_set_text(0, row - 1, col - count, row - 1, col, {})
+            vim.api.nvim_win_set_cursor(0, { row, col - count })
+        end
+    end,
 })
 core.set_keymaps('v', {
     ['<Tab>']   = '>gv',
@@ -165,15 +176,18 @@ core.set_keymaps({ 'n', 'i', 'v' }, {
         noremap = false,
         callback = function()
             local _, col = unpack(vim.api.nvim_win_get_cursor(0))
-            local feedkeys =
-                -- move cursor to the real beginning of the line
-                (col == 0 or vim.api.nvim_get_current_line():sub(0, col):match('^%s*$')) and '<Home>' or
+            -- move cursor to the real beginning of the line
+            local feedkeys = (col == 0 or vim.api.nvim_get_current_line():sub(0, col):match('^%s*$')) and '<Home>' or
                 -- move cursor to beginning of non-whitespace characters of the line
                 (vim.api.nvim_get_mode().mode == 'i' and '<C-o>^' or '^')
 
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(feedkeys, true, false, true), 'n', false)
         end,
     }
+})
+
+core.set_keymaps('n', {
+    ['mm'] = { rhs = '%', noremap = false, desc = '%' }
 })
 
 -- Yank current file path to register *
@@ -193,5 +207,5 @@ core.set_keymaps('v', {
         local path = string.format('%s%s', vim.fn.expand('%:p'), range)
         vim.fn.setreg('*', path)
         vim.notify(path .. ' added to clipboard.')
-    end,
+    end
 })

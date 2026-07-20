@@ -14,6 +14,7 @@ function core.set_options(opts)
 end
 
 function core.set_keymaps(modes, keymaps)
+    local defopts = { nowait = false, silent = true, noremap = true }
     modes = type(modes) == 'string' and { modes } or modes
 
     for lhs, opts in pairs(keymaps) do
@@ -21,20 +22,23 @@ function core.set_keymaps(modes, keymaps)
 
         if type(opts) == 'string' then
             rhs, opts = opts, {}
-        elseif type(opts) == 'function' then
-            opts = { callback = opts }
-        elseif type(opts) == 'table' then
-            if type(opts.rhs) ~= 'nil' then rhs, opts.rhs = opts.rhs, nil end
-            if type(opts.buf) ~= 'nil' then buf, opts.buf = opts.buf, nil end
         end
 
-        opts = vim.tbl_extend('force', { nowait = false, silent = true, noremap = true }, opts)
+        if type(opts) == 'function' then
+            opts = { callback = opts }
+        end
 
-        for _, mode in ipairs(modes) do
-            if buf then
-                vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, opts)
-            else
-                vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+        if type(opts) == 'table' then
+            opts = vim.tbl_extend('force', defopts, opts)
+            if type(opts.rhs) ~= 'nil' then rhs, opts.rhs = opts.rhs, nil end
+            if type(opts.buf) ~= 'nil' then buf, opts.buf = opts.buf, nil end
+
+            for _, mode in ipairs(modes) do
+                if buf then
+                    vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, opts)
+                else
+                    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+                end
             end
         end
     end

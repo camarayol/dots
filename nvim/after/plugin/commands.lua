@@ -10,7 +10,7 @@ if core.hasfeature('linux') and not core.hasfeature('wsl') and vim.fn.executable
     end)
 end
 
-if vim.fn.has('win32') then
+if core.hasfeature('win32') then
     core.create_autocommand('InsertLeave', function()
         vim.fn.system('WeaselServer.exe /ascii')
     end)
