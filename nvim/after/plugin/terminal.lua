@@ -49,7 +49,7 @@ end, {})
 
 core.create_usercommand('CoreTerminalSplit', function() terminal { split = 'below' } end, {})
 
-core.set_keymaps('t', { ['<Esc><Esc>'] = '<C-\\><C-n>' })
-core.set_keymaps('n', {
-    ['<Leader>t'] = { callback = function() vim.cmd('CoreTerminalFloat') end, desc = 'toggle float terminal' }
-})
+core.set_keymaps {
+    { modes = 't', lhs = '<Esc><Esc>', rhs = '<C-Bslash><C-n>' },
+    { modes = 'n', lhs = '<Leader>t',  rhs = '<Cmd>CoreTerminalFloat<CR>', opts = { desc = 'Terminal float' } },
+}

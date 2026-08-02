@@ -1,8 +1,8 @@
 local M = {
     src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim',
-    depends = {
-        'https://github.com/nvim-tree/nvim-web-devicons',
-    }
+    depends = { 'https://github.com/nvim-tree/nvim-web-devicons' },
+    events = { 'FileType' },
+    pattern = { 'markdown' }
 }
 
 M.config = function()

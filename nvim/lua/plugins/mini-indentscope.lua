@@ -1,5 +1,6 @@
 local M = {
-    src = 'https://github.com/nvim-mini/mini.indentscope'
+    src = 'https://github.com/nvim-mini/mini.indentscope',
+    events = { 'CursorHold', 'CursorMoved' },
 }
 
 M.config = function()

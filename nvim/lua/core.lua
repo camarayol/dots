@@ -13,32 +13,25 @@ function core.set_options(opts)
     end
 end
 
-function core.set_keymaps(modes, keymaps)
-    local defopts = { nowait = false, silent = true, noremap = true }
-    modes = type(modes) == 'string' and { modes } or modes
+---@param keymaps { modes: string|string[], lhs: string, rhs: string|function, opts?: vim.keymap.set.Opts }[]
+function core.set_keymaps(keymaps)
+    local defopts = { noremap = true, silent = true, nowait = false }
+    for i, v in ipairs(keymaps) do
+        v.opts = vim.tbl_extend('force', defopts, v.opts or {})
 
-    for lhs, opts in pairs(keymaps) do
-        local rhs, buf = '', nil
+        local rhs, modes = v.rhs, v.modes
 
-        if type(opts) == 'string' then
-            rhs, opts = opts, {}
-        end
+        if type(rhs) == 'function' then v.opts.callback, rhs = rhs, '' end
 
-        if type(opts) == 'function' then
-            opts = { callback = opts }
-        end
+        if type(modes) == 'string' then modes = { modes } end
 
-        if type(opts) == 'table' then
-            opts = vim.tbl_extend('force', defopts, opts)
-            if type(opts.rhs) ~= 'nil' then rhs, opts.rhs = opts.rhs, nil end
-            if type(opts.buf) ~= 'nil' then buf, opts.buf = opts.buf, nil end
+        local buf = v.opts.buf; v.opts.buf = nil
 
-            for _, mode in ipairs(modes) do
-                if buf then
-                    vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, opts)
-                else
-                    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-                end
+        for _, mode in ipairs(modes) do
+            if buf then
+                vim.api.nvim_buf_set_keymap(buf, mode, v.lhs, rhs, v.opts)
+            else
+                vim.api.nvim_set_keymap(mode, v.lhs, rhs, v.opts)
             end
         end
     end
@@ -100,15 +93,12 @@ function core.create_once_cursor_window(opts)
         if opts.on_exit then opts.on_exit(buf, win) end
     end
 
-    core.set_keymaps('n', {
-        ['q']     = { buf = buf, callback = close },
-        ['<Esc>'] = { buf = buf, callback = close },
-    })
-
-    core.set_keymaps('i', {
-        ['<CR>']  = { buf = buf, callback = callback },
-        ['<Esc>'] = { buf = buf, callback = close },
-    })
+    core.set_keymaps {
+        { modes = 'n', lhs = 'q',     rhs = close,    opts = { buf = buf } },
+        { modes = 'n', lhs = '<Esc>', rhs = close,    opts = { buf = buf } },
+        { modes = 'i', lhs = '<CR>',  rhs = callback, opts = { buf = buf } },
+        { modes = 'i', lhs = '<Esc>', rhs = close,    opts = { buf = buf } },
+    }
 end
 
 return core

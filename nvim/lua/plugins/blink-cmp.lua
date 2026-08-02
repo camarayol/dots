@@ -5,7 +5,8 @@ local M = {
     depends = {
         'https://github.com/saghen/blink.lib',
         'https://github.com/L3MON4D3/LuaSnip',
-    }
+    },
+    events = { 'InsertEnter', 'CmdlineEnter' },
 }
 
 M.config = function()
@@ -18,7 +19,7 @@ M.config = function()
                 auto_brackets = {
                     enabled = true,
                     -- https://github.com/Saghen/blink.cmp/issues/359
-                    force_allow_filetypes = { 'rust' },
+                    -- force_allow_filetypes = { 'rust' },
                 }
             },
             menu = {
@@ -76,11 +77,7 @@ M.config = function()
         appearance = { nerd_font_variant = 'mono' },
         sources = {
             default = { 'snippets', 'path', 'buffer', 'lsp' },
-            per_filetype = {
-                ['pi-chat-prompt'] = { 'pi', 'snippets', 'buffer' }
-            },
             providers = {
-                pi = { name = 'Pi', module = 'pi.completion.blink' },
                 path = { opts = { show_hidden_files_by_default = true } },
             }
         },

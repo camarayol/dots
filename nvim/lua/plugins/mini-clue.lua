@@ -1,5 +1,6 @@
 local M = {
-    src = 'https://github.com/nvim-mini/mini.clue'
+    src = 'https://github.com/nvim-mini/mini.clue',
+    events = { 'VimEnter' },
 }
 
 M.config = function()

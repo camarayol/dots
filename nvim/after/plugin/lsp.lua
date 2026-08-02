@@ -1,21 +1,30 @@
+local group = vim.api.nvim_create_augroup('core.LspDocumentHighlight', { clear = false })
+
 local LspAttach = function(ev)
     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    core.set_keymaps('n', {
-        ['K'] = { buf = ev.buf, callback = vim.lsp.buf.hover },
-    })
-    core.set_keymaps({ 'n', 'v' }, {
-        ['<M-F>'] = { buf = ev.buf, callback = function() vim.lsp.buf.format { async = true } end }
-    })
-
-    core.set_keymaps('n', {
-        ['grn'] = {
-            desc = 'vim.lsp.buf.rename',
-            callback = function()
+    core.set_keymaps {
+        {
+            modes = 'n', lhs = 'K',
+            rhs = vim.lsp.buf.hover,
+            opts = { desc = 'vim.lsp.buf.hover' }
+        },
+        {
+            modes = { 'n', 'v' }, lhs = '<M-F>',
+            rhs = function() vim.lsp.buf.format { async = true } end,
+            opts = { desc = 'vim.lsp.buf.format' }
+        },
+        {
+            modes = 'n', lhs = 'grd',
+            rhs = vim.diagnostic.open_float,
+            opts = { desc = 'vim.diagnostic.open_float' }
+        },
+        {
+            modes = 'n', lhs = 'grn',
+            rhs = function()
                 if not next(vim.lsp.get_clients { bufnr = vim.api.nvim_get_current_buf(), method = 'textDocument/rename' })
                 then
-                    return vim.notify('[LSP] no matching language servers with rename capability',
-                        vim.log.levels.WARN)
+                    return vim.notify('no matching language servers with rename capability', vim.log.levels.WARN)
                 end
 
                 local newname = ''
@@ -36,54 +45,40 @@ local LspAttach = function(ev)
                         vim.cmd('stopinsert')
                     end
                 }
-            end
+            end,
+            opts = { desc = 'vim.lsp.buf.rename' }
         }
-    })
+    }
 
-    local suc, tb = pcall(require, 'telescope.builtin')
-    if suc then
-        core.set_keymaps('n', {
-            ['grr'] = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_references',
-                callback = tb.lsp_references,
-            },
-            ['gri'] = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_implementations',
-                callback = tb.lsp_implementations,
-            },
-            ['grt'] = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_type_definitions',
-                callback = tb.lsp_type_definitions,
-            },
-            ['gd']  = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_definitions',
-                callback = tb.lsp_definitions,
-            },
-            ['go']  = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_document_symbols',
-                callback = tb.lsp_document_symbols,
-            },
-            ['gw']  = {
-                buf = ev.buf,
-                desc = '[Telescope] lsp_dynamic_workspace_symbols',
-                callback = tb.lsp_dynamic_workspace_symbols,
-            },
-        })
-    end
+    core.set_keymaps {
+        {
+            modes = 'n', lhs = 'grr', rhs = '<Cmd>FzfLua lsp_references<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_references' }
+        },
+        {
+            modes = 'n', lhs = 'gri', rhs = '<Cmd>FzfLua lsp_implementations<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_implementations' }
+        },
+        {
+            modes = 'n', lhs = 'grt', rhs = '<Cmd>FzfLua lsp_typedefs<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_typedefs' }
+        },
+        {
+            modes = 'n', lhs = 'gd', rhs = '<Cmd>FzfLua lsp_definitions<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_definitions' }
+        },
+        {
+            modes = 'n', lhs = 'go', rhs = '<Cmd>FzfLua lsp_document_symbols<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_document_symbols' }
+        },
+        {
+            modes = 'n', lhs = 'gw', rhs = '<Cmd>FzfLua lsp_workspace_symbols<CR>',
+            { buf = ev.buf, desc = 'FzfLua lsp_workspace_symbols' }
+        },
+    }
 
     if next(vim.lsp.get_clients { id = ev.data.client_id, bufnr = ev.buf, method = 'textDocument/documentHighlight' })
     then
-        local group = vim.api.nvim_create_augroup('core.lsp.document.highlight', { clear = false })
-
-        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-            buffer = ev.buf, group = group, callback = vim.lsp.buf.document_highlight,
-        })
-
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = ev.buf, group = group, callback = vim.lsp.buf.document_highlight,
         })
@@ -101,8 +96,11 @@ local LspAttach = function(ev)
     end
 end
 
-core.create_autocommand('LspAttach', { callback = LspAttach })
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('core.LspAttach', { clear = true }),
+    callback = LspAttach
+})
 
 vim.schedule(function()
-    vim.lsp.enable { 'lua_ls', 'rust_analyzer', 'clangd', 'tinymist' }
+    vim.lsp.enable { 'lua_ls', 'rust_analyzer', 'clangd', 'tinymist', 'gdscript' }
 end)

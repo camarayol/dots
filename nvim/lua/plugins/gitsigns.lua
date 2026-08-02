@@ -1,24 +1,44 @@
 local M = {
-    src = 'https://github.com/lewis6991/gitsigns.nvim'
+    src = 'https://github.com/lewis6991/gitsigns.nvim',
+    events = { 'CursorMoved' },
 }
 
 M.config = function()
     require('gitsigns').setup {
         on_attach = function(buf)
             local gs = require('gitsigns')
-            core.set_keymaps('n', {
-                ['[c'] = {
-                    buf = buf, desc = '[Gitsigns] prev_hunk',
-                    callback = function() return vim.wo.diff and vim.cmd.normal { '[c', bang = true } or gs.prev_hunk() end
+
+            core.set_keymaps {
+                {
+                    modes = 'n', lhs = '[c',
+                    rhs = function()
+                        return vim.wo.diff and vim.cmd.normal { '[c', bang = true } or gs.prev_hunk()
+                    end,
+                    opts = { buf = buf, desc = 'Gitsigns prev hunk' }
                 },
-                [']c'] = {
-                    buf = buf, desc = '[Gitsigns] next_hunk',
-                    callback = function() return vim.wo.diff and vim.cmd.normal { ']c', bang = true } or gs.next_hunk() end,
+                {
+                    modes = 'n', lhs = ']c',
+                    rhs = function()
+                        return vim.wo.diff and vim.cmd.normal { ']c', bang = true } or gs.next_hunk()
+                    end,
+                    opts = { buf = buf, desc = 'Gitsigns prev hunk' }
                 },
-                ['<Leader>gr'] = { buf = buf, desc = '[Gitsigns] reset_hunk', callback = gs.reset_hunk },
-                ['<Leader>gv'] = { buf = buf, desc = '[Gitsigns] preview_hunk_inline', callback = gs.preview_hunk_inline },
-                ['<Leader>gd'] = { buf = buf, desc = '[Gitsigns] diffthis', callback = gs.diffthis },
-            })
+                {
+                    modes = 'n', lhs = '<Leader>gr',
+                    rhs = gs.reset_hunk,
+                    opts = { buf = buf, desc = 'Gitsigns reset hunk' }
+                },
+                {
+                    modes = 'n', lhs = '<Leader>gd',
+                    rhs = gs.diffthis,
+                    opts = { buf = buf, desc = 'Gitsigns diffthis' }
+                },
+                {
+                    modes = 'n', lhs = '<Leader>gv',
+                    rhs = gs.preview_hunk_inline,
+                    opts = { buf = buf, desc = 'Gitsigns preview_hunk_inline' }
+                },
+            }
         end,
         signs = {
             add          = { text = '│' },

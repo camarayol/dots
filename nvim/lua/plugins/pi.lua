@@ -1,34 +1,52 @@
+core.set_keymaps {
+    { modes = 'n', lhs = '<Leader>aa', rhs = '<Cmd>Pi<CR>',            opts = { desc = 'Pi toggle' } },
+    { modes = 'n', lhs = '<Leader>as', rhs = '<Cmd>PiSendMention<CR>', opts = { desc = 'Pi send mention' } },
+    { modes = 'n', lhs = '<Leader>ar', rhs = '<Cmd>PiResume<CR>',      opts = { desc = 'Pi resume' } },
+    { modes = 'v', lhs = '<Leader>a',  rhs = '<Cmd>PiSendMention<CR>', opts = { desc = 'Pi send mention' } },
+}
+
 local M = {
-    src = 'https://github.com/alex35mil/pi.nvim'
+    src = 'https://github.com/alex35mil/pi.nvim',
+    events = { 'CmdUndefined' },
+    pattern = { 'Pi', 'PiResume', 'PiSendMention' }
 }
 
 M.config = function()
     local pi = require('pi')
 
-    core.set_keymaps('n', {
-        ['<Leader>aa'] = { rhs = '<Cmd>Pi<CR>', desc = '[Pi] toggle' },
-        ['<Leader>ar'] = { rhs = '<Cmd>PiResume<CR>', desc = '[Pi] resume' },
+    vim.api.nvim_create_autocmd('BufEnter', {
+        group = vim.api.nvim_create_augroup('core.PiBlinkCmp', { clear = true }),
+        callback = function(ev)
+            if vim.bo[ev.buf].filetype ~= 'pi-chat-prompt' then
+                return
+            end
+
+            local ok, blink = pcall(require, 'blink.cmp')
+            if not ok then
+                return
+            end
+
+            blink.add_source_provider('pi', { name = 'pi', module = 'pi.completion.blink' })
+            blink.add_filetype_source('pi-chat-prompt', 'pi')
+
+            vim.api.nvim_del_autocmd(ev.id)
+        end
     })
 
-    core.set_keymaps('v', {
-        ['<Leader>a'] = { rhs = '<Cmd>PiSendMention<CR>', desc = '[Pi] send mention' },
-    })
-
-    core.create_autocommand('FileType', {
+    vim.api.nvim_create_autocmd('FileType', {
         pattern = { 'pi-chat-prompt', 'pi-chat-history', 'pi-chat-attachments' },
+        group = vim.api.nvim_create_augroup('core.Pi', { clear = true }),
         callback = function(ev)
             vim.bo[ev.buf].syntax = ''
             vim.treesitter.start(ev.buf, 'markdown')
 
-            core.set_keymaps('n', {
-                ['<Esc>'] = { buf = ev.buf, callback = pi.toggle_chat },
-            })
+            core.set_keymaps { { modes = 'n', lhs = '<Esc>', rhs = pi.toggle_chat, opts = { buf = ev.buf } } }
 
             if ev.match == 'pi-chat-prompt' then
-                core.set_keymaps('n', {
-                    ['<Tab>'] = { buf = ev.buf, callback = pi.focus_chat_history },
-                    ['<C-c>'] = { buf = ev.buf, callback = pi.abort }
-                })
+                core.set_keymaps {
+                    { modes = 'n', lhs = '<Tab>', rhs = pi.focus_chat_history, opts = { buf = ev.buf } },
+                    { modes = 'n', lhs = '<C-c>', rhs = pi.abort,              opts = { buf = ev.buf } }
+                }
             end
         end
     })
@@ -36,10 +54,7 @@ M.config = function()
     pi.setup {
         -- pi CLI invocation. Extra args are inserted before `--mode rpc`.
         -- Args that conflict with RPC mode (`--mode`, `--print`, `--help`, etc.) are ignored.
-        cli = {
-            bin = core.hasfeature('win32') and 'pi.cmd' or 'pi',
-            args = {},
-        },
+        cli = { bin = core.hasfeature('win32') and 'pi.cmd' or 'pi', args = {}, },
         -- Enable RPC debug logging to `stdpath('log')/pi/<session>/rpc.log`.
         debug = false,
         -- Override the π agent directory used for session lookup.

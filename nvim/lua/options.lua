@@ -51,7 +51,7 @@ core.set_options {
 
         showtabline = 0,
 
-        laststatus = 0,
+        laststatus = 3,
 
         timeoutlen = 200,
 
@@ -94,6 +94,8 @@ core.set_options {
 
         -- Do Not add <EOL> at the end of file
         fixendofline = false,
+
+        guicursor = "n-v-c:block,i-ci-ve:ver25,r:hor20,a:blinkwait0-blinkoff0-blinkon0",
     }
 }
 
@@ -101,7 +103,7 @@ vim.opt.fillchars:append { diff = ' ', eob = ' ' }
 
 vim.schedule(function()
     -- Enable system clipboard
-    vim.opt.clipboard = 'unnamedplus'
+    vim.opt.clipboard:append('unnamedplus')
 
     vim.opt.iskeyword:append('-')
 

@@ -1,42 +1,47 @@
-local autolist = function()
-    local line = vim.api.nvim_get_current_line()
-
-    local indent, bullet, content = line:match('^(%s*)([-+*])%s*(.*)$')
-    if indent and bullet then
-        if content == '' then
-            return vim.api.nvim_set_current_line('')
-        else
-            return vim.api.nvim_feedkeys(bullet .. ' ', 'n', true)
-        end
-    end
-
-    indent, bullet, content = line:match('^(%s*)(%d+)%.%s*(.*)$')
-    if indent and bullet then
-        if content == '' then
-            return vim.api.nvim_set_current_line('')
-        else
-            return vim.api.nvim_feedkeys(tonumber(bullet) + 1 .. '. ', 'n', true)
-        end
-    end
-end
-
 local M = {
     src = 'https://github.com/ZhiyuanLck/smart-pairs',
+    events = { 'InsertEnter' },
 }
 
 M.config = function()
-    core.create_autocommand('FileType', {
+    local autolist = function()
+        local line = vim.api.nvim_get_current_line()
+
+        local indent, bullet, content = line:match('^(%s*)([-+*])%s*(.*)$')
+        if indent and bullet then
+            if content == '' then
+                return vim.api.nvim_set_current_line('')
+            else
+                return vim.api.nvim_feedkeys(bullet .. ' ', 'n', true)
+            end
+        end
+
+        indent, bullet, content = line:match('^(%s*)(%d+)%.%s*(.*)$')
+        if indent and bullet then
+            if content == '' then
+                return vim.api.nvim_set_current_line('')
+            else
+                return vim.api.nvim_feedkeys(tonumber(bullet) + 1 .. '. ', 'n', true)
+            end
+        end
+    end
+
+    vim.api.nvim_create_autocmd('FileType', {
+        once = true,
         pattern = { 'markdown', 'typst' },
+        group = vim.api.nvim_create_augroup('core.Autolist', { clear = true }),
         callback = function(ev)
             vim.b[ev.buf].smart_pairs_autolist = true
-            core.set_keymaps('n', {
-                ['o'] = {
-                    buf = ev.buf,
-                    callback = function()
-                        vim.fn.feedkeys('o', 'n'); autolist()
+
+            core.set_keymaps {
+                {
+                    modes = 'n', lhs = 'o',
+                    rhs = function()
+                        vim.fn.feedkeys('o', 'n')
+                        autolist()
                     end
                 }
-            })
+            }
         end
     })
 
@@ -81,6 +86,10 @@ M.config = function()
         enter = {
             enable_mapping = true, enable_cond = true,
             after_hook = function()
+                if vim.b.smart_pairs_autolist == nil then
+                    vim.b.smart_pairs_autolist = (vim.bo.filetype == 'markdown' or vim.bo.filetype == 'typst')
+                end
+
                 if vim.b.smart_pairs_autolist then
                     autolist()
                 end

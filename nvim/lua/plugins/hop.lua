@@ -1,17 +1,16 @@
+core.set_keymaps {
+    { modes = { 'n', 'x', 'o' }, lhs = 'f',  rhs = '<Cmd>HopChar1AC<CR>', opts = { noremap = false } },
+    { modes = { 'n', 'x', 'o' }, lhs = 'ff', rhs = '<Cmd>HopChar2AC<CR>', opts = { noremap = false } },
+    { modes = { 'n', 'x', 'o' }, lhs = 'F',  rhs = '<Cmd>HopChar1BC<CR>', opts = { noremap = false } },
+    { modes = { 'n', 'x', 'o' }, lhs = 'FF', rhs = '<Cmd>HopChar2BC<CR>', opts = { noremap = false } },
+}
+
 return {
     src = 'https://github.com/smoka7/hop.nvim',
-    version = vim.version.range('*'),
+    events = { 'CmdUndefined' },
+    pattern = { 'HopChar1AC', 'HopChar1BC', 'HopChar2AC', 'HopChar2BC' },
     config = function()
-        local hop = require('hop')
-
-        core.set_keymaps({ 'n', 'x', 'o' }, {
-            ['f']  = { callback = function() hop.hint_char1 { direction = 2 } end, noremap = false },
-            ['ff'] = { callback = function() hop.hint_char2 { direction = 2 } end, noremap = false },
-            ['F']  = { callback = function() hop.hint_char1 { direction = 1 } end, noremap = false },
-            ['FF'] = { callback = function() hop.hint_char2 { direction = 1 } end, noremap = false },
-        })
-
-        hop.setup {
+        require('hop').setup {
             keys = 'etovxqpdygfblzhckisuran',
             multi_windows = true,
             create_hl_autocmd = false,

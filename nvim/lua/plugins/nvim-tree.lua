@@ -1,47 +1,46 @@
+core.set_keymaps {
+    { modes = 'n', lhs = '<Leader>e', rhs = '<Cmd>NvimTreeFocus<CR>',  opts = { desc = 'NvimTree focus' } },
+    { modes = 'n', lhs = '<Leader>f', rhs = '<Cmd>NvimTreeToggle<CR>', opts = { desc = 'NvimTree toggle' } },
+}
+
 local M = {
     src = 'https://github.com/nvim-tree/nvim-tree.lua',
-    depends = { 'https://github.com/nvim-tree/nvim-web-devicons' }
+    depends = { 'https://github.com/nvim-tree/nvim-web-devicons' },
+    events = { 'CmdUndefined' },
+    pattern = { 'NvimTreeFocus', 'NvimTreeToggle' }
 }
 
 M.config = function()
-    core.set_keymaps('n', {
-        ['<Leader>e'] = { callback = function() vim.cmd('NvimTreeFocus') end, desc = '[NvimTree] focus filetree' },
-        ['<Leader>f'] = { callback = function() vim.cmd('NvimTreeToggle') end, desc = '[NvimTree] toggle filetree' },
-    })
-
     require('nvim-tree').setup {
         on_attach = function(buf)
             local api = require('nvim-tree.api')
-            core.set_keymaps('n', {
-                ['O']             = { buf = buf, nowait = true, callback = api.tree.change_root_to_node },
-                ['P']             = { buf = buf, nowait = true, callback = api.tree.change_root_to_parent },
-                ['F']             = { buf = buf, nowait = true, callback = api.live_filter.start },
-                ['R']             = { buf = buf, nowait = true, callback = api.tree.reload },
-                ['I']             = { buf = buf, nowait = true, callback = api.tree.toggle_gitignore_filter },
-                ['W']             = { buf = buf, nowait = true, callback = api.tree.collapse_all },
-                ['E']             = { buf = buf, nowait = true, callback = api.tree.expand_all },
 
-                ['m']             = { buf = buf, nowait = true, callback = api.marks.toggle },
-                ['M']             = { buf = buf, nowait = true, callback = api.filter.no_bookmark.toggle },
-
-                ['<Tab>']         = { buf = buf, nowait = true, callback = api.node.open.preview },
-                ['o']             = { buf = buf, nowait = true, callback = api.node.open.edit },
-                ['<CR>']          = { buf = buf, nowait = true, callback = api.node.open.edit },
-                ['<2-LeftMouse>'] = { buf = buf, nowait = true, callback = api.node.open.edit },
-
-                ['a']             = { buf = buf, nowait = true, callback = api.fs.create },
-                ['x']             = { buf = buf, nowait = true, callback = api.fs.cut },
-                ['p']             = { buf = buf, nowait = true, callback = api.fs.paste },
-                ['y']             = { buf = buf, nowait = true, callback = api.fs.copy.node },
-                ['r']             = { buf = buf, nowait = true, callback = api.fs.rename },
-                ['d']             = { buf = buf, nowait = true, callback = api.fs.remove },
-                ['D']             = { buf = buf, nowait = true, callback = api.fs.trash },
-
-                ['<Esc>']         = { buf = buf, nowait = true, callback = api.tree.close },
-                ['q']             = { buf = buf, nowait = true, callback = api.tree.close },
-                ['K']             = { buf = buf, nowait = true, callback = api.node.show_info_popup },
-                ['H']             = { buf = buf, nowait = true, callback = api.tree.toggle_help },
-            })
+            core.set_keymaps {
+                { modes = 'n', lhs = 'O',             rhs = api.tree.change_root_to_node,     opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'P',             rhs = api.tree.change_root_to_parent,   opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'F',             rhs = api.live_filter.start,            opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'R',             rhs = api.tree.reload,                  opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'I',             rhs = api.tree.toggle_gitignore_filter, opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'W',             rhs = api.tree.collapse_all,            opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'E',             rhs = api.tree.expand_all,              opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'm',             rhs = api.marks.toggle,                 opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'M',             rhs = api.filter.no_bookmark.toggle,    opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = '<Tab>',         rhs = api.node.open.preview,            opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'o',             rhs = api.node.open.edit,               opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = '<CR>',          rhs = api.node.open.edit,               opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = '<2-LeftMouse>', rhs = api.node.open.edit,               opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'a',             rhs = api.fs.create,                    opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'x',             rhs = api.fs.cut,                       opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'p',             rhs = api.fs.paste,                     opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'y',             rhs = api.fs.copy.node,                 opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'r',             rhs = api.fs.rename,                    opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'd',             rhs = api.fs.remove,                    opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'D',             rhs = api.fs.trash,                     opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = '<Esc>',         rhs = api.tree.close,                   opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'q',             rhs = api.tree.close,                   opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'K',             rhs = api.node.show_info_popup,         opts = { buf = buf, nowait = true } },
+                { modes = 'n', lhs = 'H',             rhs = api.tree.toggle_help,             opts = { buf = buf, nowait = true } },
+            }
         end,
         disable_netrw = true,
         reload_on_bufenter = true,
