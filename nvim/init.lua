@@ -14,6 +14,5 @@ require('packer') {
     require('plugins.render-markdown'),
     require('plugins.nvim-treesitter'),
     require('plugins.pi'),
-    require('plugins.smart-pairs'),
     require('plugins.vim-visual-multi'),
 }
