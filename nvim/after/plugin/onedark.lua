@@ -33,6 +33,7 @@ core.nvim_set_highlights {
     ['FloatFooter']          = { link = 'FloatTitle' },
 
     ['Cursor']               = {},
+    ['MCursor']              = { fg = 'none', bg = c.blue },
     ['lCursor']              = { link = 'Cursor' },
     ['CursorIM']             = { link = 'Cursor' },
     ['TermCursor']           = { link = 'Cursor' },

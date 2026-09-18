@@ -4,9 +4,13 @@ core.set_options {
         mapleader      = vim.keycode('<Space>'),
         maplocalleader = vim.keycode('<Space>'),
 
+        -- loaded_netrw       = 1,
+        -- loaded_netrwPlugin = 1,
+        netrw_banner       = 0,
+        netrw_liststyle    = 3,
+        netrw_winsize      = 25,
+
         -- Disable plugins
-        loaded_netrw            = 1,
-        loaded_netrwPlugin      = 1,
         loaded_perl_provider    = 0,
         loaded_ruby_provider    = 0,
         loaded_python3_provider = 0,
@@ -95,7 +99,7 @@ core.set_options {
         -- Do Not add <EOL> at the end of file
         fixendofline = false,
 
-        guicursor = "n-v-c:block,i-ci-ve:ver25,r:hor20,a:blinkwait0-blinkoff0-blinkon0",
+        guicursor = { 'n-v-c:block-Cursor', 'i-ci-ve:ver25-Cursor', 'r:hor20-Cursor', }
     }
 }
 
