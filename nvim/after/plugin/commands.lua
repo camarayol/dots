@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- linux fcitx5-remote
 if core.hasfeature('linux') and not core.hasfeature('wsl') and vim.fn.executable('fcitx5-remote') then
     vim.api.nvim_create_autocmd('InsertLeave', {
-        once = true,
         group = vim.api.nvim_create_augroup('core.FcitxRemote', { clear = true }),
         callback = function()
             if tonumber(vim.fn.system('fcitx5-remote')) == 2 then
@@ -22,7 +21,6 @@ end
 -- windows weasel
 if core.hasfeature('win32') then
     vim.api.nvim_create_autocmd('InsertLeave', {
-        once = true,
         group = vim.api.nvim_create_augroup('core.WeaselServer', { clear = true }),
         callback = function()
             vim.fn.system('WeaselServer.exe /ascii')
@@ -30,14 +28,26 @@ if core.hasfeature('win32') then
     })
 end
 
--- core.create_autocommand('FileType', function(ev)
---     if vim.bo[ev.buf].buftype ~= '' then return end
---     if ev.match == 'sagarename' then return end
---
---     -- Missing parsers are expected for some filetypes, so leave them on Vim's
---     -- regular syntax highlighting without reporting an error.
---     pcall(vim.treesitter.start, ev.buf)
--- end)
+-- auto start treesitter
+vim.api.nvim_create_autocmd('FileType', {
+    group = vim.api.nvim_create_augroup('core.Treesitter', { clear = true }),
+    callback = function(ev)
+        if not vim.api.nvim_buf_is_valid(ev.buf) then
+            return
+        end
+
+        if vim.bo[ev.buf].buftype ~= '' or vim.bo[ev.buf].filetype == '' then
+            return
+        end
+
+        local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+        if not lang or not vim.treesitter.language.add(lang) then
+            return
+        end
+
+        pcall(vim.treesitter.start, ev.buf, lang)
+    end
+})
 
 -- auto delete empty buffer after BufLeave
 vim.api.nvim_create_autocmd('BufLeave', {

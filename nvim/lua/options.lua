@@ -4,13 +4,12 @@ core.set_options {
         mapleader      = vim.keycode('<Space>'),
         maplocalleader = vim.keycode('<Space>'),
 
-        -- loaded_netrw       = 1,
-        -- loaded_netrwPlugin = 1,
-        netrw_banner       = 0,
-        netrw_liststyle    = 3,
-        netrw_winsize      = 25,
-
         -- Disable plugins
+        loaded_netrw            = 1,
+        loaded_netrwPlugin      = 1,
+        -- netrw_banner         = 0,
+        -- netrw_liststyle      = 3,
+        -- netrw_winsize        = 25,
         loaded_perl_provider    = 0,
         loaded_ruby_provider    = 0,
         loaded_python3_provider = 0,

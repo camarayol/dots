@@ -9,15 +9,15 @@ M.config = function()
         options = {
             theme = {
                 normal = {
-                    a = { fg = '#98c379', bg = '#282C34' },
-                    b = { fg = '#abb2bf', bg = '#282C34' },
-                    c = { fg = '#abb2bf', bg = '#282C34' },
+                    a = { fg = '#98c379', bg = 'none' },
+                    b = { fg = '#abb2bf', bg = 'none' },
+                    c = { fg = '#abb2bf', bg = 'none' },
                 },
-                insert   = { a = { fg = '#61afef', bg = '#282C34' } },
-                visual   = { a = { fg = '#c678dd', bg = '#282C34' } },
-                command  = { a = { fg = '#e5c07b', bg = '#282C34' } },
-                terminal = { a = { fg = '#56b6c2', bg = '#282C34' } },
-                replace  = { a = { fg = '#e06c75', bg = '#282C34' } },
+                insert   = { a = { fg = '#61afef', bg = 'none' } },
+                visual   = { a = { fg = '#c678dd', bg = 'none' } },
+                command  = { a = { fg = '#e5c07b', bg = 'none' } },
+                terminal = { a = { fg = '#56b6c2', bg = 'none' } },
+                replace  = { a = { fg = '#e06c75', bg = 'none' } },
             },
             globalstatus = true,
             icons_enabled = false,
@@ -36,7 +36,7 @@ M.config = function()
             lualine_c = {},
             lualine_x = { 'filesize', 'filetype', 'encoding', 'fileformat' },
             lualine_y = { 'location', 'progress' },
-            lualine_z = { 'searchcount', 'selectioncount', 'lsp_status' }
+            lualine_z = { 'searchcount', 'selectioncount' }
         }
     }
 end

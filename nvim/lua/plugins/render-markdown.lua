@@ -6,7 +6,7 @@ local M = {
 }
 
 M.config = function()
-    core.nvim_set_highlights {
+    core.hl {
         ['RenderMarkdownH1Bg']       = { fg = '#D19A66', bg = 'none' },
         ['RenderMarkdownH2Bg']       = { fg = '#D19A66', bg = 'none' },
         ['RenderMarkdownH3Bg']       = { fg = '#D19A66', bg = 'none' },

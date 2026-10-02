@@ -1,31 +1,9 @@
 vim.g.colors_name = 'onedark'
 
-local c = {
-    fg             = '#ABB2BF',
-    fg_bright      = '#FFFFFF',
-    fg_dark        = '#1F2228',
-    bg             = '#282C34',
-    bg_alt         = '#3E4452',
-    gray           = '#7F848E',
-
-    blue           = '#61AFEF',
-    green          = '#98C379',
-    cyan           = '#56B6C2',
-    red            = '#E06C75',
-    orange         = '#D19A66',
-    yellow         = '#E5C07B',
-    purple         = '#C678DD',
-
-    diff_add       = '#109868',
-    diff_add_bg    = '#39544F',
-    diff_change_bg = '#3F483C',
-    diff_del_bg    = '#78292A',
-}
-
-core.nvim_set_highlights {
-    ['Normal']               = { fg = c.fg, bg = 'none' },
+core.hl {
+    ['Normal']               = { fg = '#ABB2BF', bg = 'none' },
     ['NormalNC']             = {},
-    ['NormalFloat']          = { fg = c.fg, bg = 'none' },
+    ['NormalFloat']          = { fg = '#ABB2BF', bg = 'none' },
     ['FloatBorder']          = { link = 'WinSeparator' },
     ['FloatShadow']          = {},
     ['FloatShadowThrough']   = {},
@@ -33,55 +11,56 @@ core.nvim_set_highlights {
     ['FloatFooter']          = { link = 'FloatTitle' },
 
     ['Cursor']               = {},
-    ['MCursor']              = { fg = 'none', bg = c.blue },
+    ['MCursor']              = { fg = 'none', bg = '#61AFEF' },
     ['lCursor']              = { link = 'Cursor' },
     ['CursorIM']             = { link = 'Cursor' },
     ['TermCursor']           = { link = 'Cursor' },
-    ['CursorLine']           = { fg = 'none', bg = c.bg_alt },
+    ['CursorLine']           = { fg = 'none', bg = '#3E4452' },
     ['CursorColumn']         = { link = 'CursorLine' },
 
-    ['LineNr']               = { fg = c.gray },
+    ['LineNr']               = { fg = '#7F848E' },
     ['LineNrAbove']          = { link = 'LineNr' },
     ['LineNrBelow']          = { link = 'LineNr' },
     ['CursorLineNr']         = { bold = true },
     ['CursorLineFold']       = { link = 'FoldColumn' },
     ['CursorLineSign']       = { link = 'SignColumn' },
 
-    ['Visual']               = { bg = c.bg_alt },
+    ['Visual']               = { bg = '#3E4452' },
     ['VisualNOS']            = { link = 'Visual' },
 
-    ['Search']               = { fg = c.fg_dark, bg = c.orange },
+    ['Search']               = { fg = '#1F2228', bg = '#D19A66' },
     ['IncSearch']            = { link = 'Search' },
     ['Substitute']           = { link = 'Search' },
-    ['CurSearch']            = { fg = c.fg_dark, bg = c.yellow },
-    ['MatchParen']           = { bg = c.gray },
+    ['CurSearch']            = { fg = '#1F2228', bg = '#E5C07B' },
+    ['MatchParen']           = { bg = '#7F848E' },
 
     ['StatusLine']           = {},
     ['StatusLineNC']         = { link = 'StatusLine' },
     ['StatusLineTerm']       = { link = 'StatusLine' },
     ['StatusLineTermNC']     = { link = 'StatusLine' },
-    ['WinSeparator']         = { fg = c.gray },
+
+    ['WinSeparator']         = { fg = '#7F848E' },
     ['MsgSeparator']         = { link = 'WinSeparator' },
 
-    ['Title']                = { fg = c.orange },
-    ['Directory']            = { fg = c.blue },
+    ['Title']                = { fg = '#D19A66' },
+    ['Directory']            = { fg = '#61AFEF' },
 
-    ['NonText']              = { fg = c.bg_alt },
+    ['NonText']              = { fg = '#7F848E' },
     ['EndOfBuffer']          = { link = 'NonText' },
-    ['SpecialKey']           = { fg = c.fg_bright },
-    ['Whitespace']           = { fg = c.fg },
-    ['Conceal']              = { fg = c.bg_alt },
+    ['SpecialKey']           = { fg = '#FFFFFF' },
+    ['Whitespace']           = { fg = '#ABB2BF' },
+    ['Conceal']              = { fg = '#3E4452' },
 
     ['SignColumn']           = {},
     ['FoldColumn']           = { link = 'SignColumn' },
     ['Folded']               = { link = 'CursorLine' },
 
-    ['ColorColumn']          = { bg = c.bg_alt },
+    ['ColorColumn']          = { bg = '#3E4452' },
 
-    ['Pmenu']                = { fg = c.fg, bg = 'none' },
-    ['PmenuSel']             = { fg = c.fg_bright, bg = c.blue },
-    ['PmenuSbar']            = { bg = c.bg_alt },
-    ['PmenuThumb']           = { bg = c.fg },
+    ['Pmenu']                = { fg = '#ABB2BF', bg = 'none' },
+    ['PmenuSel']             = { fg = '#FFFFFF', bg = '#61AFEF' },
+    ['PmenuSbar']            = { bg = '#3E4452' },
+    ['PmenuThumb']           = { bg = '#ABB2BF' },
     ['PmenuMatch']           = { bold = true },
     ['PmenuMatchSel']        = { bold = true },
     ['ComplMatchIns']        = {},
@@ -99,23 +78,23 @@ core.nvim_set_highlights {
     ['WildMenu']             = { link = 'PmenuSel' },
 
     ['MsgArea']              = {},
-    ['ModeMsg']              = { link = 'OkMsg' },
-    ['OkMsg']                = { fg = c.green },
-    ['MoreMsg']              = { fg = c.cyan },
-    ['WarningMsg']           = { fg = c.orange },
-    ['ErrorMsg']             = { fg = c.red },
-    ['StderrMsg']            = { link = 'ErrorMsg' },
-    ['StdoutMsg']            = { link = 'ModeMsg' },
-    ['Question']             = { link = 'ErrorMsg' },
+    ['ModeMsg']              = { fg = '#98C379' },
+    ['OkMsg']                = { fg = '#98C379' },
+    ['MoreMsg']              = { fg = '#ABB2BF' },
+    ['WarningMsg']           = { fg = '#D19A66' },
+    ['ErrorMsg']             = { fg = '#E06C75' },
+    ['StderrMsg']            = { fg = '#E06C75' },
+    ['StdoutMsg']            = { fg = '#98C379' },
+    ['Question']             = { fg = '#E06C75' },
 
     ['QuickFixLine']         = { link = 'SpellBad' },
     ['SnippetTabstop']       = { link = 'Visual' },
     ['SnippetTabstopActive'] = { link = 'SnippetTabstop' },
 
-    ['SpellBad']             = { sp = c.red, undercurl = true },
-    ['SpellCap']             = { sp = c.orange, undercurl = true },
-    ['SpellLocal']           = { sp = c.green, undercurl = true },
-    ['SpellRare']            = { sp = c.blue, undercurl = true },
+    ['SpellBad']             = { sp = '#E06C75', undercurl = true },
+    ['SpellCap']             = { sp = '#D19A66', undercurl = true },
+    ['SpellLocal']           = { sp = '#98C379', undercurl = true },
+    ['SpellRare']            = { sp = '#61AFEF', undercurl = true },
 
     ['TabLine']              = { link = 'StatusLineNC' },
     ['TabLineFill']          = {},
@@ -124,32 +103,32 @@ core.nvim_set_highlights {
     ['WinBar']               = {},
     ['WinBarNC']             = {},
 
-    ['Comment']              = { fg = c.gray, italic = true },
-    ['Constant']             = { fg = c.cyan },
-    ['String']               = { fg = c.green },
-    ['Character']            = { fg = c.blue },
-    ['Number']               = { fg = c.orange },
+    ['Comment']              = { fg = '#7F848E', italic = true },
+    ['Constant']             = { fg = '#56B6C2' },
+    ['String']               = { fg = '#98C379' },
+    ['Character']            = { fg = '#61AFEF' },
+    ['Number']               = { fg = '#D19A66' },
     ['Boolean']              = { link = 'Number' },
     ['Float']                = { link = 'Number' },
-    ['Identifier']           = { fg = c.red },
-    ['Function']             = { fg = c.blue },
+    ['Identifier']           = { fg = '#E06C75' },
+    ['Function']             = { fg = '#61AFEF' },
     ['Statement']            = { link = 'Keyword' },
-    ['Conditional']          = { fg = c.purple },
+    ['Conditional']          = { fg = '#C678DD' },
     ['Repeat']               = { link = 'Statement' },
     ['Label']                = { link = 'Keyword' },
     ['Operator']             = { link = 'Special' },
-    ['Keyword']              = { fg = c.purple },
+    ['Keyword']              = { fg = '#C678DD' },
     ['Exception']            = { link = 'Keyword' },
-    ['PreProc']              = { fg = c.yellow },
-    ['Include']              = { fg = c.blue },
+    ['PreProc']              = { fg = '#E5C07B' },
+    ['Include']              = { fg = '#61AFEF' },
     ['Define']               = { link = 'PreProc' },
     ['Macro']                = { link = 'PreProc' },
     ['PreCondit']            = { link = 'PreProc' },
-    ['Type']                 = { fg = c.yellow },
+    ['Type']                 = { fg = '#E5C07B' },
     ['StorageClass']         = { link = 'Type' },
     ['Structure']            = { link = 'Type' },
     ['Typedef']              = { link = 'Type' },
-    ['Special']              = { fg = c.blue },
+    ['Special']              = { fg = '#61AFEF' },
     ['SpecialChar']          = { link = 'Special' },
     ['Tag']                  = { link = 'Special' },
     ['Delimiter']            = { link = 'Special' },
@@ -158,21 +137,20 @@ core.nvim_set_highlights {
     ['Underlined']           = { underline = true },
     ['Ignore']               = {},
     ['Error']                = { link = 'ErrorMsg' },
-    ['Todo']                 = { fg = c.gray, bg = c.blue },
+    ['Todo']                 = { fg = '#7F848E', bg = '#61AFEF' },
 
-    -- git / diff
-    ['DiffAdd']              = { fg = c.diff_add, bg = c.diff_add_bg },
-    ['DiffChange']           = { fg = c.orange, bg = c.diff_change_bg },
-    ['DiffDelete']           = { fg = c.red, bg = c.diff_del_bg },
-    ['DiffText']             = { bg = c.diff_add_bg },
-    ['DiffTextAdd']          = { link = 'DiffText' },
-    ['Added']                = { fg = c.diff_add, bg = 'none' },
-    ['Changed']              = { fg = c.orange, bg = 'none' },
-    ['Removed']              = { fg = c.red, bg = 'none' },
+    ['DiffAdd']              = { fg = '#109868', bg = '#39544F' },
+    ['DiffChange']           = { fg = '#D19A66', bg = '#3F483C' },
+    ['DiffDelete']           = { fg = '#E06C75', bg = '#78292A' },
+    ['DiffText']             = { bg = '#39544F' },
+    ['DiffTextAdd']          = { bg = '#39544F' },
+    ['Added']                = { fg = '#109868', bg = 'none' },
+    ['Changed']              = { fg = '#D19A66', bg = 'none' },
+    ['Removed']              = { fg = '#E06C75', bg = 'none' },
 }
 
 -- lsp-highlight
-core.nvim_set_highlights {
+core.hl {
     ['LspReferenceText']   = { underline = true },
     ['LspReferenceRead']   = { underline = true },
     ['LspReferenceWrite']  = { underline = true },
@@ -181,7 +159,7 @@ core.nvim_set_highlights {
 }
 
 -- diagnostic-highlights
-core.nvim_set_highlights {
+core.hl {
     ['DiagnosticError']             = { link = 'ErrorMsg' },
     ['DiagnosticWarn']              = { link = 'WarningMsg' },
     ['DiagnosticInfo']              = { link = 'MoreMsg' },
@@ -200,11 +178,11 @@ core.nvim_set_highlights {
     ['DiagnosticVirtualLinesHint']  = { link = 'DiagnosticHint' },
     ['DiagnosticVirtualLinesOk']    = { link = 'DiagnosticOk' },
 
-    ['DiagnosticUnderlineError']    = { fg = c.red, underline = true },
-    ['DiagnosticUnderlineWarn']     = { fg = c.yellow, underline = true },
-    ['DiagnosticUnderlineInfo']     = { fg = c.orange, underline = true },
-    ['DiagnosticUnderlineHint']     = { fg = c.cyan, underline = true },
-    ['DiagnosticUnderlineOk']       = { fg = c.green, underline = true },
+    ['DiagnosticUnderlineError']    = { fg = '#E06C75', underline = true },
+    ['DiagnosticUnderlineWarn']     = { fg = '#E5C07B', underline = true },
+    ['DiagnosticUnderlineInfo']     = { fg = '#D19A66', underline = true },
+    ['DiagnosticUnderlineHint']     = { fg = '#56B6C2', underline = true },
+    ['DiagnosticUnderlineOk']       = { fg = '#98C379', underline = true },
 
     ['DiagnosticFloatingError']     = { link = 'DiagnosticError' },
     ['DiagnosticFloatingWarn']      = { link = 'DiagnosticWarn' },
@@ -218,23 +196,23 @@ core.nvim_set_highlights {
     ['DiagnosticSignHint']          = { link = 'DiagnosticHint' },
     ['DiagnosticSignOk']            = { link = 'DiagnosticOk' },
 
-    ['DiagnosticDeprecated']        = { sp = c.red, strikethrough = true },
-    ['DiagnosticUnnecessary']       = { fg = c.gray },
+    ['DiagnosticDeprecated']        = { sp = '#E06C75', strikethrough = true },
+    ['DiagnosticUnnecessary']       = { fg = '#7F848E' },
 }
 
 -- treesitter-highlights
-core.nvim_set_highlights {
+core.hl {
     ['@variable']                    = { link = 'Identifier' },
     ['@variable.builtin']            = { link = '@variable' },
     ['@variable.parameter']          = { link = '@variable' },
     ['@variable.parameter.builtin']  = { link = '@variable.builtin' },
     ['@variable.member']             = { link = '@variable' },
 
-    ['@constant']                    = { fg = c.yellow },
-    ['@constant.builtin']            = { fg = c.orange },
+    ['@constant']                    = { fg = '#E5C07B' },
+    ['@constant.builtin']            = { fg = '#D19A66' },
     ['@constant.macro']              = { link = '@constant' },
 
-    ['@module']                      = { fg = c.yellow },
+    ['@module']                      = { fg = '#E5C07B' },
     ['@module.builtin']              = { link = '@module' },
 
     ['@label']                       = { link = 'Label' },
@@ -272,7 +250,7 @@ core.nvim_set_highlights {
     ['@function.method.call']        = { link = '@function.method' },
 
     ['@constructor']                 = { link = 'Special' },
-    ['@operator']                    = { fg = c.cyan },
+    ['@operator']                    = { fg = '#56B6C2' },
 
     ['@keyword']                     = { link = 'Keyword' },
     ['@keyword.coroutine']           = { link = '@keyword' },
@@ -290,9 +268,9 @@ core.nvim_set_highlights {
     ['@keyword.directive']           = { link = 'PreProc' },
     ['@keyword.directive.define']    = { link = 'Define' },
 
-    ['@punctuation.delimiter']       = { fg = c.fg },
+    ['@punctuation.delimiter']       = { fg = '#ABB2BF' },
     ['@punctuation.bracket']         = { link = '@punctuation.delimiter' },
-    ['@punctuation.special']         = { fg = c.purple },
+    ['@punctuation.special']         = { fg = '#C678DD' },
 
     ['@comment']                     = { link = 'Comment' },
     ['@comment.documentation']       = { link = '@comment' },
@@ -314,9 +292,9 @@ core.nvim_set_highlights {
     ['@markup.heading.6']            = { link = '@markup.heading' },
     ['@markup.quote']                = { link = '@markup' },
     ['@markup.math']                 = { link = 'Special' },
-    ['@markup.link']                 = { fg = c.blue },
+    ['@markup.link']                 = { fg = '#61AFEF' },
     ['@markup.link.label']           = { link = '@markup.link' },
-    ['@markup.link.url']             = { fg = c.cyan },
+    ['@markup.link.url']             = { fg = '#56B6C2' },
     ['@markup.raw']                  = { link = 'Whitespace' },
     ['@markup.raw.block']            = { link = '@markup.raw' },
     ['@markup.list']                 = { link = '@markup.link' },
@@ -362,71 +340,4 @@ core.nvim_set_highlights {
     ['@lsp.mod.defaultLibrary']      = { link = '@lsp.type' },
     ['@lsp.mod.definition']          = { link = '@lsp.type' },
     ['@lsp.mod.deprecated']          = { strikethrough = true },
-}
-
--- plugins
-core.nvim_set_highlights {
-    -- gitsigns.nvim
-    ['GitSignsCurrentLineBlame'] = { link = 'Comment' },
-
-    -- blink.cmp
-    ['BlinkCmpGhostText']        = { link = 'Comment' },
-
-    -- mini.indentscope
-    ['IndentScopeOther']         = { link = 'WinSeparator' },
-    ['IndentScopeCurrent']       = { link = 'WinSeparator' },
-    ['MiniIndentscopeSymbol']    = { link = 'WinSeparator' },
-
-    -- nvim-surround
-    ['NvimSurroundHighlight']    = { link = 'IndentScopeCurrent' },
-}
-
--- nvim-tree
-core.nvim_set_highlights {
-    ['NvimTreeGitNew']           = { link = 'Added' },
-    ['NvimTreeGitDirty']         = { link = 'Changed' },
-    ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
-    ['NvimTreeCursorLine']       = { link = 'CursorLine' },
-    ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
-    ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
-}
-
--- pi.nvim
-core.nvim_set_highlights {
-    ['PiUserMessageLabel']   = { fg = c.fg, bg = c.cyan },
-    ['PiAgentResponseLabel'] = { fg = c.fg, bg = c.yellow },
-
-    ['PiDebugLabel']         = { link = 'Comment' },
-    ['PiStartupLabel']       = { link = 'Comment' },
-    ['PiStartupErrorLabel']  = { link = 'ErrorMsg' },
-    ['PiStartupHint']        = { link = 'Comment' },
-    ['PiStartupDetail']      = { link = 'Comment' },
-    ['PiStartupError']       = { link = 'Comment' },
-    ['PiCompactionLabel']    = { link = 'Comment' },
-    ['PiCompactionText']     = { link = 'Comment' },
-    ['PiCompactionHint']     = { link = 'Comment' },
-    ['PiMessageDateTime']    = { link = 'Comment' },
-    ['PiMessageQueueTag']    = { link = 'Comment' },
-    ['PiMessageAttachments'] = { link = 'Comment' },
-    ['PiPendingQueueLabel']  = { link = 'Comment' },
-    ['PiPendingQueueText']   = { link = 'Comment' },
-    ['PiThinking']           = { link = 'Comment' },
-
-    ['PiToolBorder']         = { fg = 'none', bg = 'none' },
-    ['PiToolHeader']         = { fg = c.green, bg = 'none' },
-    ['PiToolStatus']         = { fg = c.green, bg = 'none' },
-    ['PiToolError']          = { fg = c.red, bg = 'none' },
-    ['PiToolCall']           = { link = 'Comment' },
-    ['PiToolOutput']         = { link = 'Comment' },
-    ['PiToolCollapsed']      = { link = 'Comment' },
-
-    ['PiMention']            = { link = 'Keyword' },
-    ['PiCommand']            = { link = 'Comment' },
-    ['PiWelcome']            = { link = 'Comment' },
-    ['PiWelcomeHint']        = { link = 'Comment' },
-    ['PiBusy']               = { link = 'Comment' },
-    ['PiBusyTime']           = { link = 'Comment' },
-    ['PiWarning']            = { link = 'WarningMsg' },
-    ['PiError']              = { link = 'ErrorMsg' },
-    ['PiDebug']              = { link = 'Comment' },
 }

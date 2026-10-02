@@ -3,7 +3,7 @@ local M = {
     events = { 'CursorMoved' },
 }
 
-M.config = function()
+M.config = vim.schedule_wrap(function()
     require('gitsigns').setup {
         on_attach = function(buf)
             local gs = require('gitsigns')
@@ -71,6 +71,6 @@ M.config = function()
         max_file_length              = 40000, -- Disable if file is longer than this (in lines)
         preview_config               = { border = 'rounded', style = 'minimal', relative = 'cursor', row = 0, col = 1 },
     }
-end
+end)
 
 return M

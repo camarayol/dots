@@ -13,47 +13,31 @@ function core.set_options(opts)
     end
 end
 
----@param keymaps { modes: string|string[], lhs: string, rhs: string|function, opts?: vim.keymap.set.Opts }[]
+function core.sk(mode, lhs, rhs, opts)
+    opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
+
+    if type(rhs) == 'function' then opts.callback, rhs = rhs, '' end
+
+    local buf = opts.buf; opts.buf = nil
+
+    if buf then
+        vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, opts)
+    else
+        vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+    end
+end
+
 function core.set_keymaps(keymaps)
-    local defopts = { noremap = true, silent = true, nowait = false }
     for i, v in ipairs(keymaps) do
-        v.opts = vim.tbl_extend('force', defopts, v.opts or {})
-
-        local rhs, modes = v.rhs, v.modes
-
-        if type(rhs) == 'function' then v.opts.callback, rhs = rhs, '' end
-
-        if type(modes) == 'string' then modes = { modes } end
-
-        local buf = v.opts.buf; v.opts.buf = nil
-
-        for _, mode in ipairs(modes) do
-            if buf then
-                vim.api.nvim_buf_set_keymap(buf, mode, v.lhs, rhs, v.opts)
-            else
-                vim.api.nvim_set_keymap(mode, v.lhs, rhs, v.opts)
-            end
+        for _, mode in ipairs(type(v.modes) == 'string' and { v.modes } or v.modes) do
+            core.sk(mode, v.lhs, v.rhs, v.opts)
         end
     end
 end
 
-function core.nvim_set_highlights(hl)
+function core.hl(hl)
     for name, val in pairs(hl) do vim.api.nvim_set_hl(0, name, val) end
 end
-
-function core.create_autocommand(event, opts)
-    if type(opts) == 'function' then
-        opts = { callback = opts }
-    end
-
-    if type(opts) == 'table' then
-        opts = vim.tbl_extend('force', { group = core.group }, opts)
-    end
-
-    return vim.api.nvim_create_autocmd(event, opts)
-end
-
-core.create_usercommand = vim.schedule_wrap(vim.api.nvim_create_user_command)
 
 function core.get_visual_text()
     if vim.api.nvim_get_mode().mode ~= 'v' then return '' end

@@ -3,7 +3,7 @@ local M = {
     events = { 'VimEnter' },
 }
 
-M.config = function()
+M.config = vim.schedule_wrap(function()
     local miniclue = require('mini.clue')
     miniclue.setup {
         window = { delay = 100, config = { width = 'auto', title_pos = 'center' } },
@@ -33,6 +33,6 @@ M.config = function()
             miniclue.gen_clues.z(),
         }
     }
-end
+end)
 
 return M

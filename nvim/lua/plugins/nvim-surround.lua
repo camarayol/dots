@@ -5,6 +5,8 @@ return {
         vim.g.nvim_surround_no_mappings = true
     end,
     config = function()
+        require('nvim-surround').setup {}
+
         core.set_keymaps {
             { modes = 'n', lhs = 'ys', rhs = '<Plug>(nvim-surround-normal)' },
             { modes = 'n', lhs = 'ds', rhs = '<Plug>(nvim-surround-delete)' },
@@ -12,6 +14,8 @@ return {
             { modes = 'x', lhs = 'S',  rhs = '<Plug>(nvim-surround-visual)' },
         }
 
-        require('nvim-surround').setup {}
+        core.hl {
+            ['NvimSurroundHighlight'] = { link = 'WinSeparator' },
+        }
     end
 }

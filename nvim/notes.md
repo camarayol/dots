@@ -66,3 +66,9 @@
       (#lua-match? @comment.todo "^%s*TODO:")
       (#set! priority 120))
     ```
+
+## 内置快捷键
+
+```vim
+q:  " 打开历史命令窗口
+```

@@ -43,10 +43,9 @@ local function parse_diffpairs_lr_count(line, col, left, right)
             i = i + 2
         else
             if i <= col then
-                if line:byte(i) == string.byte(left) then lcount = lcount + 1 end
-                if line:byte(i) == string.byte(right) then lcount = lcount - 1 end
+                if line:byte(i) == string.byte(left)  then lcount = lcount + 1 end
             else
-                if line:byte(i) == string.byte(left) then lcount = lcount + 1 end
+                if line:byte(i) == string.byte(left)  then lcount = lcount + 1 end
                 if line:byte(i) == string.byte(right) then rcount = rcount + 1 end
             end
             i = i + 1
@@ -251,8 +250,16 @@ local bs = function()
 
         -- {  |  } -> <BS> -> { | } -> <BS> -> {|}
         if left == ' ' and right == ' ' then
-            vim.api.nvim_buf_set_text(0, row - 1, col - 1, row - 1, col + 1, { '' })
-            vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+            left  = line:sub(col - 1, col - 1)
+            right = line:sub(col + 2, col + 2)
+
+            local ropts = M.pairs[left]
+            if ropts and ropts.right == right and ropts.opts.cr then
+                vim.api.nvim_buf_set_text(0, row - 1, col - 1, row - 1, col + 1, { '' })
+                vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+            else
+                feedkeys('<BS>')
+            end
             return
         end
 
@@ -363,7 +370,7 @@ M.diffpairs_input_right = function(left, right, opts)
         return right
     end
 
-    -- { {|} -> { {}|}
+    -- { {|} -> } -> { {}|}
     local lcount, rcount = parse_diffpairs_lr_count(M.ctx.line, M.ctx.col, left, right)
     if lcount > rcount then
         return right

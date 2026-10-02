@@ -1,14 +1,18 @@
-return {
+local M = {
     src = 'https://github.com/nvim-treesitter/nvim-treesitter',
     events = { 'BufReadPost', 'BufNewFile' },
-    build = function()
-        vim.api.nvim_echo({
-            { 'Treesitter', 'DiagnosticInfo' }, { ': TSUpdate', '' }
-        }, true, { verbose = true })
-
-        vim.cmd('TSUpdate')
-    end,
-    config = function()
-        require('nvim-treesitter').setup {}
-    end
 }
+
+M.build = function()
+    vim.api.nvim_echo({
+        { 'Treesitter: TSUpdate', 'DiagnosticInfo' }
+    }, true, { verbose = true })
+
+    vim.cmd('TSUpdate')
+end
+
+M.config = function()
+    require('nvim-treesitter').setup {}
+end
+
+return M

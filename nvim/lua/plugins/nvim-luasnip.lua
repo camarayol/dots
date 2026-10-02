@@ -5,17 +5,32 @@ local M = {
 }
 
 M.build = function(ev)
-    vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
+    vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path, text = true, timeout = 300 }, function(ret)
         vim.api.nvim_echo({
-            { 'LuaSnip',  out.code == 0 and 'DiagnosticOk' or 'DiagnosticError' },
-            { ': build ' .. out.code == 0 and 'success!' or 'failed!', '' }
+            ret.code == 0 and { 'LuaSnip: build success!', 'DiagnosticOk' }
+            or { 'LuaSnip: build failed!', 'DiagnosticError' }
         }, true, { verbose = true })
-    end))
+    end)
 end
 
 M.config = function()
     local luasnip = require('luasnip')
-    local types = require('luasnip.util.types')
+    local types   = require('luasnip.util.types')
+
+    luasnip.setup {
+        update_events = 'TextChanged,TextChangedI',
+        delete_check_events = 'TextChanged',
+        ext_opts = {
+            [types.snippet] = {
+                active = { sign_text = '│', sign_hl_group = 'Keyword' },
+            },
+            [types.choiceNode] = {
+                active = { virt_text = { { '<Tab>', 'Comment' } } },
+            },
+        }
+    }
+
+    require('luasnip.loaders.from_lua').lazy_load { paths = vim.fn.stdpath('config') .. '/snippets' }
 
     core.set_keymaps {
         {
@@ -39,21 +54,6 @@ M.config = function()
             end
         }
     }
-
-    luasnip.setup {
-        update_events = 'TextChanged,TextChangedI',
-        delete_check_events = 'TextChanged',
-        ext_opts = {
-            [types.snippet] = {
-                active = { sign_text = '│', sign_hl_group = 'Keyword' },
-            },
-            [types.choiceNode] = {
-                active = { virt_text = { { '<Tab>', 'Comment' } } },
-            },
-        }
-    }
-
-    require('luasnip.loaders.from_lua').lazy_load { paths = vim.fn.stdpath('config') .. '/snippets' }
 end
 
 return M

@@ -1,3 +1,5 @@
+if true then return end
+
 local opts = {
     buf = nil,
     win = nil,
@@ -30,11 +32,13 @@ local terminal = function(config, callback)
         })
     end
 
+    vim.api.nvim_buf_set_keymap(opts.buf, 't', '<Esc><Esc>', '<C-Bslash><C-n>', { noremap = true, silent = true })
+
     vim.cmd('startinsert')
     if type(callback) == 'function' then vim.defer_fn(callback, 100) end
 end
 
-core.create_usercommand('CoreTerminalFloat', function()
+vim.api.nvim_create_user_command('CoreTerminalFloat', function()
     local width, height = math.floor(vim.o.columns * 0.7), math.floor(vim.o.lines * 0.7)
     local row, col = math.floor((vim.o.lines - height) / 2), math.floor((vim.o.columns - width) / 2)
     terminal {
@@ -47,7 +51,7 @@ core.create_usercommand('CoreTerminalFloat', function()
     }
 end, {})
 
-core.create_usercommand('CoreTerminalSplit', function() terminal { split = 'below' } end, {})
+vim.api.nvim_create_user_command('CoreTerminalSplit', function() terminal { split = 'below' } end, {})
 
 core.set_keymaps {
     { modes = 't', lhs = '<Esc><Esc>', rhs = '<C-Bslash><C-n>' },

@@ -102,6 +102,15 @@ M.config = function()
 
     local api = require('nvim-tree.api')
     api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
+
+    core.hl {
+        ['NvimTreeGitNew']           = { link = 'Added' },
+        ['NvimTreeGitDirty']         = { link = 'Changed' },
+        ['NvimTreeGitDirtyIcon']     = { link = 'Changed' },
+        ['NvimTreeCursorLine']       = { link = 'CursorLine' },
+        ['NvimTreeOpenedFolderIcon'] = { link = 'NvimTreeOpenedFolderName' },
+        ['NvimTreeIndentMarker']     = { link = 'IndentScopeOther' },
+    }
 end
 
 return M

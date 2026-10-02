@@ -1,9 +1,7 @@
-core.set_keymaps {
-    { modes = 'n', lhs = '<Leader>aa', rhs = '<Cmd>Pi<CR>',            opts = { desc = 'Pi toggle' } },
-    { modes = 'n', lhs = '<Leader>as', rhs = '<Cmd>PiSendMention<CR>', opts = { desc = 'Pi send mention' } },
-    { modes = 'n', lhs = '<Leader>ar', rhs = '<Cmd>PiResume<CR>',      opts = { desc = 'Pi resume' } },
-    { modes = 'v', lhs = '<Leader>a',  rhs = '<Cmd>PiSendMention<CR>', opts = { desc = 'Pi send mention' } },
-}
+core.sk('n', '<Leader>aa', '<Cmd>Pi<CR>',            { desc = 'Pi toggle' })
+core.sk('n', '<Leader>as', '<Cmd>PiSendMention<CR>', { desc = 'Pi send mention' })
+core.sk('n', '<Leader>ar', '<Cmd>PiResume<CR>',      { desc = 'Pi resume' })
+core.sk('v', '<Leader>a',  '<Cmd>PiSendMention<CR>', { desc = 'Pi send mention' })
 
 local M = {
     src = 'https://github.com/alex35mil/pi.nvim',
@@ -232,6 +230,46 @@ M.config = function()
         -- Extension setWidget hook. Return a custom block to render inline
         -- in history, or nil to ignore. Not called for `:startup` widgets.
         on_widget = nil,
+    }
+
+    core.hl {
+        ['PiUserMessageLabel']   = { fg = '#56B6C2' },
+        ['PiAgentResponseLabel'] = { fg = '#E5C07B' },
+
+        ['PiDebugLabel']         = { link = 'Comment' },
+        ['PiStartupLabel']       = { link = 'Comment' },
+        ['PiStartupErrorLabel']  = { link = 'ErrorMsg' },
+
+        ['PiStartupHint']        = { link = 'Comment' },
+        ['PiStartupDetail']      = { link = 'Comment' },
+        ['PiStartupError']       = { link = 'Comment' },
+        ['PiCompactionLabel']    = { link = 'Comment' },
+        ['PiCompactionText']     = { link = 'Comment' },
+        ['PiCompactionHint']     = { link = 'Comment' },
+        ['PiMessageDateTime']    = { link = 'Comment' },
+        ['PiMessageQueueTag']    = { link = 'Comment' },
+        ['PiMessageAttachments'] = { link = 'Comment' },
+        ['PiPendingQueueLabel']  = { link = 'Comment' },
+        ['PiPendingQueueText']   = { link = 'Comment' },
+        ['PiThinking']           = { link = 'Comment' },
+
+        ['PiToolBorder']         = { link = 'FloatBorder' },
+        ['PiToolHeader']         = { link = 'DiagnosticOk' },
+        ['PiToolStatus']         = { link = 'DiagnosticOk' },
+        ['PiToolError']          = { link = 'DiagnosticError' },
+        ['PiToolCall']           = { link = 'Comment' },
+        ['PiToolOutput']         = { link = 'Comment' },
+        ['PiToolCollapsed']      = { link = 'Comment' },
+
+        ['PiMention']            = { link = 'Keyword' },
+        ['PiCommand']            = { link = 'Comment' },
+        ['PiWelcome']            = { link = 'Comment' },
+        ['PiWelcomeHint']        = { link = 'Comment' },
+        ['PiBusy']               = { link = 'Comment' },
+        ['PiBusyTime']           = { link = 'Comment' },
+        ['PiWarning']            = { link = 'WarningMsg' },
+        ['PiError']              = { link = 'ErrorMsg' },
+        ['PiDebug']              = { link = 'Comment' },
     }
 end
 
