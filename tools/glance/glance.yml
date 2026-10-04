@@ -52,6 +52,7 @@ pages:
           - type: to-do
             hide-header: true
           - type: rss
+            cache: 1d
             hide-header: true
             feeds:
               - url: https://www.ruanyifeng.com/blog/atom.xml
