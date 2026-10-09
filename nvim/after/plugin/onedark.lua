@@ -10,8 +10,8 @@ core.hl {
     ['FloatTitle']           = { link = 'Title' },
     ['FloatFooter']          = { link = 'FloatTitle' },
 
-    ['Cursor']               = {},
-    ['MCursor']              = { fg = 'none', bg = '#61AFEF' },
+    ['Cursor']               = { bg = '#3E4452' },
+    ['MCursor']              = { bg = '#61AFEF' },
     ['lCursor']              = { link = 'Cursor' },
     ['CursorIM']             = { link = 'Cursor' },
     ['TermCursor']           = { link = 'Cursor' },

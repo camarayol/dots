@@ -1,7 +1,7 @@
 return {
     src = 'https://github.com/kylechui/nvim-surround',
     events = { 'CursorHold', 'CursorMoved' },
-    before = function()
+    option = function()
         vim.g.nvim_surround_no_mappings = true
     end,
     config = function()

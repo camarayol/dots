@@ -67,8 +67,33 @@
       (#set! priority 120))
     ```
 
-## 内置快捷键
+### 内置快捷键
 
-```vim
+```help
 q:  " 打开历史命令窗口
 ```
+
+-- multicursor (v0.13)
+
+```help
+Q                     " 在当前光标处新增(删除)多光标
+
+zq{motion}            " 根据 {motion} 行为添加多光标
+                      "     zq* 在所有当前光标下单词前添加光标
+                      "     zqn 在所有查找对象前添加光标
+
+{Visual}zq{motion}    " 与 zq 功能相同, 匹配对象限定在 {Visual} 范围内
+
+{Visual}Q             " 在 {Visual} 范围内的每一行, 真实光标所在的列添加光标
+
+q=                    " 所有多光标进入 'follow' 模式, 跟随真实光标的 {motion}
+
+gQ                    " 恢复上一次的所有多光标
+
+g CTRL-A              " 在多光标模式下可以在每个光标下生成递增的序号
+
+{count}]C             " 向后跳转到第 {count} 个光标
+
+{count}[C             " 向前跳转到第 {count} 个光标
+```
+

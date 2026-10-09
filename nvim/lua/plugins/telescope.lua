@@ -25,10 +25,10 @@ local M = {
         {
             src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
             build = function(ev)
-                vim.system({ 'make' }, { cwd = ev.path }, vim.schedule_wrap(function(out)
+                vim.system({ 'make' }, { cwd = ev.path }, vim.schedule_wrap(function(ret)
                     vim.api.nvim_echo({
-                        { 'Telescope-fzf-native', out.code == 0 and 'DiagnosticOk' or 'DiagnosticError' },
-                        { ': build ' .. out.code == 0 and 'success!' or 'failed!', '' }
+                        ret.code == 0 and { 'Telescope-fzf-native: build success!', 'DiagnosticOk' }
+                                       or { 'Telescope-fzf-native: build failed!', 'DiagnosticError' }
                     }, true, { verbose = true })
                 end))
             end

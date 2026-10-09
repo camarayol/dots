@@ -1,7 +1,7 @@
 return {
     src = 'https://github.com/mg979/vim-visual-multi',
     events = { 'CursorHold', 'CursorMoved' },
-    before = function()
+    option = function()
         core.set_options {
             g = {
                 VM_theme = 'iceblue',

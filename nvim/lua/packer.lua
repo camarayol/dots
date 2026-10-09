@@ -12,18 +12,15 @@ end, { bang = true, nargs = '*', complete = 'packadd', desc = 'NvimPack update p
 
 -- Build plugins
 vim.api.nvim_create_user_command('PackBuild', function()
-    for i, plugin in ipairs(vim.pack.get()) do
-        if type(plugin.spec.data) == 'table' and type(plugin.spec.data.build) == 'function'
-        then
-            pcall(plugin.spec.data.build, plugin.path)
-        end
-    end
+    vim.iter(vim.pack.get())
+        :filter(function(x) return x.active and type(x.spec.data) == 'table' and type(x.spec.data.build) == 'function' end)
+        :each(function(x) pcall(x.spec.data.build, { path = x.path }) end)
 end, { desc = 'NvimPack run build callbacks for all plugins' })
 
 -- Delete plugins
-vim.api.nvim_create_user_command('PackClean', function()
+vim.api.nvim_create_user_command('PackClean', function(opts)
     local specs = vim.iter(vim.pack.get())
-        :filter(function(x) return not x.active end)
+        :filter(function(x) return not x.active and (#opts.fargs == 0 or vim.tbl_contains(opts.fargs, x.spec.name)) end)
         :map(function(x) return x.spec.name end)
         :totable()
 
@@ -50,67 +47,100 @@ vim.api.nvim_create_autocmd('PackChanged', {
 })
 
 -- Packer
+local Specs = {}
+
 local group = vim.api.nvim_create_augroup('core.Packadd', { clear = true })
 
-local lazyload = function(plug)
-    local data = plug.spec.data
-
-    if data.skip then return end
-
-    local load = function(ev)
-        if type(data.depends) == 'table' then
-            for _, dep in ipairs(data.depends) do
-                local src = type(dep) == 'string' and dep or dep.src
-                local name = (src:gsub('%.git$', '')):match('[^/]+$')
-                if name and name ~= '' then vim.cmd.packadd(name) end
-            end
-        end
-
-        -- before packadd callback
-        if type(data.before) == 'function' then
-            pcall(data.before, ev)
-        end
-
-        vim.cmd.packadd(plug.spec.name)
-
-        -- after packadd callback
-        if type(data.config) == 'function' then
-            pcall(data.config, ev)
-        end
-    end
-
-    if not data.events then return load(plug) end
-
-    vim.api.nvim_create_autocmd(data.events, {
-        once = true, group = group, pattern = data.pattern, callback = load
-    })
+local function parse_spec_name(src)
+    return src:gsub('%.git$', ''):match('[^/]+$')
 end
 
-return function(options)
-    local specs = {}
+local function add_normalized_specs(spec)
+    spec = type(spec) == 'string' and { src = spec } or spec
 
-    for _, s in ipairs(options) do
-        local data = vim.tbl_extend('force', s.data or {}, s)
-        data.src, data.name, data.version, data.data = nil, nil, nil, nil
+    if type(spec) ~= 'table' then return end
 
-        for _, dep in ipairs(data.depends or {}) do
-            if type(dep) == 'string' and not specs[dep] then
-                specs[dep] = { src = dep, data = { skip = true } }
-            end
-            if type(dep) == 'table' and not specs[dep.src] then
-                local depdata = vim.tbl_extend('force', dep.data or {}, dep)
-                depdata.src, depdata.name, depdata.version, depdata.data, depdata.skip = nil, nil, nil, nil, true
+    if spec.depends ~= nil then
+        local depends = type(spec.depends) == 'string' and { spec.depends } or (spec.depends or {})
 
-                specs[dep.src] = { src = dep.src, name = dep.src, version = dep.version, data = depdata }
-            end
-        end
+        vim.iter(depends):each(add_normalized_specs)
 
-        if specs[s.src] then
-            specs[s.src].data = data
-        else
-            specs[s.src] = { src = s.src, name = s.name, version = s.version, data = data }
-        end
+        spec.depends = vim.iter(depends):map(function(dep)
+            return parse_spec_name(type(dep) == 'string' and dep or dep.src)
+        end):totable()
     end
 
-    vim.pack.add(vim.tbl_values(specs), { confirm = false, load = lazyload })
+    local name = spec.name or parse_spec_name(spec.src)
+
+    local normalize_spec = {
+        src     = spec.src,
+        name    = name,
+        version = spec.version,
+        data    = {
+            depends = spec.depends,
+            build   = spec.build,
+            option  = spec.option,
+            config  = spec.config,
+            events  = spec.events,
+            pattern = spec.pattern,
+        }
+    }
+
+    if Specs[name] then
+        Specs[name] = vim.tbl_extend('force', Specs[name], normalize_spec)
+    else
+        Specs[name] = normalize_spec
+    end
+end
+
+local function packload(spec)
+    if Specs[spec.name].data.loaded then return end
+
+    if type(spec.data.depends) == 'table' then
+        vim.iter(spec.data.depends):each(function(depname)
+            packload(Specs[depname])
+        end)
+    end
+
+    if type(spec.data.option) == 'function' then
+        pcall(spec.data.option)
+    end
+
+    vim.cmd.packadd(spec.name)
+
+    if type(spec.data.config) == 'function' then
+        pcall(spec.data.config)
+    end
+
+    Specs[spec.name].data.loaded = true
+end
+
+--- @class core.packer.spec
+--- @field src     string
+--- @field name    string?
+--- @field version string?
+--- @field depends string|string[]|core.packer.spec|core.packer.spec[]?
+--- @field build   function?
+--- @field option  function?
+--- @field config  function?
+--- @field events  string|string[]?
+--- @field pattern string|string[]?
+--- @param specs   core.packer.spec[]
+return function(specs)
+    vim.iter(specs):each(add_normalized_specs)
+
+    vim.pack.add(vim.tbl_values(Specs), {
+        confirm = false,
+        load = function(ev)
+            local data = ev.spec.data
+
+            if data.events then
+                vim.api.nvim_create_autocmd(data.events, {
+                    once = true, group = group, pattern = data.pattern, callback = function() packload(ev.spec) end
+                })
+            elseif data.config then
+                packload(ev.spec)
+            end
+        end
+    })
 end

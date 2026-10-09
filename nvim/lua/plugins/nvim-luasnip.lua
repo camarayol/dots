@@ -5,12 +5,13 @@ local M = {
 }
 
 M.build = function(ev)
-    vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path, text = true, timeout = 300 }, function(ret)
-        vim.api.nvim_echo({
-            ret.code == 0 and { 'LuaSnip: build success!', 'DiagnosticOk' }
-            or { 'LuaSnip: build failed!', 'DiagnosticError' }
-        }, true, { verbose = true })
-    end)
+    vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.path, text = true, timeout = 300 },
+        vim.schedule_wrap(function(ret)
+            vim.api.nvim_echo({
+                ret.code == 0 and { 'LuaSnip: build success!', 'DiagnosticOk' }
+                               or { 'LuaSnip: build failed!\n' .. ret.stderr, 'DiagnosticError' }
+            }, true, { verbose = true })
+        end))
 end
 
 M.config = function()

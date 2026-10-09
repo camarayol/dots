@@ -13,44 +13,13 @@ core.sk('i', '<C-x>', '<Nop>')
 
 -- Normal
 core.sk('n', '<Esc>', function()
-    vim.fn.setreg('/', '')
+    vim.cmd('nohlsearch')
 
     local mc = vim.api.nvim_create_namespace('nvim.multicursor')
     if mc then
         vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)
     end
 end)
-
---- multicursor
---- Q    Toggles a multicursor at the current cursor position
---- q=   Toggles follow-mode
---- gQ   Restores the previous multicursors
-if vim.fn.has('nvim-0.13') == 1 then
-    local function is_multicursor()
-        local ns = vim.api.nvim_create_namespace('nvim.multicursor')
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-
-        for _, mark in ipairs(vim.api.nvim_buf_get_extmarks(0, ns, 0, -1, {})) do
-            if mark[2] == row - 1 and mark[3] == col then
-                return true
-            end
-        end
-
-        return false
-    end
-
-    core.sk('n', '<C-j>', function()
-        return is_multicursor() and 'j' or 'QjQ'
-    end, { expr = true, replace_keycodes = true })
-
-    core.sk('n', '<C-k>', function()
-        return is_multicursor() and 'k' or 'QkQ'
-    end, { expr = true, replace_keycodes = true })
-
-    core.sk('n', 'q', function()
-        return is_multicursor() and 'Q' or 'q'
-    end, { expr = true, replace_keycodes = true })
-end
 
 core.sk('n', 'U', '<Cmd>redo<CR>')
 
@@ -131,8 +100,8 @@ core.sk('c', '<M-l>', '<Right>')
 --- toggle comment
 core.sk('n', '<C-/>', 'gcc',      { noremap = false })
 core.sk('n', '<C-_>', 'gcc',      { noremap = false })
-core.sk('i', '<C-/>', '<C-o>gcc', { noremap = false })
 core.sk('i', '<C-_>', '<C-o>gcc', { noremap = false })
+core.sk('i', '<C-/>', '<C-o>gcc', { noremap = false })
 core.sk('x', '<C-/>', 'gcgv',     { noremap = false })
 core.sk('x', '<C-_>', 'gcgv',     { noremap = false })
 

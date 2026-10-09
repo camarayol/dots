@@ -133,7 +133,7 @@ M.config = vim.schedule_wrap(function()
             if not client then return end
 
             local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
-            vim.notify(client.name .. ': ' .. vim.lsp.status(), 'info', {
+            vim.notify(client.name .. ': ' .. vim.lsp.status(), vim.log.levels.INFO, {
                 id = 'lsp_progress',
                 title = client.name,
                 opts = function(notif)

@@ -28,6 +28,17 @@ if core.hasfeature('win32') then
     })
 end
 
+-- multicursor
+if core.hasfeature('nvim-0.13') then
+    local group = vim.api.nvim_create_augroup("core.MultiCursorHl", { clear = true })
+
+    vim.api.nvim_create_autocmd("InsertEnter",
+        { group = group, callback = function() core.hl { ['MCursor'] = { bg = '#7F848E' } } end, })
+
+    vim.api.nvim_create_autocmd("InsertLeave",
+        { group = group, callback = function() core.hl { ['MCursor'] = { bg = '#61AFEF' } } end, })
+end
+
 -- auto start treesitter
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('core.Treesitter', { clear = true }),
