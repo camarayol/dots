@@ -57,8 +57,10 @@ core.sk('n', 'mm', '%', { noremap = false })
 core.sk('i', 'jk', '<Cmd>stopinsert<CR>')
 
 core.sk('i', '<C-v>', '<C-r>+')
-core.sk('i', '<M-h>', '<Left>')
-core.sk('i', '<M-l>', '<Right>')
+core.sk('i', '<C-h>', '<Left>')
+core.sk('i', '<C-j>', '<Down>')
+core.sk('i', '<C-k>', '<Up>')
+core.sk('i', '<C-l>', '<Right>')
 
 core.sk('i', '<S-Tab>', function()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))

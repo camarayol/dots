@@ -52,6 +52,7 @@ M.config = vim.schedule_wrap(function()
                 lsp_references = { layout = { preset = 'ivy_split' } },
                 lsp_implementations = { layout = { preset = 'ivy_split' } },
                 lsp_type_definitions = { layout = { preset = 'ivy_split' } },
+                recent = { config = function (opts) opts.filter = nil return opts end },
                 explorer = {
                     win = {
                         list = {

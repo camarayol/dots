@@ -35,6 +35,9 @@ function core.set_keymaps(keymaps)
     end
 end
 
+--- @class core.hl
+--- @field [string] vim.api.keyset.highlight
+--- @param hl core.hl
 function core.hl(hl)
     for name, val in pairs(hl) do vim.api.nvim_set_hl(0, name, val) end
 end

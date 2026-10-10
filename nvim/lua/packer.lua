@@ -87,7 +87,7 @@ local function add_normalized_specs(spec)
     }
 
     if Specs[name] then
-        Specs[name] = vim.tbl_extend('force', Specs[name], normalize_spec)
+        Specs[name] = vim.tbl_deep_extend('force', Specs[name], normalize_spec)
     else
         Specs[name] = normalize_spec
     end
