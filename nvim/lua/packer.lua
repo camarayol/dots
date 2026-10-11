@@ -102,10 +102,6 @@ local function packload(spec)
         end)
     end
 
-    if type(spec.data.option) == 'function' then
-        pcall(spec.data.option)
-    end
-
     vim.cmd.packadd(spec.name)
 
     if type(spec.data.config) == 'function' then
@@ -133,6 +129,10 @@ return function(specs)
         confirm = false,
         load = function(ev)
             local data = ev.spec.data
+
+            if type(data.option) == 'function' then
+                pcall(data.option)
+            end
 
             if data.events then
                 vim.api.nvim_create_autocmd(data.events, {

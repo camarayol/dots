@@ -80,11 +80,12 @@ core.hl {
     ['MsgArea']              = {},
     ['ModeMsg']              = { fg = '#98C379' },
     ['OkMsg']                = { fg = '#98C379' },
-    ['MoreMsg']              = { fg = '#ABB2BF' },
+    ['MoreMsg']              = { fg = '#61AFEF' },
     ['WarningMsg']           = { fg = '#D19A66' },
     ['ErrorMsg']             = { fg = '#E06C75' },
     ['StderrMsg']            = { fg = '#E06C75' },
     ['StdoutMsg']            = { fg = '#98C379' },
+
     ['Question']             = { fg = '#E06C75' },
 
     ['QuickFixLine']         = { link = 'SpellBad' },

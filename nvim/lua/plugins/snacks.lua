@@ -47,6 +47,12 @@ M.config = vim.schedule_wrap(function()
             sources = {
                 files = { hidden = true, ignore = true, layout = { preset = 'ivy_split' } },
                 buffers = { layout = { preset = 'ivy_split' } },
+                highlights = {
+                    win = {
+                        input = { keys = { ['<CR>'] = { { 'yank', 'cancel' }, mode = { 'n', 'i' } } } },
+                        list  = { keys = { ['<CR>'] = { { 'yank', 'cancel' }, mode = { 'n', 'i' } } } },
+                    },
+                },
                 command_history = { layout = { preset = 'select' } },
                 lsp_definitions = { layout = { preset = 'ivy_split' } },
                 lsp_references = { layout = { preset = 'ivy_split' } },
@@ -133,14 +139,11 @@ M.config = vim.schedule_wrap(function()
             local client = vim.lsp.get_client_by_id(ev.data.client_id)
             if not client then return end
 
-            local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
-            vim.notify(client.name .. ': ' .. vim.lsp.status(), vim.log.levels.INFO, {
-                id = 'lsp_progress',
-                title = client.name,
-                opts = function(notif)
-                    notif.icon = ev.data.params.value.kind == 'end' and ' '
-                        or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-                end,
+            local done = ev.data.params.value.kind == 'end'
+            vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
+                id      = ev.data.client_id,
+                title   = client.name,
+                timeout = done and 3000 or false,
             })
         end
     })
