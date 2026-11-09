@@ -3,6 +3,17 @@ server:
   port: 8080
   assets-path: ${HOME}/.config/glance
 
+document:
+  head: |
+    <script src="/assets/bookmark-cards.js" defer></script>
+    <script src="/assets/bookmark-search.js" defer></script>
+
+branding:
+  custom-footer: |
+    <div>
+      <a class="size-h3" href="https://github.com/glanceapp/glance" target="_blank" rel="noreferrer">Glance</a>
+    </div>
+
 theme:
   background-color: 220 8 16
   primary-color: 157 47 65
@@ -12,7 +23,7 @@ theme:
   custom-css-file: /assets/glance.css
 
 pages:
-  - name: GlanceHomepage
+  - name: Glance
     hide-desktop-navigation: true
 
     head-widgets:
@@ -28,7 +39,7 @@ pages:
             url: https://www.google.com/search?q={QUERY}
 
           - title: Github
-            shortcut: "@gh"
+            shortcut: "!gh"
             url: https://github.com/search?q={QUERY}&type=repositories
 
           - title: Youtube
@@ -43,7 +54,7 @@ pages:
       - size: small
         widgets:
           - type: clock
-            hide-header: true
+            title: "\u00a0"
           - type: weather
             cache: 1d
             hour-format: 24h
@@ -54,8 +65,10 @@ pages:
           - type: rss
             cache: 1d
             hide-header: true
+            limit: 5
             feeds:
               - url: https://www.ruanyifeng.com/blog/atom.xml
+              - url: https://hellogithub.com/rss
 
       - size: full
         widgets:
