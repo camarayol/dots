@@ -60,6 +60,7 @@ M.config = vim.schedule_wrap(function()
                 lsp_type_definitions = { layout = { preset = 'ivy_split' } },
                 recent = { config = function (opts) opts.filter = nil return opts end },
                 explorer = {
+                    layout = { preset = 'sidebar', preview = { enabled = true, main = true } },
                     win = {
                         list = {
                             keys = {
@@ -96,6 +97,13 @@ M.config = vim.schedule_wrap(function()
                     },
                 },
             },
+        },
+        terminal = {
+            win = {
+                keys = {
+                    ['<Leader>t'] = { 'hide', mode = { 'n' } }
+                }
+            }
         }
     }
 
@@ -118,7 +126,18 @@ M.config = vim.schedule_wrap(function()
     core.sk('n', 'gri',        picker.lsp_implementations,      { desc = 'Snacks lsp_implementations' })
     core.sk('n', 'grt',        picker.lsp_type_definitions,     { desc = 'Snacks lsp_type_definitions' })
     core.sk('n', 'go',         picker.lsp_symbols,              { desc = 'Snacks lsp_symbols' })
-    core.sk('n', '<Leader>f',  require('snacks.explorer').open, { desc = 'Snacks explorer' })
+
+    core.sk('n', '<Leader>f', function()
+        local explorer = picker.get({ source = 'explorer' })[1]
+        if not explorer then
+            require('snacks.explorer').open()
+        elseif explorer:is_focused() then
+            explorer:close()
+        else
+            explorer:focus('list')
+        end
+    end, { desc = 'Snacks explorer' })
+
     core.sk('n', '<Leader>gg', require('snacks.lazygit').open,  { desc = 'Snacks lazygit' })
 
     core.sk('n', '<Leader>tf', function()

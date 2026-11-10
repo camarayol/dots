@@ -10,6 +10,10 @@
 - after/plugin/*.lua(vim)
 - after/ftplugin/${filetype}.lua(vim)
 
+```lua
+vim.g._ts_force_sync_parsing = 1 -- treesitter 同步解析
+```
+
 ### 查某个组合键输出的键值
 
 ```vim
@@ -67,33 +71,64 @@
       (#set! priority 120))
     ```
 
-### 内置快捷键
+### default keymaps
 
 ```help
 q:  " 打开历史命令窗口
 ```
 
--- multicursor (v0.13)
+- multicursor (v0.13)
 
-```help
-Q                     " 在当前光标处新增(删除)多光标
+    ```help
+    Q                     " 在当前光标处新增(删除)多光标
 
-zq{motion}            " 根据 {motion} 行为添加多光标
-                      "     zq* 在所有当前光标下单词前添加光标
-                      "     zqn 在所有查找对象前添加光标
+    zq{motion}            " 根据 {motion} 行为添加多光标
+                          "     zq* 在所有当前光标下单词前添加光标
+                          "     zqn 在所有查找对象前添加光标
 
-{Visual}zq{motion}    " 与 zq 功能相同, 匹配对象限定在 {Visual} 范围内
+    {Visual}zq{motion}    " 与 zq 功能相同, 匹配对象限定在 {Visual} 范围内
 
-{Visual}Q             " 在 {Visual} 范围内的每一行, 真实光标所在的列添加光标
+    {Visual}Q             " 在 {Visual} 范围内的每一行, 真实光标所在的列添加光标
 
-q=                    " 所有多光标进入 'follow' 模式, 跟随真实光标的 {motion}
+    q=                    " 所有多光标进入 'follow' 模式, 跟随真实光标的 {motion}
 
-gQ                    " 恢复上一次的所有多光标
+    gQ                    " 恢复上一次的所有多光标
 
-g CTRL-A              " 在多光标模式下可以在每个光标下生成递增的序号
+    g CTRL-A              " 在多光标模式下可以在每个光标下生成递增的序号
 
-{count}]C             " 向后跳转到第 {count} 个光标
+    {count}]C             " 向后跳转到第 {count} 个光标
 
-{count}[C             " 向前跳转到第 {count} 个光标
-```
+    {count}[C             " 向前跳转到第 {count} 个光标
+    ```
 
+### neovim diffmode
+
+1. 启动 nvim 时通过 `-d` 参数指定需要进行对比的两个文件
+
+    ```sh
+    nvim -d $file1 $file2
+    ```
+
+2. 启动 nvim 后进行窗口分屏，然后在两个分屏窗口中分别打开需要进行对比的文件，并且分别执行 `:diffthis` 命令
+
+    ```vim
+    nvim
+
+    " split vertically a new buffer
+    :vnew
+
+    " 打开 file1 并进入 diffmode
+    :e file1 | diffthis
+
+    " 打开 file2 并进入 diffmode
+    :e file2 | diffthis
+    ```
+
+3. 其他命令解释
+
+    ```vim
+    diffoff            " 退出 diffmode
+    diffget            " 从另一 buffer 中获取光标处的差异内容到当前 buffer 中
+    diffput            " 将当前 buffer 中光标处的差异内容推送到另一 buffer 中
+    diffpatch $patch   " 将 $patch 文件内容应用到当前 buffer 中
+    ```

@@ -49,7 +49,7 @@ core.set_options {
 
         -- Wrap width
         textwidth   = 160,
-        linebreak   = true,
+        linebreak   = false,
         breakindent = true,
 
         showtabline = 0,
@@ -69,7 +69,7 @@ core.set_options {
 
         termguicolors = true,
 
-        -- Hilight CursorLine
+        -- Highlight CursorLine
         cursorline = false,
 
         -- Disable swapfile
@@ -98,11 +98,12 @@ core.set_options {
         -- Do Not add <EOL> at the end of file
         fixendofline = false,
 
-        guicursor = { 'n-v-c:block-Cursor', 'i-ci-ve:ver25-Cursor', 'r:hor20-Cursor', }
+        foldlevel = 99,
+        foldexpr = 'v:lua.vim.treesitter.foldexpr()',
     }
 }
 
-vim.opt.fillchars:append { diff = ' ', eob = ' ' }
+vim.opt.fillchars:append { diff = ' ', eob = ' ', fold = ' ' }
 
 vim.schedule(function()
     -- Enable system clipboard

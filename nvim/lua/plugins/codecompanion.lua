@@ -23,7 +23,7 @@ M.config = function()
         display = {
             action_palette = { provider = 'snacks' },
             chat = {
-                window = { buflisted = true, layout = 'vertical', position = 'right', }
+                window = { buflisted = false, layout = 'vertical', position = 'right', }
             }
         },
         interactions = {
@@ -41,34 +41,6 @@ M.config = function()
                 adapter = 'pi' -- pi agent (rpc adapter)
             },
         },
-        adapters = {
-            acp = {
-                opencode = adapters.extend('opencode', {
-                    defaults = {
-                        session_config_options = {
-                            model = 'opencode/deepseek-v4.1-flash-free',
-                        },
-                    },
-                }),
-            },
-            http = {
-                ['copilot'] = adapters.extend('copilot', {
-                    schema = { model = { default = 'gpt-4.1' } },
-                }),
-                ['openai-codex'] = adapters.extend('openai', {
-                    formatted_name = 'ChatGPT Codex',
-                    url            = 'https://chatgpt.com/backend-api/codex/responses',
-                    env            = { api_key = 'OPENAI_API_KEY', account_id = 'OPENAI_ACCOUNT_ID' },
-                    schema         = { model = { default = 'gpt-5.5' } },
-                }),
-                ['opencode-zen'] = adapters.extend('openai_compatible', {
-                    name           = 'opencode-zen',
-                    formatted_name = 'OpenCode Zen',
-                    env            = { url = 'https://opencode.ai/zen', api_key = 'OPENCODE_API_KEY' },
-                    schema         = { model = { default = 'deepseek-v4.1-flash' } }
-                })
-            },
-        }
     }
 
     local group = vim.api.nvim_create_augroup('core.CodeCompanionNotifier', { clear = true })
