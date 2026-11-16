@@ -33,6 +33,14 @@ M.config = vim.schedule_wrap(function()
             miniclue.gen_clues.z(),
         }
     }
+
+    vim.api.nvim_create_autocmd('TermOpen', {
+        group = vim.api.nvim_create_augroup('clue.TermOpen', { clear = true }),
+        callback = function(ev)
+            if vim.bo[ev.buf].buftype ~= 'terminal' then return end
+            miniclue.ensure_buf_triggers(ev.buf)
+        end,
+    })
 end)
 
 return M
