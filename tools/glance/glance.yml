@@ -7,6 +7,7 @@ document:
   head: |
     <script src="/assets/bookmark-cards.js" defer></script>
     <script src="/assets/bookmark-search.js" defer></script>
+    <script src="/assets/search-ime.js" defer></script>
 
 branding:
   custom-footer: |
