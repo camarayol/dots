@@ -28,6 +28,17 @@ if core.hasfeature('win32') and vim.fn.executable('WeaselServer.exe') then
     })
 end
 
+-- macos squirrel
+if core.hasfeature('mac') and vim.fn.executable('Squirrel') then
+    vim.api.nvim_create_autocmd('ModeChanged', {
+        pattern = 'i:n',
+        group = vim.api.nvim_create_augroup('core.Squirrel', { clear = true }),
+        callback = function()
+            vim.fn.system('Squirrel --ascii')
+        end
+    })
+end
+
 -- multicursor
 if core.hasfeature('nvim-0.13') then
     vim.api.nvim_create_autocmd('ModeChanged', {

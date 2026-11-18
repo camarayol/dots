@@ -19,7 +19,7 @@ function core.set_options(opts)
     end
 end
 
----@param opts? vim.keymap.set.Opts
+--- @param opts? vim.keymap.set.Opts
 function core.sk(mode, lhs, rhs, opts)
     opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
 

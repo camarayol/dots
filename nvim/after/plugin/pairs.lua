@@ -41,14 +41,14 @@ local function is_pairs_all_closed(line, left, right)
             i = i + 2
         else
             if l == r then
-                count = count + (c == l and (count == 0 and -1 or 1) or 0)
+                count = count + (c == l and (count == 0 and 1 or -1) or 0)
             else
                 count = count + (c == l and 1 or (c == r and -1 or 0))
             end
             i = i + 1
         end
     end
-    return count >= 0
+    return count == 0
 end
 
 local M = {}
@@ -174,8 +174,15 @@ end
 
 function M.input_right(opts)
     -- {|} -> } -> {}|
-    if M.ctx.compare_right(opts.right) then
-        return '<Right>'
+    if is_pairs_all_closed(M.ctx.line, opts.left, opts.right) then
+        if M.ctx.compare_right(opts.right) then
+            return '<Right>'
+        end
+    end
+
+    -- {{|} -> } -> {{|}}
+    if M.ctx.col < #M.ctx.line then
+        return opts.right .. '<Left>'
     end
 
     return opts.right
@@ -194,7 +201,9 @@ function M.try_bs_inline_pairs()
         if opts then
             -- { | } -> <BS> -> {|}
             -- {|}   -> <BS> -> |
-            if (M.ctx.compare_left(opts.left) and M.ctx.compare_right(opts.right))
+            -- {{|}  -> <BS> -> {|}
+            if (M.ctx.compare_left(opts.left) and M.ctx.compare_right(opts.right)
+                    and is_pairs_all_closed(M.ctx.line, opts.left, opts.right))
                 or (M.ctx.compare_left(opts.left .. ' ') and M.ctx.compare_right(' ' .. opts.right)) then
                 keycode = '<BS><Del>'
             end

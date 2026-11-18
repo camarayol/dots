@@ -25,6 +25,9 @@ vim.g._ts_force_sync_parsing = 1 -- treesitter 同步解析
 ```vim
 " 通过 `nvim -V1` 启动 Neovim 后可以输出更详细的信息
 :verbose set mouse?
+
+" 查看某个快捷键配置的修改记录
+:verbose nmap <C-s>
 ```
 
 ### 自定义高亮解析
@@ -100,6 +103,15 @@ q:  " 打开历史命令窗口
 
     {count}[C             " 向前跳转到第 {count} 个光标
     ```
+
+### vim.pack.add (v0.12)
+
+```lua
+--- opts.load = true      下载插件后进行 packadd  将插件路径添加到 runtimepath 中并执行插件的初始化脚本
+--- opts.load = false     下载插件后进行 packadd! 只将插件路径添加到 runtimepath 中
+--- opts.load = function  下载插件后只调用 load 回调, 不处理插件路径也不进行初始化操作
+vim.pack.add(specs, opts)
+```
 
 ### neovim diffmode
 

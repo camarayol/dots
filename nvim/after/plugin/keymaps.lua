@@ -29,6 +29,7 @@ core.sk('n', '<M-a>', '<C-o>')
 core.sk('n', '<M-d>', '<C-i>')
 core.sk('n', '<F2>',  '<Cmd>Inspect<CR>')
 core.sk('n', '<M-z>', '<Cmd>set wrap!<CR>')
+
 core.sk('n', '<C-h>', '10k')
 core.sk('n', '<C-l>', '10j')
 
@@ -65,6 +66,7 @@ core.sk('i', '<C-j>', '<Down>')
 core.sk('i', '<C-k>', '<Up>')
 core.sk('i', '<C-l>', '<Right>')
 
+-- https://github.com/neovim/neovim/issues/5916
 core.sk('i', '<C-i>', '<C-o>^')
 core.sk('i', '<C-a>', '<C-o>$')
 core.sk('i', '<C-e>', '<C-o>e')
@@ -85,10 +87,11 @@ end)
 -- Visual and Select
 core.sk('x', 'p', '<Cmd>normal! "_dP<CR>')
 
-core.sk('x', '<M-j>', ":move '>+1<CR>gv")
-core.sk('x', '<M-J>', ":copy '<-1<CR>gv")
-core.sk('x', '<M-k>', ":move '<-2<CR>gv")
-core.sk('x', '<M-K>', ":copy '>+0<CR>gv")
+--- If setup `vim.opt.cmdheight = 0` must add `silent!`
+core.sk('x', '<M-j>', ":silent! move '>+1<CR>gv")
+core.sk('x', '<M-J>', ":silent! copy '<-1<CR>gv")
+core.sk('x', '<M-k>', ":silent! move '<-2<CR>gv")
+core.sk('x', '<M-K>', ":silent! copy '>+0<CR>gv")
 
 core.sk('x', '<Tab>',   '>gv')
 core.sk('x', '<S-Tab>', '<gv')

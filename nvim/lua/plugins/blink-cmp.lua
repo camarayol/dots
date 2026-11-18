@@ -48,7 +48,12 @@ M.config = function()
             preset     = 'none',
             ['<Esc>']  = { 'hide', 'fallback' },
             ['<M-l>']  = { 'show', 'show_documentation', 'hide_documentation' },
-            ['<Tab>']  = { function(cmp) return cmp.snippet_active() and cmp.accept() or cmp.select_and_accept() end, 'fallback' },
+
+            ['<Tab>']  = {
+                function(cmp) return cmp.snippet_active() and cmp.accept() or cmp.select_and_accept() end,
+                -- fallback will trigger <C-i> keymaps
+                function() return vim.keycode('<Tab>') end
+            },
 
             ['<Down>'] = { 'select_next', 'fallback' },
             ['<M-j>']  = { 'select_next', 'fallback' },
