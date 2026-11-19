@@ -32,6 +32,9 @@ core.sk('n', '<M-z>', '<Cmd>set wrap!<CR>')
 core.sk('n', '<C-h>', '10k')
 core.sk('n', '<C-l>', '10j')
 
+core.sk('n', 'gi', '^',  { desc = 'Goto line start' })
+core.sk('n', 'ga', '$',  { desc = 'Goto line end' })
+
 core.sk('n', '<Leader>w', '<C-w>', { noremap = false })
 
 core.sk('n', '<Leader>h', function()
@@ -54,13 +57,18 @@ core.sk('n', '<M-K>', ':copy .-1<CR>')
 core.sk('n', 'mm', '%', { noremap = false })
 
 -- Insert
-core.sk('i', 'jk', '<Cmd>stopinsert<CR>')
+core.sk('i', 'jk', '<C-c>')
 
 core.sk('i', '<C-v>', '<C-r>+')
 core.sk('i', '<C-h>', '<Left>')
 core.sk('i', '<C-j>', '<Down>')
 core.sk('i', '<C-k>', '<Up>')
 core.sk('i', '<C-l>', '<Right>')
+
+core.sk('i', '<C-i>', '<C-o>^')
+core.sk('i', '<C-a>', '<C-o>$')
+core.sk('i', '<C-e>', '<C-o>e')
+core.sk('i', '<C-b>', '<C-o>b')
 
 core.sk('i', '<S-Tab>', function()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -110,20 +118,6 @@ core.sk('i', '<C-_>', '<C-o>gcc', { noremap = false })
 core.sk('i', '<C-/>', '<C-o>gcc', { noremap = false })
 core.sk('x', '<C-/>', 'gcgv',     { noremap = false })
 core.sk('x', '<C-_>', 'gcgv',     { noremap = false })
-
-local function home()
-    local _, col = unpack(vim.api.nvim_win_get_cursor(0))
-    -- move cursor to the real beginning of the line
-    local feedkeys = (col == 0 or vim.api.nvim_get_current_line():sub(0, col):match('^%s*$')) and '<Home>' or
-        -- move cursor to beginning of non-whitespace characters of the line
-        (vim.api.nvim_get_mode().mode == 'i' and '<C-o>^' or '^')
-
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(feedkeys, true, false, true), 'n', false)
-end
-
-core.sk('n', '<Home>', home, { noremap = false })
-core.sk('i', '<Home>', home, { noremap = false })
-core.sk('x', '<Home>', home, { noremap = false })
 
 --- yank code path
 core.sk('n', '<C-y>', function()

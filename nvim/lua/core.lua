@@ -7,12 +7,19 @@ function core.hasfeature(feature)
     return vim.fn.has(feature) == 1
 end
 
+function core.hasmcursor()
+    local ns = vim.api.nvim_create_namespace("nvim.multicursor")
+    local marks = vim.api.nvim_buf_get_extmarks(0, ns, 0, -1, {})
+    return #marks > 0
+end
+
 function core.set_options(opts)
     for t, o in pairs(opts) do
         for k, v in pairs(o) do vim[t][k] = v end
     end
 end
 
+---@param opts? vim.keymap.set.Opts
 function core.sk(mode, lhs, rhs, opts)
     opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
 

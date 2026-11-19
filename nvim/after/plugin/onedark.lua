@@ -104,7 +104,7 @@ core.hl {
     ['WinBar']               = {},
     ['WinBarNC']             = {},
 
-    ['Comment']              = { fg = '#7F848E', italic = true },
+    ['Comment']              = { fg = '#7F848E', italic = false },
     ['Constant']             = { fg = '#56B6C2' },
     ['String']               = { fg = '#98C379' },
     ['Character']            = { fg = '#61AFEF' },

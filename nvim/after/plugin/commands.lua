@@ -19,7 +19,7 @@ if core.hasfeature('linux') and not core.hasfeature('wsl') and vim.fn.executable
 end
 
 -- windows weasel
-if core.hasfeature('win32') then
+if core.hasfeature('win32') and vim.fn.executable('WeaselServer.exe') then
     vim.api.nvim_create_autocmd('InsertLeave', {
         group = vim.api.nvim_create_augroup('core.WeaselServer', { clear = true }),
         callback = function()
@@ -30,13 +30,24 @@ end
 
 -- multicursor
 if core.hasfeature('nvim-0.13') then
-    local group = vim.api.nvim_create_augroup("core.MultiCursorHl", { clear = true })
+    vim.api.nvim_create_autocmd('ModeChanged', {
+        group = vim.api.nvim_create_augroup("core.MultiCursorHl", { clear = true }),
+        callback = function(ev)
+            if not core.hasmcursor() then return end
 
-    vim.api.nvim_create_autocmd("InsertEnter",
-        { group = group, callback = function() core.hl { ['MCursor'] = { bg = '#7F848E' } } end, })
+            local newmode = vim.v.event.new_mode
 
-    vim.api.nvim_create_autocmd("InsertLeave",
-        { group = group, callback = function() core.hl { ['MCursor'] = { bg = '#61AFEF' } } end, })
+            local visual, mcursor = '#3E4452', '#61AFEF'
+
+            if newmode == 'i' then
+                mcursor = '#7F848E'
+            elseif newmode == 'v' or newmode == 'V' or newmode == '\22' then
+                visual, mcursor = '#745E7A', '#745E7A'
+            end
+
+            core.hl { ['Visual'] = { bg = visual }, ['MCursor'] = { bg = mcursor } }
+        end
+    })
 end
 
 -- auto start treesitter
@@ -88,9 +99,12 @@ vim.api.nvim_create_autocmd('BufLeave', {
     end
 })
 
+local ftgroup = vim.api.nvim_create_augroup('core.FtGroup', { clear = true })
+
 -- yaml
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'yaml',
+    group = ftgroup,
     callback = function()
         vim.bo.shiftwidth = 2
     end
@@ -99,19 +113,11 @@ vim.api.nvim_create_autocmd('FileType', {
 -- gitcommit
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'gitcommit',
+    group = ftgroup,
     callback = function()
         vim.bo.textwidth = 200
     end
 })
-
--- core.create_autocommand('FileType', 'qf', function(ev)
---     core.set_mode_keymaps('n', {
---         ['<CR>'] = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
---         ['o']    = { string.format('<CR><Cmd>%dbdelete<CR>', ev.buf), { buffer = ev.buf } },
---         ['j']    = { 'j<CR><C-w>j', { buffer = ev.buf } },
---         ['k']    = { 'k<CR><C-w>j', { buffer = ev.buf } },
---     })
--- end)
 
 -- get current treesitter status
 vim.api.nvim_create_user_command('CoreTreesitter', function()
@@ -127,10 +133,11 @@ vim.api.nvim_create_user_command('CoreRedir', function(args)
     vim.cmd('enew')
 
     local buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(result.output, '\n', { trimempty = false }))
 
     vim.bo[buf].filetype  = 'vim'
     vim.bo[buf].buftype   = 'nofile'
     vim.bo[buf].bufhidden = 'wipe'
     vim.bo[buf].swapfile  = false
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(result.output, '\n', { trimempty = false }))
 end, { nargs = '+', complete = 'command', desc = 'Redir command output' })

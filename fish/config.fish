@@ -2,15 +2,15 @@ functions -e fish_greeting
 
 function fish_prompt
     echo -n (set_color -i blue) (prompt_pwd)
-    if command -sq git
-        and command git --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
-        set -l branch (command git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
-        if test -n (command git --no-optional-locks status --porcelain -uno 2>/dev/null | head -c1)
-            echo -n (set_color red) $branch"*"
-        else
-            echo -n (set_color green) $branch
-        end
-    end
+    # if command -sq git
+    #     and command git --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>/dev/null
+    #     set -l branch (command git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
+    #     if test -n (command git --no-optional-locks diff --name-only 2>/dev/null | head -c1)
+    #         echo -n (set_color red) $branch"*"
+    #     else
+    #         echo -n (set_color green) $branch
+    #     end
+    # end
     echo -n (set_color magenta)" ❯ "(set_color normal)
 end
 
@@ -21,7 +21,10 @@ end
 function fish_user_key_bindings
     fish_vi_key_bindings
     bind -M insert \el forward-char
+    bind -M insert -m default j,k cancel repaint-mode
 end
+
+set -g fish_sequence_key_delay_ms 60
 
 function add_environment --description "export environment once"
     set -l env  $argv[1]

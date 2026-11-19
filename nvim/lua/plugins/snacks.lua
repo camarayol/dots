@@ -3,7 +3,7 @@ local M = {
     events = { 'VimEnter' },
 }
 
-M.config = vim.schedule_wrap(function()
+M.config = function()
     require('snacks').setup {
         styles   = { input = { relative = 'cursor', row = -3, col = 0 } },
         input    = { icon = '' },
@@ -11,6 +11,33 @@ M.config = vim.schedule_wrap(function()
         explorer = { trash = true, replace_netrw = true },
         notifier = { style = 'compact', top_down = false },
         picker   = {
+            actions = {
+                qflist = function(picker)
+                    local sel = picker:selected()
+                    local items = #sel > 0 and sel or picker:items()
+
+                    local qf = {}
+                    for _, item in ipairs(items) do
+                        qf[#qf + 1] = {
+                            bufnr    = item.buf,
+                            filename = require('snacks.picker').util.path(item),
+                            lnum     = item.pos and item.pos[1] or 1,
+                            col      = item.pos and item.pos[2] + 1 or 1,
+                            end_lnum = item.end_pos and item.end_pos[1] or nil,
+                            end_col  = item.end_pos and item.end_pos[2] + 1 or nil,
+                            text     = item.line or item.comment or item.label or item.name or item.detail or item.text,
+                            pattern  = item.search,
+                            type     = ({ 'E', 'W', 'I', 'N' })[item.severity],
+                            valid    = true,
+                        }
+                    end
+
+                    picker:close()
+                    vim.fn.setqflist(qf)
+
+                    vim.schedule(function() require('snacks.picker').qflist() end)
+                end,
+            },
             layout = { cycle = true },
             matcher = { frecency = true, history_bonus = true },
             formatters = { file = { filename_first = true }, severity = { level = true }, },
@@ -53,13 +80,15 @@ M.config = vim.schedule_wrap(function()
                         list  = { keys = { ['<CR>'] = { { 'yank', 'cancel' }, mode = { 'n', 'i' } } } },
                     },
                 },
+                qflist = { layout = { preset = 'ivy_split' } },
                 command_history = { layout = { preset = 'select' } },
                 lsp_definitions = { layout = { preset = 'ivy_split' } },
                 lsp_references = { layout = { preset = 'ivy_split' } },
                 lsp_implementations = { layout = { preset = 'ivy_split' } },
                 lsp_type_definitions = { layout = { preset = 'ivy_split' } },
-                recent = { config = function (opts) opts.filter = nil return opts end },
+                recent = { config = function(opts) opts.filter = nil return opts end },
                 explorer = {
+                    jump = { close = true },
                     layout = { preset = 'sidebar', preview = { enabled = true, main = true } },
                     win = {
                         list = {
@@ -97,13 +126,6 @@ M.config = vim.schedule_wrap(function()
                     },
                 },
             },
-        },
-        terminal = {
-            win = {
-                keys = {
-                    ['<Leader>t'] = { 'hide', mode = { 'n' } }
-                }
-            }
         }
     }
 
@@ -138,15 +160,7 @@ M.config = vim.schedule_wrap(function()
         end
     end, { desc = 'Snacks explorer' })
 
-    core.sk('n', '<Leader>gg', require('snacks.lazygit').open,  { desc = 'Snacks lazygit' })
-
-    core.sk('n', '<Leader>tf', function()
-        require('snacks.terminal').toggle(nil, { count = 1, win = { position = 'float', border = 'rounded' } })
-    end, { desc = 'Snacks terminal float' })
-
-    core.sk('n', '<Leader>tb', function()
-        require('snacks.terminal').toggle(nil, { count = 2, win = { position = 'bottom' } })
-    end, { desc = 'Snacks terminal bottom' })
+    core.sk('n', '<Leader>gg', require('snacks.lazygit').open, { desc = 'Snacks lazygit' })
 
     core.hl {
         ['SnacksPickerGitStatusUntracked'] = { link = 'Added' }
@@ -166,6 +180,6 @@ M.config = vim.schedule_wrap(function()
             })
         end
     })
-end)
+end
 
 return M
