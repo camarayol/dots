@@ -93,6 +93,8 @@ M.config = function()
                         list  = { keys = { ['<CR>'] = { { 'yank', 'cancel' }, mode = { 'n', 'i' } } } },
                     },
                 },
+                git_diff = { layout = { preset = 'sidebar' }, focus = 'list' },
+                git_status = { layout = { preset = 'sidebar' }, focus = 'list' },
                 qflist = { layout = { preset = 'ivy_split' } },
                 command_history = { layout = { preset = 'select' } },
                 lsp_definitions = { layout = { preset = 'ivy_split' } },

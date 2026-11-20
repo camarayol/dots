@@ -8,7 +8,6 @@ require('packer') {
     require('plugins.lualine'),
     require('plugins.mini-clue'),
     require('plugins.nvim-luasnip'),
-    require('plugins.nvim-surround'),
     require('plugins.render-markdown'),
     require('plugins.nvim-treesitter'),
     require('plugins.pi'),
