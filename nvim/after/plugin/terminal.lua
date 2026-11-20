@@ -15,6 +15,8 @@ local cleanup = function()
     if buf and vim.api.nvim_buf_is_valid(buf) then
         vim.api.nvim_buf_delete(buf, { force = true })
     end
+
+    vim.api.nvim_del_augroup_by_name('core.Terminal')
 end
 
 local toggle_terminal_window = function(config)
@@ -52,6 +54,10 @@ local create_terminal_buffer = function()
 
     vim.api.nvim_buf_set_keymap(opts.buf, 't', '<Esc><Esc>', '<C-Bslash><C-n>', { noremap = true, silent = true })
 
+    vim.api.nvim_create_autocmd('BufEnter', {
+        group = vim.api.nvim_create_augroup('core.Terminal', { clear = true }), buf = opts.buf, command = 'startinsert'
+    })
+
     local cwd = vim.fn.expand('%:p:h')
 
     vim.api.nvim_buf_call(opts.buf, function()
@@ -65,7 +71,6 @@ local terminal = function(config, callback)
     if not create_terminal_buffer() then return end
 
     if toggle_terminal_window(config) then
-        vim.cmd('startinsert')
         if type(callback) == 'function' then vim.defer_fn(callback, 100) end
     end
 end
@@ -87,6 +92,7 @@ vim.api.nvim_create_user_command('CoreTerminalSplit', function() terminal { spli
 
 core.set_keymaps {
     { modes = 't', lhs = '<Esc><Esc>', rhs = '<C-Bslash><C-n>' },
+    { modes = 't', lhs = '<C-w>',      rhs = '<C-Bslash><C-n><C-w>',       opts = { noremap = false } },
     { modes = 'n', lhs = '<Leader>tf', rhs = '<Cmd>CoreTerminalFloat<CR>', opts = { desc = 'Terminal float' } },
-    { modes = 'n', lhs = '<Leader>tb', rhs = '<Cmd>CoreTerminalSplit<CR>', opts = { desc = 'Terminal float' } },
+    { modes = 'n', lhs = '<Leader>tb', rhs = '<Cmd>CoreTerminalSplit<CR>', opts = { desc = 'Terminal below' } },
 }

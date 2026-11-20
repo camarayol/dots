@@ -110,10 +110,6 @@ core.sk('c', '<M-j>', '<Down>')
 core.sk('c', '<M-k>', '<Up>')
 core.sk('c', '<M-l>', '<Right>')
 
-
--- Terminal
-core.sk('t', '<C-w>', '<C-Bslash><C-n><C-w>', { noremap = false })
-
 --- toggle comment
 core.sk('n', '<C-/>', 'gcc',      { noremap = false })
 core.sk('n', '<C-_>', 'gcc',      { noremap = false })
