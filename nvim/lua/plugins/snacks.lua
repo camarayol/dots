@@ -1,7 +1,20 @@
 local M = {
-    src = 'https://github.com/folke/snacks.nvim',
-    events = { 'VimEnter' },
+    src     = 'https://github.com/folke/snacks.nvim',
+    events  = { 'CmdUndefined' },
+    pattern = { 'Snacks' },
 }
+
+core.sk('n', '<Bslash>', function()
+    pcall(vim.api.nvim_del_keymap, 'n', '<Bslash>')
+    vim.api.nvim_exec_autocmds('CmdUndefined', { pattern = 'Snacks' })
+    vim.api.nvim_feedkeys(vim.keycode('<Bslash>'), 'mi', false)
+end)
+
+core.sk('n', '<Leader>f', function()
+    pcall(vim.api.nvim_del_keymap, 'n', '<Leader>f')
+    vim.api.nvim_exec_autocmds('CmdUndefined', { pattern = 'Snacks' })
+    vim.api.nvim_feedkeys(vim.keycode('<Leader>f'), 'mi', false)
+end)
 
 M.config = function()
     require('snacks').setup {
