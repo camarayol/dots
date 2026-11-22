@@ -69,7 +69,7 @@ core.sk('i', '<C-l>', '<Right>')
 -- https://github.com/neovim/neovim/issues/5916
 core.sk('i', '<C-i>', '<C-o>^')
 core.sk('i', '<C-a>', '<C-o>$')
-core.sk('i', '<C-e>', '<C-o>e')
+core.sk('i', '<C-e>', '<C-o>e<Right>')
 core.sk('i', '<C-b>', '<C-o>b')
 
 core.sk('i', '<S-Tab>', function()
