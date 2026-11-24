@@ -14,6 +14,7 @@ core.sk('i', '<C-x>', '<Nop>')
 -- Normal
 core.sk('n', '<Esc>', function()
     vim.cmd('nohlsearch')
+    vim.api.nvim_exec_autocmds('User', { pattern = 'core.SearchChanged', modeline = false })
 
     local mc = vim.api.nvim_create_namespace('nvim.multicursor')
     if mc then
@@ -43,6 +44,8 @@ core.sk('n', '<Leader>h', function()
     if value ~= '' then
         vim.fn.setreg('/', '\\V' .. vim.fn.escape(value, '\\'))
         vim.cmd('set hlsearch')
+
+        vim.api.nvim_exec_autocmds('User', { pattern = 'core.SearchChanged', modeline = false })
     end
 end)
 

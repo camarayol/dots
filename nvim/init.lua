@@ -5,7 +5,6 @@ require('packer') {
     require('plugins.blink-cmp'),
     require('plugins.codecompanion'),
     require('plugins.gitsigns'),
-    require('plugins.lualine'),
     require('plugins.mini-clue'),
     require('plugins.nvim-luasnip'),
     require('plugins.render-markdown'),

@@ -1,5 +1,6 @@
 local M = {
     src     = 'https://github.com/folke/snacks.nvim',
+    depends = { 'https://github.com/nvim-tree/nvim-web-devicons' },
     events  = { 'CmdUndefined' },
     pattern = { 'Snacks' },
 }
