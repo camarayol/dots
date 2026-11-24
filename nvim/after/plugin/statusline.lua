@@ -213,7 +213,9 @@ local components = {
 
             local denominator = math.min(result.total, result.maxcount)
 
-            self.text = hl_text_format(string.format('[%d/%d]', result.current, denominator), 'Search')
+            if denominator > 0 then
+                self.text = hl_text_format(string.format('[%d/%d]', result.current, denominator), 'Search')
+            end
         end
     },
 
