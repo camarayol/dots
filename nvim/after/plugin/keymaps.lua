@@ -106,6 +106,10 @@ core.sk('x', 'n', function()
     vim.cmd('set hlsearch')
 end)
 
+--- multicursor
+if core.hasfeature('nvim-0.13') then
+    core.sk('x', 'iq', 'Qi', { desc = 'Multicursor insert' })
+end
 
 -- Command
 core.sk('c', '<M-h>', '<Left>')
@@ -123,19 +127,20 @@ core.sk('x', '<C-_>', 'gcgv',     { noremap = false })
 
 --- yank code path
 core.sk('n', '<C-y>', function()
-    local path = string.format('%s#L%d', vim.fn.expand('%:p'), vim.fn.line('.'))
+    local path = vim.fs.normalize(vim.fn.expand('%:.'))
     vim.fn.setreg('*', path)
-    vim.notify(path .. ' added to clipboard.')
+    vim.notify(path .. '\n\nadded to clipboard.')
 end)
 
 core.sk('x', '<C-y>', function()
     vim.api.nvim_feedkeys(vim.keycode('<Esc>'), 'x', true)
-    local sline, eline = vim.fn.line("'<"), vim.fn.line("'>")
-    local range = sline == eline and string.format('#L%d', sline) or
-        string.format('#L%d-L%d', sline, eline)
-    local path = string.format('%s%s', vim.fn.expand('%:p'), range)
-    vim.fn.setreg('*', path)
-    vim.notify(path .. ' added to clipboard.')
+    local sline = vim.fn.line("'<")
+    local eline = vim.fn.line("'>")
+    local path  = string.format('%s:%d-%d', vim.fs.normalize(vim.fn.expand('%:.')), sline, eline)
+    local lines = vim.api.nvim_buf_get_lines(0, sline - 1, eline, false)
+    local text  = string.format('%s\n\n```%s\n%s\n```', path, vim.bo.filetype, table.concat(lines, '\n'))
+    vim.fn.setreg('*', text)
+    vim.notify(path .. '\n\nadded to clipboard.')
 end)
 
 core.sk('x', 'rn', '', {

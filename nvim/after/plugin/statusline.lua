@@ -150,10 +150,10 @@ local components = {
             local file = vim.fn.expand('%:p')
             if file == nil or #file == 0 then return end
 
-            local size = vim.fn.getfsize(file)
+            local size = vim.fn.getfsize(file) / 1024
             if size <= 0 then return end
 
-            local units = { 'B', 'K', 'M', 'G', 'T' }
+            local units = { 'K', 'M', 'G', 'T' }
 
             local unit = 1
             while size >= 1024 and unit < #units do
@@ -161,7 +161,7 @@ local components = {
                 unit = unit + 1
             end
 
-            self.text = hl_text_format(string.format(unit == 1 and '%d%s' or '%.1f%s', size, units[unit]))
+            self.text = hl_text_format(string.format('%.1f%s', size, units[unit]))
         end,
     },
 
